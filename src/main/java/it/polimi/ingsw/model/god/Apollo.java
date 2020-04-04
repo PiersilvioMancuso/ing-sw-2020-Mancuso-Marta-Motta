@@ -1,12 +1,76 @@
 package it.polimi.ingsw.model.god;
 
+import it.polimi.ingsw.model.ModelGame;
+import it.polimi.ingsw.model.OutCome;
+import it.polimi.ingsw.model.User;
 import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.power.ApolloPower;
+import it.polimi.ingsw.model.power.AthenaPower;
+import it.polimi.ingsw.model.power.Power;
 
+/**Apollo God Class
+ * @author Piersilvio Mancuso
+ */
 public class Apollo extends God {
-    public Apollo() {
+
+    /**Create the God Apollo which use Apollo Power */
+    Apollo(){
+        this.power = new ApolloPower();
     }
 
-    public void effect(Worker worker, int[] position){}
+    /**Activate the power on a Worker
+     *
+     * @param modelGame is the model of the game
+     * @param worker is the worker used by the player
+     */
+    @Override
+    void activatePower(ModelGame modelGame, Worker worker) {
+        power.setActiveEffect(true);
+    }
+
+    /**SetUp worker's turn
+     *
+     * @param modelGame is the model of the game
+     * @param worker is the worker that will be used
+     */
+    @Override
+    void setUpTurn(ModelGame modelGame, Worker worker) {
+        if (!power.isActiveEffect()) power = (Power) power;
+        else power = new ApolloPower();
+        power.startPower(modelGame, worker);
+    }
 
 
+    /**Check if the player, who use the worker, loose the game
+     *
+     * @param modelGame is the model of the game
+     * @param worker is the worker chosen by the player
+     * @return true if the player loose, otherwise false
+     */
+    @Override
+    boolean isLoser(ModelGame modelGame, Worker worker) {
+        if (power.getValidCells().size() == 0) return true;
+        return false;
+    }
+
+    /**Execute the state of the game and, if the player wins, set the outcome of all players
+     *
+     * @param modelGame is the model of the game
+     * @param worker is the worker used by the player
+     * @param position is the position where the player will act using his worker
+     */
+    @Override
+    void executePower(ModelGame modelGame, Worker worker, int[] position) {
+        if (!isLoser(modelGame, worker)){
+            power.runPower(modelGame, worker, position);
+            worker.getUser().setOutCome(OutCome.winsIfTrue(power.isWinner(modelGame, worker, position)));
+            if (worker.getUser().getOutCome() == OutCome.WINNER){
+                for (User user : modelGame.getUserList()){
+                    user.setOutCome(OutCome.LOOSER);
+                }
+            }
+        }
+        else worker.getUser().setOutCome(OutCome.looseIfTrue(isLoser(modelGame, worker)));
+
+    }
 }

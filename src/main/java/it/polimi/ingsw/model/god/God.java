@@ -1,34 +1,21 @@
 package it.polimi.ingsw.model.god;
 
-import it.polimi.ingsw.model.Worker;
-import it.polimi.ingsw.model.power.BuildEffect;
-import it.polimi.ingsw.model.power.MoveEffect;
-import it.polimi.ingsw.model.power.WinEffect;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.power.Power;
 
-abstract public class God implements WinEffect, BuildEffect, MoveEffect {
-    private static boolean athenaEffect = false;
+abstract public class God{
+    protected Power power;
 
-    @Override
-    public void build(int[] position) {
-
+    public Power getPower() {
+        return power;
     }
 
-    @Override
-    public void move(Worker worker, int[] position) {
+    abstract void activatePower(ModelGame modelGame, Worker worker);
 
-    }
+    abstract void setUpTurn(ModelGame modelGame, Worker worker);
 
-    @Override
-    public boolean checkWin() {
-        return false;
-    }
+    abstract boolean isLoser(ModelGame modelGame, Worker worker);
 
-    public boolean getAthenaEffect() {
-        return false;
-    }
+    abstract void executePower(ModelGame modelGame, Worker worker, int[] position);
 
-    public static void setAthenaEffect(boolean athenaEffect) {
-    }
-
-    abstract public void effect(Worker worker, int[] position);
 }
