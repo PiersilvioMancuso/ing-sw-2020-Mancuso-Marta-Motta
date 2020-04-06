@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.power.*;
 
 public class Demeter extends God {
 
-    /**Create the God Apollo which use Apollo Power */
+    /**Create the God Demeter which use Demeter Power */
     Demeter(){
         this.power = new DemeterPower();
     }
@@ -16,7 +16,7 @@ public class Demeter extends God {
      * @param worker is the worker used by the player
      */
     @Override
-    void activatePower(ModelGame modelGame, Worker worker) {
+    public void activatePower(ModelGame modelGame, Worker worker) {
         power.setActiveEffect(true);
     }
 
@@ -26,7 +26,7 @@ public class Demeter extends God {
      * @param worker is the worker that will be used
      */
     @Override
-    void setUpTurn(ModelGame modelGame, Worker worker) {
+    public void setUpTurn(ModelGame modelGame, Worker worker) {
         if (!power.isActiveEffect()) power = (Power) power;
         else power = new HephaestusPower();
         power.startPower(modelGame, worker);
@@ -40,7 +40,7 @@ public class Demeter extends God {
      * @return true if the player loose, otherwise false
      */
     @Override
-    boolean isLoser(ModelGame modelGame, Worker worker) {
+    public boolean isLoser(ModelGame modelGame, Worker worker) {
         if (power.getValidCells().size() == 0) return true;
         return false;
     }
@@ -52,7 +52,7 @@ public class Demeter extends God {
      * @param position is the position where the player will act using his worker
      */
     @Override
-    void executePower(ModelGame modelGame, Worker worker, int[] position) {
+    public void executePower(ModelGame modelGame, Worker worker, int[] position) {
         if (!isLoser(modelGame, worker)){
             power.runPower(modelGame, worker, position);
             worker.getUser().setOutCome(OutCome.winsIfTrue(power.isWinner(modelGame, worker, position)));

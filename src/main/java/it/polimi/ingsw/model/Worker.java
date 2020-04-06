@@ -7,14 +7,32 @@ package it.polimi.ingsw.model;
  * @author Mattia Marta.
  */
 public class Worker {
+    private User user;
     private Color color;
 
     /**
      * Constructor for the worker.
-     * @param color is the color chosen by the user.
+     * @param user is the user who controls the worker
      */
-    public Worker(Color color) {
-        this.color = color;
+    public Worker(User user) {
+        this.user = user;
+        this.color = user.getColor();
+    }
+
+    /**
+     * User who controls the worker
+     * @return the user object of the worker's owner
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Set the User to the worker
+     * @param user is the User to set to the worker
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 
     /**

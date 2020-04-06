@@ -13,6 +13,7 @@ public class User {
     private String username;
     private Color color;
     private God godChosen;
+    private OutCome outCome;
 
     /**
      * Constructor of the user.
@@ -70,4 +71,19 @@ public class User {
         this.godChosen = god;
     }
 
+    /**
+     * Get the outCome parameter
+     * @return the outcome of the game for the user
+     */
+    public OutCome getOutCome() {
+        return outCome;
+    }
+
+    /**
+     * Set the outCome parameter
+     * @param outCome is the result of the game for the user
+     */
+    public void setOutCome(OutCome outCome) {
+        this.outCome = outCome;
+    }
 }
