@@ -10,6 +10,11 @@ public class MovementState extends State {
      */
     @Override
     public void executeState(ModelGame modelGame, Worker worker, int[] position) {
+        //nessun worker nella stessa posizione
+        if (modelGame == null) throw new IllegalArgumentException("modelGame is null");
+        if (worker == null) throw new IllegalArgumentException("worker is null");
+        if (position == null) throw new IllegalArgumentException("position is null");
+        if (modelGame.getWorkerListPosition().contains(position)) throw new IllegalArgumentException("position is occupied");
         modelGame.setWorkerPosition(worker, position);
     }
 }
