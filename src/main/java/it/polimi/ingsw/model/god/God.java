@@ -10,12 +10,12 @@ abstract public class God{
         return power;
     }
 
-    abstract void activatePower(ModelGame modelGame, Worker worker);
+    public abstract void activatePower(ModelGame modelGame, Worker worker);
 
-    abstract void setUpTurn(ModelGame modelGame, Worker worker);
+    public abstract void setUpTurn(ModelGame modelGame, Worker worker);
 
-    abstract boolean isLoser(ModelGame modelGame, Worker worker);
+    public abstract boolean isLoser(ModelGame modelGame, Worker worker);
 
-    abstract void executePower(ModelGame modelGame, Worker worker, int[] position);
+    public abstract void executePower(ModelGame modelGame, Worker worker, int[] position);
 
 }
