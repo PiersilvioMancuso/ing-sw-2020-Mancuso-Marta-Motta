@@ -14,7 +14,7 @@ import it.polimi.ingsw.model.power.Power;
 public class Apollo extends God {
 
     /**Create the God Apollo which use Apollo Power */
-    Apollo(){
+    public Apollo(){
         this.power = new ApolloPower();
     }
 

@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.power.*;
 public class Atlas extends God {
 
     /**Create the God Atlas which use Atlas Power */
-    Atlas(){
+    public Atlas(){
         this.power = new AtlasPower();
     }
 

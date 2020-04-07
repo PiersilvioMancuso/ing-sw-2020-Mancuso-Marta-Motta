@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.power.*;
 public class Pan extends God {
 
     /**Create the God Pan which use Pan Power */
-    Pan(){
+    public Pan(){
         this.power = new PanPower();
         power.setActiveEffect(true);
     }

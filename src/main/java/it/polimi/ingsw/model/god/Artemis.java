@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.power.*;
 public class Artemis extends God {
 
     /**Create the God Artemis which use Artemis Power */
-    Artemis(){
+    public Artemis(){
         this.power = new ArtemisPower();
     }
 

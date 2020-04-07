@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,11 +125,11 @@ public class ModelGame {
 
     /**
      * add worker
-     * @author motta
-     * @param user
+     * @author Motta
+     * @param worker
      */
-    public void addWorker(User user){
-        workerList.add(new Worker(user));
+    public void addWorker(Worker worker){
+        workerList.add(worker);
         workerListPosition.add(new int[2]);
     }
 
@@ -146,7 +145,7 @@ public class ModelGame {
 
     /**
      * remove worker from a game
-     * @author motta
+     * @author Motta
      * @param worker
      */
     public void removeWorker(Worker worker){
@@ -157,10 +156,9 @@ public class ModelGame {
 
     /**
      * set the next user
-     * @author motta
-     * @param user
+     * @author Motta
      */
-    public void nextUser(User user){
+    public void nextUser(){
         currentUser = (currentUser+1) % userList.size();
     }
 }

@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.power.*;
 public class Athena extends God {
 
     /**Create the God Athena which use Athena Power */
-    Athena(){
+    public Athena(){
         this.power = new AthenaPower();
         this.power.setActiveEffect(true);
     }

@@ -18,7 +18,7 @@ public class Board {
 
     /**
      * get cell's Build Height
-     * @author motta
+     * @author Motta
      * @param cell
      * @return
      */
@@ -28,7 +28,7 @@ public class Board {
 
     /**
      * set cell's Build Height
-     * @author motta
+     * @author Motta
      * @param cell
      * @param height
      */
@@ -40,7 +40,7 @@ public class Board {
 
     /**
      * get Neighbour Cell
-     * @author motta
+     * @author Motta
      * @param cell is a point of the map
      * @return a list of cells of the board adjacent to the input cell
      */

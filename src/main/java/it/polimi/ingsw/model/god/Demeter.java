@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.power.*;
 public class Demeter extends God {
 
     /**Create the God Demeter which use Demeter Power */
-    Demeter(){
+    public Demeter(){
         this.power = new DemeterPower();
     }
 

@@ -7,7 +7,7 @@ public class Hephaestus extends God {
 
 
     /**Create the God Hephaestus which use Hephaestus Power */
-    Hephaestus(){
+    public Hephaestus(){
         this.power = new HephaestusPower();
     }
 

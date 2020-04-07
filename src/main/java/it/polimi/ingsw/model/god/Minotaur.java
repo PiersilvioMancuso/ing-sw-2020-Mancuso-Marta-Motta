@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.power.*;
 public class Minotaur extends God {
 
     /**Create the God Minotaur which use Minotaur Power */
-    Minotaur(){
+    public Minotaur(){
         this.power = new MinotaurPower();
     }
 
