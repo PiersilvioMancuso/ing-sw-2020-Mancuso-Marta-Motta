@@ -34,10 +34,10 @@ public class PanPower extends Power{
      * @return true if the player win, otherwise false
      */
     @Override
-    public boolean isWinner(ModelGame modelGame, Worker worker, int[] position){
-        int workerHeight = modelGame.getBoard().getBuildHeight(modelGame.getWorkerPosition(worker));
+    public boolean isWinner(ModelGame modelGame, Worker worker, Cell position){
+        int workerHeight = modelGame.getWorkerPosition(worker).getHeight();
         if (super.isWinner(modelGame, worker, position)) return true;
-        else return (modelGame.getBoard().getBuildHeight(position) - workerHeight >= 2);
+        else return (position.getHeight() - workerHeight >= 2);
     }
 
 

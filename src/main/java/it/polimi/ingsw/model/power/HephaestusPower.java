@@ -20,11 +20,11 @@ public class HephaestusPower extends Power{
      * @param position is the position where the action will be acted
      */
     @Override
-    public void runPower(ModelGame modelGame, Worker worker, int[] position){
+    public void runPower(ModelGame modelGame, Worker worker, Cell position){
         if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
             modelGame.getCurrentState().executeState(modelGame, worker, position);
 
-            if (modelGame.getBoard().getBuildHeight(position ) < 3 && modelGame.getCurrentState() instanceof BuildState){
+            if (position.getHeight() < 3 && modelGame.getCurrentState() instanceof BuildState){
                 modelGame.getCurrentState().executeState(modelGame, worker, position);
             }
 

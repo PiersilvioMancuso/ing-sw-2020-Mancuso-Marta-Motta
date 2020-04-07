@@ -17,7 +17,7 @@ public class DemeterPower extends Power{
 
     /**Set the turn state of the player */
     public void setStateList(){
-        List<State> states = new ArrayList<State>();
+        List<State> states = new ArrayList<>();
         states.add(new MovementState());
         states.add(new BuildState());
         states.add(new BuildState());
@@ -36,10 +36,12 @@ public class DemeterPower extends Power{
     public void startPower(ModelGame modelGame, Worker worker){
         setStateList();
         setValidCells(modelGame, worker);
+
         if (isAthenaEffect() && modelGame.getCurrentState() instanceof MovementState){
-            int workerHeight = modelGame.getBoard().getBuildHeight(modelGame.getWorkerPosition(worker));
-            for (int[] position : getValidCells()){
-                int positionHeight = modelGame.getBoard().getBuildHeight(position);
+            int workerHeight = modelGame.getWorkerPosition(worker).getHeight();
+
+            for (Cell position : getValidCells()){
+                int positionHeight = position.getHeight();
                 if (positionHeight > workerHeight) validCells.remove(position);
             }
         }
@@ -51,7 +53,7 @@ public class DemeterPower extends Power{
      * @param worker is the worker used by the player
      * @param position is the position where the action will be acted
      */
-    public void runPower(ModelGame modelGame, Worker worker, int[] position){
+    public void runPower(ModelGame modelGame, Worker worker, Cell position){
         if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
             modelGame.getCurrentState().executeState(modelGame, worker, position);
 

@@ -9,7 +9,27 @@ import java.util.Objects;
 public class Cell {
     private int x;
     private int y;
-    private int height = 0;
+    private int height;
+
+
+    public Cell (){
+        this.x = 0;
+        this.y = 0;
+        this.height = 0;
+    }
+
+    public Cell(int x, int y){
+        this.x = x;
+        this.y = y;
+        this.height = 0;
+    }
+
+    public Cell(int x, int y, int height){
+        this.x = x;
+        this.y = y;
+        this.height = height;
+    }
+
 
     /**
      * This method is used to override equals in "contains()" method

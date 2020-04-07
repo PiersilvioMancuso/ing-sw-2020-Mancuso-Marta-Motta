@@ -22,14 +22,17 @@ public class AthenaPower extends Power {
      * @param position is the position where the action will be acted
      */
     @Override
-    public void runPower(ModelGame modelGame, Worker worker, int[] position){
+    public void runPower(ModelGame modelGame, Worker worker, Cell position){
         if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
-            int workerAthenaHeight = modelGame.getBoard().getBuildHeight(modelGame.getWorkerPosition(worker));
+            int workerAthenaHeight = modelGame.getWorkerPosition(worker).getHeight();
+
             if (modelGame.getCurrentState() instanceof MovementState){
                 setAthenaEffect(false);
             }
+
             modelGame.getCurrentState().executeState(modelGame, worker, position);
-            if (modelGame.getBoard().getBuildHeight(modelGame.getWorkerPosition(worker)) > workerAthenaHeight) setAthenaEffect(true);
+
+            if (modelGame.getWorkerPosition(worker).getHeight() > workerAthenaHeight) setAthenaEffect(true);
             setNextCurrentState(modelGame);
             setValidCells(modelGame, worker);
         }

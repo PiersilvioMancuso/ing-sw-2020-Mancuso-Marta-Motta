@@ -7,9 +7,18 @@ public class BuildState extends State {
      * @param modelGame is the model of the Game
      * @param worker is the worker who will build
      * @param position is the position where the build level will increase
+     * @exception NullPointerException if parameters are null
+     * @exception IllegalArgumentException if position is not in the board or if worker is trying to build over a Dome
      */
     @Override
-    public void executeState(ModelGame modelGame, Worker worker, int[] position) {
-        modelGame.getBoard().setBuildHeight(position, modelGame.getBoard().getBuildHeight(position) + 1);
+    public void executeState(ModelGame modelGame, Worker worker, Cell position) {
+        if (modelGame == null || worker == null || position == null) throw new NullPointerException("Parameters cannot be null");
+        else if (!modelGame.getBoard().getBuildMap().contains(position)) throw new IllegalArgumentException("Position have to be in the Board");
+        else if (position.getHeight() >= 4) throw new IllegalArgumentException("You cannot build over a Dome");
+        else {
+            int index = modelGame.getBoard().getBuildMap().indexOf(position);
+            modelGame.getBoard().getBuildMap().get(index).setHeight(position.getHeight() + 1);
+        }
+
     }
 }

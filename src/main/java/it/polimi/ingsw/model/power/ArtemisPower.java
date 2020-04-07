@@ -20,7 +20,7 @@ public class ArtemisPower extends Power {
     /**Set the turn state of the player */
     @Override
     public void setStateList(){
-        List<State> states = new ArrayList<State>();
+        List<State> states = new ArrayList<>();
         states.add(new MovementState());
         states.add(new MovementState());
         states.add(new BuildState());
@@ -37,14 +37,16 @@ public class ArtemisPower extends Power {
      * @param position is the position where the action will be acted
      */
     @Override
-    public void runPower(ModelGame modelGame, Worker worker, int[] position){
+    public void runPower(ModelGame modelGame, Worker worker, Cell position){
         if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
-            int[] workerPosition = modelGame.getWorkerPosition(worker);
+            Cell workerPosition = modelGame.getWorkerPosition(worker);
             modelGame.getCurrentState().executeState(modelGame, worker, position);
+
             setNextCurrentState(modelGame);
             setValidCells(modelGame, worker);
+
             if (modelGame.getCurrentState() instanceof MovementState){
-                if (this.validCells.contains(workerPosition)) this.validCells.remove(workerPosition);
+                this.validCells.remove(workerPosition);
             }
         }
     }

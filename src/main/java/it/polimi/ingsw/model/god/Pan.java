@@ -40,18 +40,16 @@ public class Pan extends God {
      */
     @Override
     public boolean isLoser(ModelGame modelGame, Worker worker) {
-        if (power.getValidCells().size() == 0) return true;
-        return false;
+        return power.getValidCells().size() == 0;
     }
 
     /**Execute the state of the game and, if the player wins, set the outcome of all players
-     *
-     * @param modelGame is the model of the game
+     *  @param modelGame is the model of the game
      * @param worker is the worker used by the player
      * @param position is the position where the player will act using his worker
      */
     @Override
-    public void executePower(ModelGame modelGame, Worker worker, int[] position) {
+    public void executePower(ModelGame modelGame, Worker worker, Cell position) {
         if (!isLoser(modelGame, worker)){
             power.runPower(modelGame, worker, position);
             worker.getUser().setOutCome(OutCome.winsIfTrue(power.isWinner(modelGame, worker, position)));

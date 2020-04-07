@@ -10,14 +10,14 @@ public class ModelGame {
     private int currentUser;
     private State currentState;
     private List<Worker> workerList;
-    private List<int[]> workerListPosition;
+    private List<Cell> workerListPosition;
 
     public ModelGame() {
         this.boardGame = new Board();
-        this.userList = new ArrayList<User>();
+        this.userList = new ArrayList<>();
         this.currentUser = 0;
-        this.workerList= new ArrayList<Worker>();
-        this.workerListPosition = new ArrayList<int[]>();
+        this.workerList= new ArrayList<>();
+        this.workerListPosition = new ArrayList<>();
     }
 
 
@@ -41,7 +41,7 @@ public class ModelGame {
         return workerList;
     }
 
-    public List<int[]> getWorkerListPosition() {
+    public List<Cell> getWorkerListPosition() {
         return workerListPosition;
     }
 
@@ -51,7 +51,7 @@ public class ModelGame {
      * @param worker
      * @return workerListPosition in a specific index
      */
-    public int[] getWorkerPosition(Worker worker) {
+    public Cell getWorkerPosition(Worker worker) {
         return workerListPosition.get(workerList.indexOf(worker));
     }
 
@@ -62,23 +62,13 @@ public class ModelGame {
      * @return user's workers
      */
     public List<Worker> getWorkerFromUser(User user) {
-        int index = userList.indexOf(user);
-        List<Worker> res = new ArrayList<Worker>();
-        res.add(workerList.get(index*2));
-        res.add(workerList.get(index*2+1));
+        List<Worker> res = new ArrayList<>();
+        for (Worker worker : workerList){
+            if (worker.getUser().equals(user)) res.add(worker);
+        }
         return res ;
     }
 
-    /**
-     * find Worker's user
-     * @author Motta
-     * @param worker
-     * @return worker's user
-     */
-    public User getUserFromWorker(Worker worker){
-        int index = workerList.indexOf(worker);
-        return userList.get(index/2);
-    }
 
     /**
      * set current user
@@ -104,11 +94,14 @@ public class ModelGame {
      * @param worker
      * @param position
      */
-    public void setWorkerPosition(Worker worker, int[] position) {
-        if (position[0]<0 || position[0]>4 || position[1]<0 || position[1]>4) throw new ArrayIndexOutOfBoundsException("position is not in the Board");
-        int height = getBoard().getBuildHeight(position);
-        if (height<0 || height>4) throw new IllegalArgumentException("height not valid");
-        if (worker == null) throw new IllegalArgumentException("worker is null");
+    public void setWorkerPosition(Worker worker, Cell position) {
+        if (worker == null) throw new NullPointerException("worker is null");
+        else if (position == null) throw new NullPointerException("worker is null");
+        else if (!getBoard().getBuildMap().contains(position)) throw new IndexOutOfBoundsException("Position is not in the Board");
+
+        int height = position.getHeight();
+        if (height<0 || height>4) throw new IllegalArgumentException("Height not valid");
+
         int index = workerList.indexOf(worker);
         workerListPosition.set(index, position);
     }
@@ -130,7 +123,7 @@ public class ModelGame {
      */
     public void addWorker(Worker worker){
         workerList.add(worker);
-        workerListPosition.add(new int[2]);
+        workerListPosition.add(new Cell());
     }
 
     /**

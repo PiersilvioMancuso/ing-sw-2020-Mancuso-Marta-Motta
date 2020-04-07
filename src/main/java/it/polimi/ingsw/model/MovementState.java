@@ -9,12 +9,11 @@ public class MovementState extends State {
      * @param position is the position where the worker will be set
      */
     @Override
-    public void executeState(ModelGame modelGame, Worker worker, int[] position) {
-        //nessun worker nella stessa posizione
-        if (modelGame == null) throw new IllegalArgumentException("modelGame is null");
-        if (worker == null) throw new IllegalArgumentException("worker is null");
-        if (position == null) throw new IllegalArgumentException("position is null");
-        if (modelGame.getWorkerListPosition().contains(position)) throw new IllegalArgumentException("position is occupied");
-        modelGame.setWorkerPosition(worker, position);
+    public void executeState(ModelGame modelGame, Worker worker,Cell position) {
+
+        if (modelGame == null || worker == null || position == null) throw new NullPointerException("Parameters cannot be null");
+        else if (modelGame.getWorkerListPosition().contains(position)) throw new IllegalArgumentException("Position is already occupied");
+        else modelGame.setWorkerPosition(worker, position);
+
     }
 }

@@ -23,17 +23,18 @@ public class AtlasPower extends Power{
      * @param position is the position where the action will be acted
      */
     @Override
-    public void runPower(ModelGame modelGame, Worker worker, int[] position){
+    public void runPower(ModelGame modelGame, Worker worker, Cell position){
         if (modelGame.getCurrentState() instanceof MovementState){
             modelGame.getCurrentState().executeState(modelGame, worker, position);
             setNextCurrentState(modelGame);
             setValidCells(modelGame, worker);
         }
+
         else if (modelGame.getCurrentState() instanceof BuildState){
-            modelGame.getBoard().getBuildHeight(position);
-            while (modelGame.getBoard().getBuildHeight(position) < 4){
+            while (position.getHeight() < 4){
                 modelGame.getCurrentState().executeState(modelGame, worker, position);
             }
+
             setNextCurrentState(modelGame);
             setValidCells(modelGame, worker);
         }

@@ -9,7 +9,12 @@ public class SetupState extends State{
      * @param position is the position where at the end, the worker will be
      */
     @Override
-    public void executeState(ModelGame modelGame, Worker worker, int[] position) {
-        modelGame.setWorkerPosition(worker, position);
+    public void executeState(ModelGame modelGame, Worker worker, Cell position) {
+        if (modelGame == null || worker == null || position == null) throw new NullPointerException("Parameters cannot be null");
+        else if (modelGame.getWorkerListPosition().contains(position)) throw new IllegalArgumentException("Position is already occupied");
+        else {
+            modelGame.setWorkerPosition(worker, position);
+        }
+
     }
 }

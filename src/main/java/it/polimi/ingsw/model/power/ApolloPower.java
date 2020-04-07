@@ -25,19 +25,27 @@ public class ApolloPower extends Power{
      */
     @Override
     public void setValidCells(ModelGame modelGame, Worker worker){
-        List<int[]> validPositions = new ArrayList<int[]>();
-        int[] workerPosition = modelGame.getWorkerPosition(worker);
-        int workerHeight = modelGame.getBoard().getBuildHeight(workerPosition);
+        List<Cell> validPositions = new ArrayList<>();
+        Cell workerPosition = modelGame.getWorkerPosition(worker);
+        int workerHeight = workerPosition.getHeight();
 
-        for (int[] position: modelGame.getBoard().getNeighbourCell(workerPosition)){
-            int positionHeight = modelGame.getBoard().getBuildHeight(position);
-            if (positionHeight > workerHeight + 1 || positionHeight == 4 || modelGame.getWorkerListPosition().contains(position)) continue;
-            else validPositions.add(position);
+        for (Cell position: modelGame.getBoard().getNeighbourCell(workerPosition)){
+            int positionHeight = position.getHeight();
+
+            if (!(positionHeight > workerHeight + 1 || positionHeight == 4 || modelGame.getWorkerListPosition().contains(position))){
+                validPositions.add(position);
+            }
+
         }
+
+        /* During Movement State insert into validCells other workers position if these workers :
+                1)are in a NeighbourCell;
+                2)are controlled by other users
+        * */
         if (modelGame.getCurrentState() instanceof MovementState){
             User userWorker = worker.getUser();
             for (int i = 0; i < modelGame.getWorkerListPosition().size(); i++){
-                int[] position = modelGame.getWorkerListPosition().get(i);
+                Cell position = modelGame.getWorkerListPosition().get(i);
                 if (modelGame.getWorkerList().get(i).getUser().equals(userWorker) && modelGame.getBoard().getNeighbourCell(modelGame.getWorkerPosition(worker)).contains(position)){
                     validPositions.add(position);
                 }
@@ -56,11 +64,12 @@ public class ApolloPower extends Power{
      * @param worker is the worker used by the player
      * @param position is the position where the action will be acted
      */
-    public void runPower(ModelGame modelGame, Worker worker, int[] position){
+    public void runPower(ModelGame modelGame, Worker worker, Cell position){
         if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
 
+            //If position is occupied by another worker controlled by another user, its position will be switched with worker's position
             if (modelGame.getWorkerListPosition().contains(position)){
-                int[] workerPosition = modelGame.getWorkerPosition(worker);
+                Cell workerPosition = modelGame.getWorkerPosition(worker);
                 Worker otherWorker = modelGame.getWorkerList().get(modelGame.getWorkerListPosition().indexOf(position));
                 modelGame.setWorkerPosition(otherWorker, workerPosition);
             }

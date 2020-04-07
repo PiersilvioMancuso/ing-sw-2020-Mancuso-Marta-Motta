@@ -16,6 +16,6 @@ abstract public class God{
 
     public abstract boolean isLoser(ModelGame modelGame, Worker worker);
 
-    public abstract void executePower(ModelGame modelGame, Worker worker, int[] position);
+    public abstract void executePower(ModelGame modelGame, Worker worker, Cell position);
 
 }
