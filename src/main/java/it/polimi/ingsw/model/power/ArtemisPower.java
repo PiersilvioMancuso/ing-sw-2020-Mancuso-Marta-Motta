@@ -25,6 +25,8 @@ public class ArtemisPower extends Power {
         states.add(new MovementState());
         states.add(new BuildState());
         states.add(new EndState());
+
+        this.stateList = states;
     }
 
 
@@ -39,6 +41,8 @@ public class ArtemisPower extends Power {
     @Override
     public void runPower(ModelGame modelGame, Worker worker, Cell position){
         if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
+            if (!validCells.contains(position)) throw new IllegalArgumentException("Position is Invalid");
+
             Cell workerPosition = modelGame.getWorkerPosition(worker);
             modelGame.getCurrentState().executeState(modelGame, worker, position);
 

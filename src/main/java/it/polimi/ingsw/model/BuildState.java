@@ -16,8 +16,8 @@ public class BuildState extends State {
         else if (!modelGame.getBoard().getBuildMap().contains(position)) throw new IllegalArgumentException("Position have to be in the Board");
         else if (position.getHeight() >= 4) throw new IllegalArgumentException("You cannot build over a Dome");
         else {
-            int index = modelGame.getBoard().getBuildMap().indexOf(position);
-            modelGame.getBoard().getBuildMap().get(index).setHeight(position.getHeight() + 1);
+            position.setHeight(position.getHeight() + 1);
+            modelGame.getBoard().setCellBoard(position);
         }
 
     }

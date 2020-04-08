@@ -8,7 +8,7 @@ import java.util.List;
 /**Generic Power Class
  * @author Piersilvio Mancuso
  */
-abstract public class Power {
+ public abstract class Power {
 
     private static boolean athenaEffect;
     protected List<Cell> validCells;
@@ -82,6 +82,7 @@ abstract public class Power {
         states.add(new MovementState());
         states.add(new BuildState());
         states.add(new EndState());
+        this.stateList = states;
     }
 
 
@@ -104,6 +105,8 @@ abstract public class Power {
         AthenaEffectModification(modelGame, worker);
     }
 
+
+
     public void AthenaEffectModification(ModelGame modelGame, Worker worker){
         if (isAthenaEffect() && modelGame.getCurrentState() instanceof MovementState){
             int workerHeight = modelGame.getWorkerPosition(worker).getHeight();
@@ -125,8 +128,9 @@ abstract public class Power {
         modelGame.setCurrentState(getCurrentState());
     }
 
+
+
     /**Initialize the Power
-     *
      * @param modelGame is the model of the Game
      * @param worker is the worker that will be used by the player
      */
@@ -143,13 +147,14 @@ abstract public class Power {
     }
 
     /**Execute the state action
-     *
      * @param modelGame is the model of the game
      * @param worker is the worker used by the player
-     * @param position is the position where the action will be acted
+     * @param position is the position where the action will take place
+     * @exception IllegalArgumentException if position is not a valid cell
      */
     public void runPower(ModelGame modelGame, Worker worker, Cell position){
         if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
+
             modelGame.getCurrentState().executeState(modelGame, worker, position);
             setNextCurrentState(modelGame);
             setValidCells(modelGame, worker);

@@ -27,7 +27,6 @@ public class PanPower extends Power{
     // ------------ Action -------------------
 
     /**Check if the worker used by the player let him win the game
-     *
      * @param modelGame is the game
      * @param worker is the worker used by the player
      * @param position is the position from where the worker moved up

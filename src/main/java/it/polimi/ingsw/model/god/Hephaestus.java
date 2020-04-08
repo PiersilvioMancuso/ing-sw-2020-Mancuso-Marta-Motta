@@ -48,11 +48,13 @@ public class Hephaestus extends God {
     /**Execute the state of the game and, if the player wins, set the outcome of all players
      *  @param modelGame is the model of the game
      * @param worker is the worker used by the player
-     * @param position is the position where the player will act using his worker
+     * @param position is the position where the the action will take place using the worker
+     * @exception IllegalArgumentException if position is not a valid cell
      */
     @Override
     public void executePower(ModelGame modelGame, Worker worker, Cell position) {
         if (!isLoser(modelGame, worker)){
+            if (!power.getValidCells().contains(position)) throw new IllegalArgumentException("Position is Invalid");
             power.runPower(modelGame, worker, position);
             worker.getUser().setOutCome(OutCome.winsIfTrue(power.isWinner(modelGame, worker, position)));
             if (worker.getUser().getOutCome() == OutCome.WINNER){

@@ -16,6 +16,7 @@ public class ModelGame {
         this.boardGame = new Board();
         this.userList = new ArrayList<>();
         this.currentUser = 0;
+        this.currentState = new SetupState();
         this.workerList= new ArrayList<>();
         this.workerListPosition = new ArrayList<>();
     }
@@ -100,7 +101,7 @@ public class ModelGame {
         else if (!getBoard().getBuildMap().contains(position)) throw new IndexOutOfBoundsException("Position is not in the Board");
 
         int height = position.getHeight();
-        if (height<0 || height>4) throw new IllegalArgumentException("Height not valid");
+        if (height < 0 || height >= 4) throw new IllegalArgumentException("Height not valid");
 
         int index = workerList.indexOf(worker);
         workerListPosition.set(index, position);
@@ -113,7 +114,6 @@ public class ModelGame {
      */
     public void addUser(User user) {
         userList.add(user);
-
     }
 
     /**
@@ -123,7 +123,7 @@ public class ModelGame {
      */
     public void addWorker(Worker worker){
         workerList.add(worker);
-        workerListPosition.add(new Cell());
+        workerListPosition.add(new Cell(-1,-1));
     }
 
     /**

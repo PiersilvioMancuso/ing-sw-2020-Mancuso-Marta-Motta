@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Board {
     private List<Cell> buildMap;
@@ -15,10 +16,31 @@ public class Board {
         }
     }
 
-
+    /**Get the current map of the game
+     * @author Piersilvio Mancuso
+     * @return a List of Cell in the board
+     */
     public List<Cell> getBuildMap() {
         return buildMap;
     }
+
+
+    /**Get the cell of the game
+     * @author Piersilvio Mancuso
+     * @param cell is the position of the cell searched
+     * @return the cell of the game
+     */
+    public Cell getCell(Cell cell){
+        Cell res = new Cell();
+
+        for (int i = 0; i < buildMap.size(); i++){
+            if (buildMap.get(i).equals(cell)) res = buildMap.get(i);
+        }
+        return res;
+
+    }
+
+
 
 
     /**
@@ -42,4 +64,29 @@ public class Board {
     }
 
 
+    /**Set in the board the new value of Cell
+     * @author Piersilvio Mancuso
+     * @param cell is the Cell object that will be assigned into the board
+     */
+    public void setCellBoard(Cell cell){
+        if (!buildMap.contains(cell)) throw new IllegalArgumentException("Cell is not in Board");
+        for (int i = 0; i< buildMap.size(); i++){
+            if (buildMap.get(i).equals(cell)) buildMap.set(i, new Cell(cell));
+        }
+    }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Board)) return false;
+        Board board = (Board) o;
+        return Objects.equals(getBuildMap(), board.getBuildMap());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBuildMap());
+    }
 }

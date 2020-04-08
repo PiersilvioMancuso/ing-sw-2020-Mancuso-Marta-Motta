@@ -30,6 +30,12 @@ public class Cell {
         this.height = height;
     }
 
+    public Cell (Cell cell){
+        this.x = cell.getX();
+        this.y = cell.getY();
+        this.height = cell.getHeight();
+    }
+
 
     /**
      * This method is used to override equals in "contains()" method
@@ -98,4 +104,13 @@ public class Cell {
         this.height = height;
     }
 
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "x=" + x +
+                ", y=" + y +
+                ", height=" + height +
+                '}';
+    }
 }

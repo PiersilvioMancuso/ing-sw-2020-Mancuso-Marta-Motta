@@ -25,6 +25,8 @@ public class PrometheusPower extends Power{
         states.add(new MovementState());
         states.add(new BuildState());
         states.add(new EndState());
+
+        this.stateList = states;
     }
 
 
