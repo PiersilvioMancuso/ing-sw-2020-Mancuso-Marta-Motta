@@ -28,7 +28,7 @@ public class Demeter extends God {
     @Override
     public void setUpTurn(ModelGame modelGame, Worker worker) {
         if (!power.isActiveEffect()) power = (Power) power;
-        else power = new HephaestusPower();
+        else power = new DemeterPower();
         power.startPower(modelGame, worker);
     }
 

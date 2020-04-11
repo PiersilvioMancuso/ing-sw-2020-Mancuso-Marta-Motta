@@ -9,22 +9,22 @@ import static org.junit.Assert.*;
 public class OutComeTest {
 
     @Test
-    public void winsIfTrue_True_ShouldReturnWINNER() {
+    public void winsIfTrue_true_shouldReturnWINNER() {
         assertEquals(OutCome.WINNER, OutCome.winsIfTrue(true));
     }
 
     @Test
-    public void winsIfTrue_False_ShouldReturnDRAW() {
+    public void winsIfTrue_false_shouldReturnDRAW() {
         assertEquals(OutCome.DRAW, OutCome.winsIfTrue(false));
     }
 
     @Test
-    public void looseIfTrue_True_ShouldReturnLOOSER() {
+    public void looseIfTrue_true_shouldReturnLOOSER() {
         assertEquals(OutCome.LOOSER, OutCome.looseIfTrue(true));
     }
 
     @Test
-    public void looseIfTrue_False_ShouldReturnDRAW() {
+    public void looseIfTrue_false_shouldReturnDRAW() {
         assertEquals(OutCome.DRAW, OutCome.looseIfTrue(false));
     }
 }

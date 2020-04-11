@@ -56,7 +56,7 @@ public class PrometheusPower extends Power{
         }
 
         this.validCells = validPositions;
-        AthenaEffectModification(modelGame, worker);
+        athenaEffectModification(modelGame, worker);
     }
 
 }

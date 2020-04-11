@@ -102,12 +102,12 @@ import java.util.List;
         }
 
         this.validCells = validPositions;
-        AthenaEffectModification(modelGame, worker);
+        athenaEffectModification(modelGame, worker);
     }
 
 
 
-    public void AthenaEffectModification(ModelGame modelGame, Worker worker){
+    public void athenaEffectModification(ModelGame modelGame, Worker worker){
         if (isAthenaEffect() && modelGame.getCurrentState() instanceof MovementState){
             int workerHeight = modelGame.getWorkerPosition(worker).getHeight();
             for (Cell positionCell : getValidCells()){
@@ -136,14 +136,8 @@ import java.util.List;
      */
     public void startPower(ModelGame modelGame, Worker worker){
         setStateList();
+        modelGame.setCurrentState(stateList.get(0));
         setValidCells(modelGame, worker);
-        if (isAthenaEffect() && modelGame.getCurrentState() instanceof MovementState){
-            int workerHeight = modelGame.getWorkerPosition(worker).getHeight();
-            for (Cell position : getValidCells()){
-                int positionHeight = position.getHeight();
-                if (positionHeight > workerHeight) validCells.remove(position);
-            }
-        }
     }
 
     /**Execute the state action
@@ -154,18 +148,11 @@ import java.util.List;
      */
     public void runPower(ModelGame modelGame, Worker worker, Cell position){
         if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
+            if (!getValidCells().contains(position)) throw new IllegalArgumentException("Position is Invalid");
 
             modelGame.getCurrentState().executeState(modelGame, worker, position);
             setNextCurrentState(modelGame);
             setValidCells(modelGame, worker);
-
-            if (isAthenaEffect() && modelGame.getCurrentState() instanceof MovementState){
-                int workerHeight = modelGame.getWorkerPosition(worker).getHeight();
-                for (Cell positionCell : getValidCells()){
-                    int positionHeight = positionCell.getHeight();
-                    if (positionHeight > workerHeight) validCells.remove(positionCell);
-                }
-            }
 
         }
     }

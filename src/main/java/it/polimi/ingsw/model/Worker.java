@@ -42,5 +42,13 @@ public class Worker {
     public Color getColor() {
         return this.color;
     }
+
+    /**
+     * Set a color to the worker
+     * @param color is the color chosen for the worker
+     */
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }
 

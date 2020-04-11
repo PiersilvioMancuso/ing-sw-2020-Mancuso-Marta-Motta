@@ -14,6 +14,7 @@ public class User {
     private Color color;
     private God godChosen;
     private OutCome outCome;
+    private int age;
 
     /**
      * Constructor of the user.
@@ -85,5 +86,21 @@ public class User {
      */
     public void setOutCome(OutCome outCome) {
         this.outCome = outCome;
+    }
+
+    /**
+     * Get the age of the person
+     * @return the age of the user
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * Set the age of the player
+     * @param age is the age of the user
+     */
+    public void setAge(int age) {
+        this.age = age;
     }
 }

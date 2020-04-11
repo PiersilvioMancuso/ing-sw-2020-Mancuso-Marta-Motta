@@ -25,7 +25,11 @@ public class Prometheus extends God {
      */
     @Override
     public void setUpTurn(ModelGame modelGame, Worker worker) {
-        if (!power.isActiveEffect()) power = (Power) power;
+        if (!power.isActiveEffect())
+            power = (Power) power;
+        else
+            power = new PrometheusPower();
+
         power.startPower(modelGame, worker);
     }
 

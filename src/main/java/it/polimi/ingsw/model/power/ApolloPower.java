@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.god.Athena;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,7 @@ public class ApolloPower extends Power{
             }
         }
         this.validCells = validPositions;
-        AthenaEffectModification(modelGame, worker);
+        athenaEffectModification(modelGame, worker);
     }
 
 

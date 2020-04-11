@@ -63,6 +63,13 @@ public class Board {
         return res;
     }
 
+    public void setCellHeight(Cell cell, int height){
+        for (Cell buildCell : buildMap) {
+            if (buildCell.equals(cell))
+                buildCell.setHeight(height);
+        }
+    }
+
 
     /**Set in the board the new value of Cell
      * @author Piersilvio Mancuso
