@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import it.polimi.ingsw.model.state.BuildState;
+import it.polimi.ingsw.model.state.MovementState;
 
 /**Atlas Power Class
  * @author Piersilvio Mancuso
@@ -23,25 +22,25 @@ public class AtlasPower extends Power{
      * @exception IllegalArgumentException if position is not a valid cell
      */
     @Override
-    public void runPower(ModelGame modelGame, Worker worker, Cell position){
-        if (modelGame.getCurrentState() instanceof MovementState){
-            if (!validCells.contains(position)) throw new IllegalArgumentException("Position is Invalid");
+    public void runPower(ModelGame modelGame, Worker worker, Cell position) throws IllegalArgumentException{
+        if (!isActiveEffect()) super.runPower(modelGame, worker, position);
 
-            modelGame.getCurrentState().executeState(modelGame, worker, position);
-            setNextCurrentState(modelGame);
-            setValidCells(modelGame, worker);
-        }
+        else {
+            if (!(modelGame.getCurrentState() instanceof BuildState)) super.runPower(modelGame, worker, position);
 
-        else if (modelGame.getCurrentState() instanceof BuildState){
-            if (!validCells.contains(position)) throw new IllegalArgumentException("Position is Invalid");
+            else{
+                if (!validCells.contains(position)) throw new IllegalArgumentException("Position is Invalid");
 
-            while (position.getHeight() < 4){
-                modelGame.getCurrentState().executeState(modelGame, worker, position);
+                while (position.getHeight() < 4){
+                    modelGame.getCurrentState().executeState(modelGame, worker, position);
+                }
+
+                setNextCurrentState(modelGame);
+                setValidCells(modelGame, worker);
             }
-
-            setNextCurrentState(modelGame);
-            setValidCells(modelGame, worker);
         }
+
+
     }
 
 }

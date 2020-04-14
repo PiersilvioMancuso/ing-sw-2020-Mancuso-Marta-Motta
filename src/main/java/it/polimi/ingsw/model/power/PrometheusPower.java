@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.state.BuildState;
+import it.polimi.ingsw.model.state.EndState;
+import it.polimi.ingsw.model.state.MovementState;
+import it.polimi.ingsw.model.state.State;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +24,8 @@ public class PrometheusPower extends Power{
     /**Set the turn state of the player */
     @Override
     public void setStateList(){
-        List<State> states = new ArrayList<>();
-        states.add(new BuildState());
-        states.add(new MovementState());
-        states.add(new BuildState());
-        states.add(new EndState());
-
-        this.stateList = states;
+        super.setStateList();
+        if (isActiveEffect()) stateList.add(0, new BuildState());
     }
 
 
@@ -36,27 +35,28 @@ public class PrometheusPower extends Power{
      */
     @Override
     public void setValidCells(ModelGame modelGame, Worker worker){
-        List<Cell> validPositions = new ArrayList<>();
-        Cell workerPosition = modelGame.getWorkerPosition(worker);
-        int workerHeight = workerPosition.getHeight();
 
-        //On Movement State worker cannot move up
-        for (Cell position: modelGame.getBoard().getNeighbourCell(workerPosition)){
-            int positionHeight = position.getHeight();
+        super.setValidCells(modelGame, worker);
+
+        if (isActiveEffect()){
+            int workerHeight = worker.getPosition().getHeight();
 
             if (modelGame.getCurrentState() instanceof MovementState){
-                if (!(positionHeight > workerHeight)) validPositions.add(position);
-            }
-            else if (modelGame.getCurrentState() instanceof BuildState){
-                if (!(positionHeight > workerHeight + 1 || positionHeight == 4 || modelGame.getWorkerListPosition().contains(position))){
-                    validPositions.add(position);
+
+                //On Movement State worker cannot move up
+                for (Cell position: getValidCells()){
+                    int positionHeight = position.getHeight();
+
+                    if (modelGame.getCurrentState() instanceof MovementState){
+                        if (positionHeight > workerHeight) validCells.remove(position);
+                    }
+
                 }
             }
-
         }
 
-        this.validCells = validPositions;
-        athenaEffectModification(modelGame, worker);
+
+
     }
 
 }

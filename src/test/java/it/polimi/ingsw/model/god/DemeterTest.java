@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.god;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.state.BuildState;
+import it.polimi.ingsw.model.state.MovementState;
 import org.junit.Before;
 import org.junit.Test;
 

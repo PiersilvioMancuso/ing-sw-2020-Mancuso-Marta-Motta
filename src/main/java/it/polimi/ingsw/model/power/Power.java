@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.state.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +58,12 @@ import java.util.List;
         return new ArrayList<>(validCells);
     }
 
+    public List<State> getStateList(){
+        return this.stateList;
+    }
 
-    //Setter
+
+    // ------------------ Setter --------------------------
 
     /**
      *Set the boolean value of the Activation Effect
@@ -92,28 +97,43 @@ import java.util.List;
      */
     public void setValidCells(ModelGame modelGame, Worker worker){
         List<Cell> validPositions = new ArrayList<>();
-        Cell workerPosition = modelGame.getWorkerPosition(worker);
-        int workerHeight = workerPosition.getHeight();
 
-        for (Cell position: modelGame.getBoard().getNeighbourCell(workerPosition)){
-            int positionHeight = position.getHeight();
-            if (positionHeight > workerHeight + 1 || positionHeight == 4 || modelGame.getWorkerListPosition().contains(position)) ;
-            else validPositions.add(position);
+        //If the current State of the Game is a Setup or an End State, it will set valid position as a list of all free Cell (Don't occupied by a worker)
+        if (modelGame.getCurrentState() instanceof SetupState || modelGame.getCurrentState() instanceof EndState){
+            for (Cell cell : modelGame.getBoard().getBuildMap()){
+                if (!modelGame.getWorkerListPosition().contains(cell)) validPositions.add(cell);
+            }
+            validCells = validPositions;
         }
 
-        this.validCells = validPositions;
-        athenaEffectModification(modelGame, worker);
+        //If the Current State of the Game is a Build or Movement State, it will set the valid cells allowed by rules
+        else {
+            Cell workerPosition = modelGame.getWorkerPosition(worker);
+            int workerHeight = workerPosition.getHeight();
+
+            for (Cell position: modelGame.getBoard().getNeighbourCell(workerPosition)){
+                int positionHeight = position.getHeight();
+                if (positionHeight <= workerHeight + 1 && positionHeight >= 0 && !modelGame.getWorkerListPosition().contains(position)) validPositions.add(position);
+            }
+
+            validCells = validPositions;
+            athenaEffectModification(modelGame, worker);
+        }
+
+
     }
 
 
 
     public void athenaEffectModification(ModelGame modelGame, Worker worker){
         if (isAthenaEffect() && modelGame.getCurrentState() instanceof MovementState){
+            List<Cell> validPosition = new ArrayList<>(validCells);
             int workerHeight = modelGame.getWorkerPosition(worker).getHeight();
-            for (Cell positionCell : getValidCells()){
+            for (Cell positionCell : validPosition){
                 int positionHeight = positionCell.getHeight();
-                if (positionHeight > workerHeight) validCells.remove(positionCell);
+                if (positionHeight > workerHeight) validPosition.remove(positionCell);
             }
+            validCells = validPosition;
         }
     }
 
@@ -138,6 +158,7 @@ import java.util.List;
         setStateList();
         modelGame.setCurrentState(stateList.get(0));
         setValidCells(modelGame, worker);
+
     }
 
     /**Execute the state action
@@ -147,14 +168,12 @@ import java.util.List;
      * @exception IllegalArgumentException if position is not a valid cell
      */
     public void runPower(ModelGame modelGame, Worker worker, Cell position){
-        if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
-            if (!getValidCells().contains(position)) throw new IllegalArgumentException("Position is Invalid");
+        if (!validCells.contains(position)) throw new IllegalArgumentException("Position is Not in a ValidCell");
 
-            modelGame.getCurrentState().executeState(modelGame, worker, position);
-            setNextCurrentState(modelGame);
-            setValidCells(modelGame, worker);
+        modelGame.getCurrentState().executeState(modelGame, worker, position);
+        setNextCurrentState(modelGame);
+        setValidCells(modelGame, worker);
 
-        }
     }
 
     /**Check if the worker used by the player let him win the game
@@ -165,8 +184,7 @@ import java.util.List;
      * @return true if the player win, otherwise false
      */
     public boolean isWinner(ModelGame modelGame, Worker worker, Cell position){
-        int workerHeight = modelGame.getWorkerPosition(worker).getHeight();
-
+        int workerHeight = worker.getPosition().getHeight();
         return (workerHeight == 3 && position.getHeight() < 3);
     }
 }

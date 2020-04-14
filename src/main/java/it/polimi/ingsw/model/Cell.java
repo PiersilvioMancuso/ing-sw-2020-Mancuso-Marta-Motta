@@ -51,10 +51,6 @@ public class Cell {
                 getY() == cell.getY();
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getX(), getY());
-    }
 
     /**
      * Getter for the x parameter
@@ -105,12 +101,4 @@ public class Cell {
     }
 
 
-    @Override
-    public String toString() {
-        return "Cell{" +
-                "x=" + x +
-                ", y=" + y +
-                ", height=" + height +
-                '}';
-    }
 }

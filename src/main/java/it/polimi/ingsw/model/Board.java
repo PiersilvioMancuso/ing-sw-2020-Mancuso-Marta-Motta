@@ -92,8 +92,4 @@ public class Board {
         return Objects.equals(getBuildMap(), board.getBuildMap());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getBuildMap());
-    }
 }

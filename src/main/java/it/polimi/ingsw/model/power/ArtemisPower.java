@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.state.BuildState;
+import it.polimi.ingsw.model.state.EndState;
+import it.polimi.ingsw.model.state.MovementState;
+import it.polimi.ingsw.model.state.State;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +24,8 @@ public class ArtemisPower extends Power {
     /**Set the turn state of the player */
     @Override
     public void setStateList(){
-        List<State> states = new ArrayList<>();
-        states.add(new MovementState());
-        states.add(new MovementState());
-        states.add(new BuildState());
-        states.add(new EndState());
-
-        this.stateList = states;
+        super.setStateList();
+        if (isActiveEffect()) stateList.add(0, new MovementState());
     }
 
 
@@ -39,20 +38,16 @@ public class ArtemisPower extends Power {
      * @param position is the position where the action will be acted
      */
     @Override
-    public void runPower(ModelGame modelGame, Worker worker, Cell position){
-        if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
-            if (!validCells.contains(position)) throw new IllegalArgumentException("Position is Invalid");
+    public void runPower(ModelGame modelGame, Worker worker, Cell position) throws IllegalArgumentException{
+        if (!isActiveEffect()) super.runPower(modelGame, worker, position);
 
-            Cell workerPosition = modelGame.getWorkerPosition(worker);
-            modelGame.getCurrentState().executeState(modelGame, worker, position);
+        else {
+            Cell workerPosition = worker.getPosition();
+            super.runPower(modelGame, worker, position);
 
-            setNextCurrentState(modelGame);
-            setValidCells(modelGame, worker);
-
-            if (modelGame.getCurrentState() instanceof MovementState){
-                this.validCells.remove(workerPosition);
-            }
+            if (modelGame.getCurrentState() instanceof MovementState) validCells.remove(workerPosition);
         }
+
     }
 
 

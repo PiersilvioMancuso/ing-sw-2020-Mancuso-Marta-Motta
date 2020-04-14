@@ -12,7 +12,6 @@ public class PanPower extends Power{
 
     public PanPower(){
         super();
-        this.setActiveEffect(true);
     }
 
     /**Set true the power activation
@@ -35,8 +34,7 @@ public class PanPower extends Power{
     @Override
     public boolean isWinner(ModelGame modelGame, Worker worker, Cell position){
         int workerHeight = modelGame.getWorkerPosition(worker).getHeight();
-        if (super.isWinner(modelGame, worker, position)) return true;
-        else return (position.getHeight() - workerHeight >= 2);
+        return (super.isWinner(modelGame, worker, position) || position.getHeight() - workerHeight >= 2);
     }
 
 

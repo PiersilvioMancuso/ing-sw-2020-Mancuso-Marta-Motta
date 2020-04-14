@@ -1,4 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.state;
+
+import it.polimi.ingsw.model.Cell;
+import it.polimi.ingsw.model.ModelGame;
+import it.polimi.ingsw.model.Worker;
 
 abstract public class State {
 

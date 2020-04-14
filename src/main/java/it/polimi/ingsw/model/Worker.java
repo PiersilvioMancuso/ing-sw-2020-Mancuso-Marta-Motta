@@ -9,6 +9,7 @@ package it.polimi.ingsw.model;
 public class Worker {
     private User user;
     private Color color;
+    private Cell position;
 
     /**
      * Constructor for the worker.
@@ -17,6 +18,7 @@ public class Worker {
     public Worker(User user) {
         this.user = user;
         this.color = user.getColor();
+        this.position = new Cell(-1,-1);
     }
 
     /**
@@ -49,6 +51,20 @@ public class Worker {
      */
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    /**Get the position of the worker
+     * @return  the Cell where the worker is
+     */
+    public Cell getPosition() {
+        return position;
+    }
+
+    /**Set the positon of the Worker
+     * @param position is the Cell where the worker will be
+     */
+    public void setPosition(Cell position) {
+        this.position = position;
     }
 }
 

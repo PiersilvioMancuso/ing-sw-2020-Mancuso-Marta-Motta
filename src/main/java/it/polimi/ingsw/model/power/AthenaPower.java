@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import it.polimi.ingsw.model.state.BuildState;
+import it.polimi.ingsw.model.state.MovementState;
 
 /**Athena Power Class
  * @author Piersilvio Mancuso
@@ -23,22 +22,12 @@ public class AthenaPower extends Power {
      * @exception IllegalArgumentException if position is not a valid cell
      */
     @Override
-    public void runPower(ModelGame modelGame, Worker worker, Cell position){
-        if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
-            if (!validCells.contains(position)) throw new IllegalArgumentException("Position is Invalid");
+    public void runPower(ModelGame modelGame, Worker worker, Cell position) throws IllegalArgumentException{
+        if (modelGame.getCurrentState() instanceof MovementState) setAthenaEffect(false);
+        int workerHeight = worker.getPosition().getHeight();
+        super.runPower(modelGame, worker, position);
 
-            int workerAthenaHeight = modelGame.getWorkerPosition(worker).getHeight();
-
-            if (modelGame.getCurrentState() instanceof MovementState){
-                setAthenaEffect(false);
-            }
-
-            modelGame.getCurrentState().executeState(modelGame, worker, position);
-
-            if (modelGame.getWorkerPosition(worker).getHeight() > workerAthenaHeight) setAthenaEffect(true);
-            setNextCurrentState(modelGame);
-            setValidCells(modelGame, worker);
-        }
+        if (worker.getPosition().getHeight() > workerHeight) setAthenaEffect(true);
     }
 
 

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.state.MovementState;
+import it.polimi.ingsw.model.state.SetupState;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -242,4 +242,35 @@ public class ModelGameTest {
         modelGame.nextUser();
         assertTrue(user1.equals(modelGame.getCurrentUser()));
     }
+
+
+    @Test
+    public void getWorkerFromCell_cellWithAWorkerInside_shouldReturnTheWorkerInside(){
+        User user = new User("Piersilvio");
+        Worker worker = new Worker(user);
+
+        modelGame.addWorker(worker);
+        Cell cell = new Cell(2,2);
+        worker.setPosition(cell);
+
+
+        assertTrue(modelGame.getWorkerFromPosition(cell).equals(worker));
+    }
+
+    @Test
+    public void getWorkerFromCell_cellWithoutAWorkerInside_shouldReturnNull(){
+        User user = new User("Piersilvio");
+        Worker worker = new Worker(user);
+
+        modelGame.addWorker(worker);
+        Cell cell = new Cell(2,2);
+        worker.setPosition(cell);
+
+
+
+        assertTrue(modelGame.getWorkerFromPosition(new Cell(2,1)) == null);
+    }
+
+
+
 }

@@ -1,4 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.state;
+
+import it.polimi.ingsw.model.Cell;
+import it.polimi.ingsw.model.ModelGame;
+import it.polimi.ingsw.model.Worker;
 
 public class MovementState extends State {
 
@@ -9,7 +13,7 @@ public class MovementState extends State {
      * @param position is the position where the worker will be set
      */
     @Override
-    public void executeState(ModelGame modelGame, Worker worker,Cell position) {
+    public void executeState(ModelGame modelGame, Worker worker, Cell position) {
 
         if (modelGame == null || worker == null || position == null) throw new NullPointerException("Parameters cannot be null");
         else if (modelGame.getWorkerListPosition().contains(position)) throw new IllegalArgumentException("Position is already occupied");

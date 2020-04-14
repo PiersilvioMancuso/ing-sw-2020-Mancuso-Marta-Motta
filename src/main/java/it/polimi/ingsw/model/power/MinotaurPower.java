@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.state.BuildState;
+import it.polimi.ingsw.model.state.MovementState;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,23 +24,16 @@ public class MinotaurPower extends Power{
      */
     @Override
     public void setValidCells(ModelGame modelGame, Worker worker){
-        List<Cell> validPositions = new ArrayList<>();
-        Cell workerPosition = modelGame.getWorkerPosition(worker);
-        int workerHeight = workerPosition.getHeight();
 
-        // Insert into validCells all the Neighbours Cell of Worker Position, except Dome and Occupied Cells
-        for (Cell position: modelGame.getBoard().getNeighbourCell(workerPosition)){
-            int positionHeight = position.getHeight();
+        super.setValidCells(modelGame, worker);
 
-            if (!(positionHeight > workerHeight + 1 || positionHeight == 4 || modelGame.getWorkerListPosition().contains(position))) {
-                validPositions.add(position);
-            }
-        }
+        if (isActiveEffect()){
+            Cell workerPosition = worker.getPosition();
 
+            if (modelGame.getCurrentState() instanceof MovementState){
+                for (int i = 0; i < modelGame.getBoard().getNeighbourCell(workerPosition).size(); i++){
 
-        if (modelGame.getCurrentState() instanceof MovementState){
-            for (int i = 0; i < modelGame.getBoard().getNeighbourCell(workerPosition).size(); i++){
-                Cell position = modelGame.getWorkerListPosition().get(i);
+                    Cell position = modelGame.getWorkerListPosition().get(i);
 
 
                 /* During Movement State insert into validCells other workers position if these workers :
@@ -45,26 +41,27 @@ public class MinotaurPower extends Power{
                  2)are controlled by other users
                  3)have a free Cell in the same direction
                 * */
-                if (modelGame.getWorkerListPosition().contains(position)){
-                    User user = modelGame.getWorkerList().get(modelGame.getWorkerListPosition().indexOf(position)).getUser();
+                    if (modelGame.getWorkerListPosition().contains(position)){
+                        User user = modelGame.getWorkerList().get(modelGame.getWorkerListPosition().indexOf(position)).getUser();
 
-                    if (!worker.getUser().equals(user)){
-                        Cell lastPosition = new Cell(2 * position.getX() - workerPosition.getX(), 2 * position.getY() - workerPosition.getY());
-                        int index = modelGame.getBoard().getBuildMap().indexOf(lastPosition);
-                        lastPosition = modelGame.getBoard().getBuildMap().get(index);
+                        if (!worker.getUser().equals(user)){
+                            Cell lastPosition = new Cell(2 * position.getX() - workerPosition.getX(), 2 * position.getY() - workerPosition.getY());
+                            int index = modelGame.getBoard().getBuildMap().indexOf(lastPosition);
+                            lastPosition = modelGame.getBoard().getBuildMap().get(index);
 
 
-                        if (modelGame.getBoard().getNeighbourCell(position).contains(lastPosition) && lastPosition.getHeight() < 4 && !modelGame.getWorkerListPosition().contains(lastPosition)){
-                            if (!validPositions.contains(position)) validPositions.add(position);
+                            if (modelGame.getBoard().getNeighbourCell(position).contains(lastPosition) && lastPosition.getHeight() < 4 && !modelGame.getWorkerListPosition().contains(lastPosition)){
+                                if (!validCells.contains(position)) validCells.add(position);
+                            }
                         }
-                    }
 
+                    }
                 }
             }
+
+            athenaEffectModification(modelGame, worker);
         }
 
-        this.validCells = validPositions;
-        athenaEffectModification(modelGame, worker);
     }
 
 
@@ -77,29 +74,30 @@ public class MinotaurPower extends Power{
      * @exception IllegalArgumentException if position is not a valid cell
      */
     @Override
-    public void runPower(ModelGame modelGame, Worker worker, Cell position){
-        if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState){
-            if (!validCells.contains(position)) throw new IllegalArgumentException("Position is Invalid");
+    public void runPower(ModelGame modelGame, Worker worker, Cell position) throws IllegalArgumentException{
+        if (!(modelGame.getCurrentState() instanceof MovementState) || !isActiveEffect()) super.runPower(modelGame, worker, position);
 
-            if (modelGame.getCurrentState() instanceof MovementState){
+        else {
+            if (!validCells.contains(position)) throw new IllegalArgumentException("Position is not Valid");
 
-                //If position is occupied by another worker, it will be pushed in the next Cell on the same direction
-                if (modelGame.getWorkerListPosition().contains(position)){
-                    Cell workerPosition = modelGame.getWorkerPosition(worker);
+            //If position is occupied by another worker, it will be pushed in the next Cell on the same direction
+            if (modelGame.getWorkerListPosition().contains(position)){
+                Cell workerPosition = modelGame.getWorkerPosition(worker);
 
-                    Cell lastPosition = new Cell(2 * position.getX() - workerPosition.getX(), 2 * position.getY() - workerPosition.getY());
-                    int index = modelGame.getBoard().getBuildMap().indexOf(lastPosition);
-                    lastPosition = modelGame.getBoard().getBuildMap().get(index);
+                Cell lastPosition = new Cell(2 * position.getX() - workerPosition.getX(), 2 * position.getY() - workerPosition.getY());
+                int index = modelGame.getBoard().getBuildMap().indexOf(lastPosition);
+                lastPosition = modelGame.getBoard().getBuildMap().get(index);
 
 
-                    modelGame.setWorkerPosition(modelGame.getWorkerList().get(modelGame.getWorkerListPosition().indexOf(position)), lastPosition);
-                }
+                modelGame.setWorkerPosition(modelGame.getWorkerList().get(modelGame.getWorkerListPosition().indexOf(position)), lastPosition);
             }
 
             //Run the State Action
             modelGame.getCurrentState().executeState(modelGame, worker, position);
             setNextCurrentState(modelGame);
             setValidCells(modelGame, worker);
+
+
         }
     }
 

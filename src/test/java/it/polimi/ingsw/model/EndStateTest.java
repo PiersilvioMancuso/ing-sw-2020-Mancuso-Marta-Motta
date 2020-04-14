@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.god.Apollo;
+import it.polimi.ingsw.model.state.EndState;
+import it.polimi.ingsw.model.state.State;
 import org.junit.Before;
 import org.junit.Test;
 

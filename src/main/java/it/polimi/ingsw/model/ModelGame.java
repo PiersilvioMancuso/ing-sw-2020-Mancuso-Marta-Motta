@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.state.SetupState;
+import it.polimi.ingsw.model.state.State;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +13,6 @@ public class ModelGame {
     private int currentUser;
     private State currentState;
     private List<Worker> workerList;
-    private List<Cell> workerListPosition;
 
     public ModelGame() {
         this.boardGame = new Board();
@@ -18,7 +20,6 @@ public class ModelGame {
         this.currentUser = 0;
         this.currentState = new SetupState();
         this.workerList= new ArrayList<>();
-        this.workerListPosition = new ArrayList<>();
     }
 
 
@@ -42,9 +43,6 @@ public class ModelGame {
         return workerList;
     }
 
-    public List<Cell> getWorkerListPosition() {
-        return workerListPosition;
-    }
 
     /**
      * worker's position on the board
@@ -53,7 +51,7 @@ public class ModelGame {
      * @return workerListPosition in a specific index
      */
     public Cell getWorkerPosition(Worker worker) {
-        return workerListPosition.get(workerList.indexOf(worker));
+        return workerList.get(workerList.indexOf(worker)).getPosition();
     }
 
     /**
@@ -103,8 +101,7 @@ public class ModelGame {
         int height = position.getHeight();
         if (height < 0 || height >= 4) throw new IllegalArgumentException("Height not valid");
 
-        int index = workerList.indexOf(worker);
-        workerListPosition.set(index, position);
+        worker.setPosition(position);
     }
 
     /**
@@ -123,7 +120,6 @@ public class ModelGame {
      */
     public void addWorker(Worker worker){
         workerList.add(worker);
-        workerListPosition.add(new Cell(-1,-1));
     }
 
     /**
@@ -142,9 +138,7 @@ public class ModelGame {
      * @param worker
      */
     public void removeWorker(Worker worker){
-        int index = workerList.indexOf(worker);
-        workerList.remove(index);
-        workerListPosition.remove(index);
+        workerList.remove(worker);
     }
 
     /**
@@ -154,4 +148,25 @@ public class ModelGame {
     public void nextUser(){
         currentUser = (currentUser+1) % userList.size();
     }
+
+
+    /**Create an ArrayList containing the position of all workers in game
+     * @return a list of all workers' position
+     */
+    public List<Cell> getWorkerListPosition(){
+        List<Cell> res = new ArrayList<>();
+
+        for (Worker worker : workerList){
+            res.add(worker.getPosition());
+        }
+        return  res;
+    }
+
+    public Worker getWorkerFromPosition(Cell position){
+        for (Worker worker : workerList){
+            if (worker.getPosition().equals(position)) return worker;
+        }
+        return null;
+    }
+
 }
