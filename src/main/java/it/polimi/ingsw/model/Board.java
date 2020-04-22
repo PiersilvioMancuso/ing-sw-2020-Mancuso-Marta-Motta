@@ -92,4 +92,5 @@ public class Board {
         return Objects.equals(getBuildMap(), board.getBuildMap());
     }
 
+
 }

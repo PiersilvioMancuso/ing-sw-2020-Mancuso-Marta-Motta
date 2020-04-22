@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.god;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.power.*;
 
-
+/**Athena God Class
+ * @author Piersilvio Mancuso
+ */
 public class Athena extends God {
 
     /**Create the God Athena which use Athena Power */
@@ -11,17 +13,6 @@ public class Athena extends God {
         this.power = new AthenaPower();
         this.power.setActiveEffect(true);
     }
-
-    /**Activate the power on a Worker
-     *
-     * @param modelGame is the model of the game
-     * @param worker is the worker used by the player
-     */
-    @Override
-    public void activatePower(ModelGame modelGame, Worker worker) {
-        power.setActiveEffect(true);
-    }
-
 
     /**SetUp worker's turn with activated effect
      * @param modelGame is the model of the game

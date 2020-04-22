@@ -16,6 +16,17 @@ public class MinotaurPower extends Power{
         super();
     }
 
+    /**Calculate the destination Cell of Minotaur Push Movement
+     * @param firstCell is the Cell from where Minotaur's Worker Move
+     * @param secondCell is the Cell from where the other user's worker will be pushed
+     * @return the position of the other user's worker
+     */
+    public Cell minotaurCalculator(Cell firstCell, Cell secondCell){
+        int cellX = 2*secondCell.getX() - firstCell.getX();
+        int cellY = 2*secondCell.getY() - firstCell.getY();
+        return new Cell(cellX,cellY);
+    }
+
     // -------------- Setter -------------------
 
     /**Set the valid Cells where a player can take the current State action
@@ -30,26 +41,23 @@ public class MinotaurPower extends Power{
         if (isActiveEffect()){
             Cell workerPosition = worker.getPosition();
 
+            // During Movement State insert into validCells other workers position if these workers :
             if (modelGame.getCurrentState() instanceof MovementState){
-                for (int i = 0; i < modelGame.getBoard().getNeighbourCell(workerPosition).size(); i++){
 
-                    Cell position = modelGame.getWorkerListPosition().get(i);
+                //1)are in a NeighbourCell;
+                for (Cell position: modelGame.getBoard().getNeighbourCell(workerPosition)){
 
-
-                /* During Movement State insert into validCells other workers position if these workers :
-                 1)are in a NeighbourCell;
-                 2)are controlled by other users
-                 3)have a free Cell in the same direction
-                * */
                     if (modelGame.getWorkerListPosition().contains(position)){
-                        User user = modelGame.getWorkerList().get(modelGame.getWorkerListPosition().indexOf(position)).getUser();
+                        User user = modelGame.getWorkerFromPosition(position).getUser();
 
+                        //2)are controlled by other users
                         if (!worker.getUser().equals(user)){
-                            Cell lastPosition = new Cell(2 * position.getX() - workerPosition.getX(), 2 * position.getY() - workerPosition.getY());
-                            int index = modelGame.getBoard().getBuildMap().indexOf(lastPosition);
-                            lastPosition = modelGame.getBoard().getBuildMap().get(index);
 
+                            //calculate the destination Cell
+                            Cell lastPosition = minotaurCalculator(workerPosition, position);
+                            lastPosition = modelGame.getBoard().getCell(lastPosition);
 
+                            //3)have a free Cell in the same direction
                             if (modelGame.getBoard().getNeighbourCell(position).contains(lastPosition) && lastPosition.getHeight() < 4 && !modelGame.getWorkerListPosition().contains(lastPosition)){
                                 if (!validCells.contains(position)) validCells.add(position);
                             }
@@ -58,7 +66,6 @@ public class MinotaurPower extends Power{
                     }
                 }
             }
-
             athenaEffectModification(modelGame, worker);
         }
 
@@ -84,12 +91,12 @@ public class MinotaurPower extends Power{
             if (modelGame.getWorkerListPosition().contains(position)){
                 Cell workerPosition = modelGame.getWorkerPosition(worker);
 
-                Cell lastPosition = new Cell(2 * position.getX() - workerPosition.getX(), 2 * position.getY() - workerPosition.getY());
-                int index = modelGame.getBoard().getBuildMap().indexOf(lastPosition);
-                lastPosition = modelGame.getBoard().getBuildMap().get(index);
+                //1)calculate the destination Cell
+                Cell lastPosition = minotaurCalculator(workerPosition,position);
+                lastPosition = modelGame.getBoard().getCell(lastPosition);
 
-
-                modelGame.setWorkerPosition(modelGame.getWorkerList().get(modelGame.getWorkerListPosition().indexOf(position)), lastPosition);
+                //2)push other user's worker to lastPosition
+                modelGame.setWorkerPosition(modelGame.getWorkerFromPosition(position), lastPosition);
             }
 
             //Run the State Action

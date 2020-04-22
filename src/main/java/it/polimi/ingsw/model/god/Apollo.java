@@ -14,16 +14,4 @@ public class Apollo extends God {
         this.power = new ApolloPower();
     }
 
-    /**Activate the power on a Worker
-     *
-     * @param modelGame is the model of the game
-     * @param worker is the worker used by the player
-     */
-    @Override
-    public void activatePower(ModelGame modelGame, Worker worker) {
-        power.setActiveEffect(true);
-    }
-
-
-
 }

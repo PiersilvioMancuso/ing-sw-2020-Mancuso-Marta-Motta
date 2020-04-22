@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.state.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**Generic Power Class
+/**Abstract Power Class
  * @author Piersilvio Mancuso
  */
  public abstract class Power {

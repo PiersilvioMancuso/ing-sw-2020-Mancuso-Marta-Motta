@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ModelGame {
+public class ModelGame implements Cloneable{
     private Board boardGame;
     private List<User> userList;
     private int currentUser;
@@ -21,6 +21,18 @@ public class ModelGame {
         this.currentState = new SetupState();
         this.workerList= new ArrayList<>();
     }
+
+    public ModelGame(final ModelGame modelGame){
+        this.boardGame = new Board();
+        for (Cell cell : boardGame.getBuildMap()){
+            this.getBoard().setCellBoard(cell);
+        }
+        this.userList = new ArrayList<>(modelGame.getUserList());
+        this.currentState = modelGame.getCurrentState();
+        this.currentUser = modelGame.getIntegerCurrentUser();
+        this.workerList = modelGame.getWorkerList();
+    }
+
 
 
     public Board getBoard() {
@@ -39,6 +51,10 @@ public class ModelGame {
         return userList.get(currentUser);
     }
 
+    public int getIntegerCurrentUser(){
+        return currentUser;
+    }
+
     public List<Worker> getWorkerList() {
         return workerList;
     }
@@ -51,7 +67,7 @@ public class ModelGame {
      * @return workerListPosition in a specific index
      */
     public Cell getWorkerPosition(Worker worker) {
-        return workerList.get(workerList.indexOf(worker)).getPosition();
+        return worker.getPosition();
     }
 
     /**
@@ -162,11 +178,23 @@ public class ModelGame {
         return  res;
     }
 
+    /**Get the worker in a position, if there is one
+     * @param position is the position where it could be a worker
+     * @return null if there is no worker in that position, otherwise the worker in that position
+     */
     public Worker getWorkerFromPosition(Cell position){
         for (Worker worker : workerList){
             if (worker.getPosition().equals(position)) return worker;
         }
         return null;
     }
+
+    public User getUserFromUsername(String string){
+        for (User user : userList){
+            if (user.getUsername().equals(string)) return user;
+        }
+        return null;
+    }
+
 
 }

@@ -1,5 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.state;
 
+import it.polimi.ingsw.model.ModelGame;
+import it.polimi.ingsw.model.User;
+import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.god.Apollo;
 import it.polimi.ingsw.model.state.EndState;
 import it.polimi.ingsw.model.state.State;

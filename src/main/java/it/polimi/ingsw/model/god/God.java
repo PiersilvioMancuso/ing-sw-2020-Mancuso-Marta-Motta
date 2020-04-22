@@ -3,14 +3,25 @@ package it.polimi.ingsw.model.god;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.power.Power;
 
+/**Abstract God Class
+ * @author Piersilvio Mancuso
+ */
 abstract public class God{
+
     protected Power power;
 
     public Power getPower() {
         return power;
     }
 
-    public abstract void activatePower(ModelGame modelGame, Worker worker);
+    /**Activate the power on a Worker
+     *
+     * @param modelGame is the model of the game
+     * @param worker is the worker used by the player
+     */
+    public void activatePower(ModelGame modelGame, Worker worker) {
+        power.setActiveEffect(true);
+    }
 
 
     /**SetUp worker's turn
