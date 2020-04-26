@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: God</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model.god</a> ]
+</div>
+
+<h1>Coverage Summary for Class: God (it.polimi.ingsw.model.god)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">God</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model.god;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.power.Power;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;/**Abstract God Class
+<i>7</i>&nbsp; * @author Piersilvio Mancuso
+<i>8</i>&nbsp; */
+<b class="fc"><i>9</i>&nbsp;abstract public class God{</b>
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    protected Power power;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    public Power getPower() {
+<b class="fc"><i>14</i>&nbsp;        return power;</b>
+<i>15</i>&nbsp;    }
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**Activate the power on a Worker
+<i>18</i>&nbsp;     *
+<i>19</i>&nbsp;     * @param modelGame is the model of the game
+<i>20</i>&nbsp;     * @param worker is the worker used by the player
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    public void activatePower(ModelGame modelGame, Worker worker) {
+<b class="fc"><i>23</i>&nbsp;        power.setActiveEffect(true);</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**SetUp worker&#39;s turn
+<i>28</i>&nbsp;     *
+<i>29</i>&nbsp;     * @param modelGame is the model of the game
+<i>30</i>&nbsp;     * @param worker is the worker that will be used
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    public void setUpTurn(ModelGame modelGame, Worker worker) {
+<b class="fc"><i>33</i>&nbsp;        power.startPower(modelGame, worker);</b>
+<b class="fc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**Check if the player, who use the worker, loose the game
+<i>38</i>&nbsp;     *
+<i>39</i>&nbsp;     * @param modelGame is the model of the game
+<i>40</i>&nbsp;     * @param worker is the worker chosen by the player
+<i>41</i>&nbsp;     * @return true if the player loose, otherwise false
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public boolean isLoser(ModelGame modelGame, Worker worker) {
+<b class="fc"><i>44</i>&nbsp;        return power.getValidCells().size() == 0;</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**Execute the state of the game and, if the player wins, set the outcome of all players
+<i>49</i>&nbsp;     *  @param modelGame is the model of the game
+<i>50</i>&nbsp;     * @param worker is the worker used by the player
+<i>51</i>&nbsp;     * @param position is the position where the the action will take place using the worker
+<i>52</i>&nbsp;     * @exception IllegalArgumentException if position is not a valid cell
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;    public void executePower(ModelGame modelGame, Worker worker, Cell position) {
+<b class="fc"><i>55</i>&nbsp;        if (!power.getValidCells().contains(position)) throw new IllegalArgumentException(&quot;Position is Invalid&quot;);</b>
+<b class="fc"><i>56</i>&nbsp;        power.runPower(modelGame, worker, position);</b>
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;    }</b>
+<i>59</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-26 18:57</div>
+</div>
+</body>
+</html>

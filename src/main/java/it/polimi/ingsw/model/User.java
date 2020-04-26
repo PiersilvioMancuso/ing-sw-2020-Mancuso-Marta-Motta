@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.god.God;
-import it.polimi.ingsw.view.Color;
+import java.awt.*;
 
 import java.util.concurrent.locks.Condition;
 

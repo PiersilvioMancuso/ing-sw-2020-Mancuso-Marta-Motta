@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.User;
-import it.polimi.ingsw.view.Color;
+import java.awt.*;
 
 import java.util.List;
 

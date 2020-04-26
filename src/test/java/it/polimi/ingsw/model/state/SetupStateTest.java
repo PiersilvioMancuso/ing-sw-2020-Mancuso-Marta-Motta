@@ -28,7 +28,6 @@ public class SetupStateTest {
     public void executeState_nullArgument_shouldThrowsNullPointerException() {
         state.executeState(modelGame,null,cell);
     }
-
     @Test(expected = IllegalArgumentException.class)
     public void executeState_occupiedCell_shouldThrowIllegalArgumentException(){
         modelGame.addWorker(worker);
