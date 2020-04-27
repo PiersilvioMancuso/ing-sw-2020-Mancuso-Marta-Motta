@@ -85,7 +85,7 @@
 <i>11</i>&nbsp; * @author Piersilvio Mancuso
 <i>12</i>&nbsp; */
 <i>13</i>&nbsp;public class GodInGameChoiceAction extends Action{
-<i>14</i>&nbsp;    private List&lt;Integer&gt; godList;
+<i>14</i>&nbsp;    private List&lt;Integer&gt; godEnum;
 <i>15</i>&nbsp;
 <i>16</i>&nbsp;
 <i>17</i>&nbsp;    // -------------- CONSTRUCTOR ----------------
@@ -94,11 +94,11 @@
 <i>20</i>&nbsp;     * @param data is a string in the following pattern: god=n1god=n2..
 <i>21</i>&nbsp;     */
 <b class="nc"><i>22</i>&nbsp;    public GodInGameChoiceAction(String data){</b>
-<b class="nc"><i>23</i>&nbsp;        godList = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>23</i>&nbsp;        godEnum = new ArrayList&lt;&gt;();</b>
 <b class="nc"><i>24</i>&nbsp;        String[] godArray = data.split(&quot;;&quot;);</b>
 <b class="nc"><i>25</i>&nbsp;        this.username = godArray[0].split(&quot;=&quot;)[1];</b>
 <b class="nc"><i>26</i>&nbsp;        for (int i = 1; i &lt; godArray.length; i++){</b>
-<b class="nc"><i>27</i>&nbsp;            godList.add(Integer.parseInt(godArray[i].split(&quot;=&quot;)[1]));</b>
+<b class="nc"><i>27</i>&nbsp;            godEnum.add(Integer.parseInt(godArray[i].split(&quot;=&quot;)[1]));</b>
 <i>28</i>&nbsp;        }
 <i>29</i>&nbsp;    }
 <i>30</i>&nbsp;
@@ -108,16 +108,16 @@
 <i>34</i>&nbsp;     * @return a list of Integer who denotes the list of gods in Game
 <i>35</i>&nbsp;     */
 <i>36</i>&nbsp;    public List&lt;Integer&gt; getGodList() {
-<b class="nc"><i>37</i>&nbsp;        return godList;</b>
+<b class="nc"><i>37</i>&nbsp;        return godEnum;</b>
 <i>38</i>&nbsp;    }
 <i>39</i>&nbsp;
 <i>40</i>&nbsp;
 <i>41</i>&nbsp;    // ---------------- ACTION ----------------
 <i>42</i>&nbsp;    /**Execute the Action of GodInGameChoose
-<i>43</i>&nbsp;     * @return an Ack if the godList is a valid List, otherwise a Nack
+<i>43</i>&nbsp;     * @return an Ack if the godEnum is a valid List, otherwise a Nack
 <i>44</i>&nbsp;     */
 <i>45</i>&nbsp;    public void executeAction(){
-<b class="nc"><i>46</i>&nbsp;        for (int i : godList) if (i&lt;0 || i&gt;8) throw new IllegalArgumentException(&quot;Invalid God Chosen&quot;);</b>
+<b class="nc"><i>46</i>&nbsp;        for (int i : godEnum) if (i&lt;0 || i&gt;8) throw new IllegalArgumentException(&quot;Invalid God Chosen&quot;);</b>
 <i>47</i>&nbsp;    }
 <i>48</i>&nbsp;
 <i>49</i>&nbsp;}

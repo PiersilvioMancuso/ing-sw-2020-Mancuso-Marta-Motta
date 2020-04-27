@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view;
 
 public class View {
-    String  string;
+    String userData;
 
-    public String getString() {
-        return string;
+    public String getUserData() {
+        return userData;
     }
 }

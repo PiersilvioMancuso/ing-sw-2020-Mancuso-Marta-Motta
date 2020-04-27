@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.event.response.*;
 
+import java.util.List;
+
 
 /**Register Action
  * @author Piersilvio Mancuso
@@ -49,21 +51,23 @@ public class RegisterAction extends Action{
         return userName;
     }
 
+
+    /**Get the object instance
+     * @return the instance of the class
+     */
+    public Class getInstance(){
+        return RegisterAction.class;
+    }
+
     // -------------------- ACTION -------------------------
 
     /**Register the Player into the Game Lobby
-     * @param modelGame is the model that will be changed
      * @return the Response of the model's modifies
      */
-    public void executeAction(ModelGame modelGame){
-        for (User user: modelGame.getUserList()){
-            if (user.getUsername().equals(this.userName)) {
-                throw new IllegalArgumentException("Username already used");
-            }
-        }
+    public void executeAction(List<User> userList){
         User user = new User(userName);
         user.setAge(age);
-        modelGame.addUser(user);
+        userList.add(user);
     }
 
 }

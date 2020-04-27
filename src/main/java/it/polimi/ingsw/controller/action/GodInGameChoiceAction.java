@@ -1,8 +1,6 @@
 package it.polimi.ingsw.controller.action;
 
-import it.polimi.ingsw.model.event.response.Ack;
-import it.polimi.ingsw.model.event.response.Nack;
-import it.polimi.ingsw.model.event.response.Response;
+import it.polimi.ingsw.model.event.GodEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +35,26 @@ public class GodInGameChoiceAction extends Action{
         return godList;
     }
 
+    /**Get the object instance
+     * @return the instance of the class
+     */
+    public Class getInstance(){
+        return GodInGameChoiceAction.class;
+    }
+
+
+
 
     // ---------------- ACTION ----------------
     /**Execute the Action of GodInGameChoose
-     * @return an Ack if the godList is a valid List, otherwise a Nack
      */
-    public void executeAction(){
-        for (int i : godList) if (i<0 || i>8) throw new IllegalArgumentException("Invalid God Chosen");
+    public void executeAction(List<GodEnum> gods){
+        List<GodEnum> copy = new ArrayList<>();
+
+        for (int i = 0; i < gods.size(); i++){
+            if (godList.contains(i)) copy.add(gods.get(i));
+        }
+        gods = new ArrayList<>(copy);
     }
 
 }

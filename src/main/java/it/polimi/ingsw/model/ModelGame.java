@@ -196,5 +196,7 @@ public class ModelGame implements Cloneable{
         return null;
     }
 
-
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
 }

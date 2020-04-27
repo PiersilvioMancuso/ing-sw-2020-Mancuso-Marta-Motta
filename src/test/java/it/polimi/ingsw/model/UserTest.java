@@ -14,7 +14,7 @@ public class UserTest {
     @Before
     public void setUp() {
         user = new User("userTest");
-        user.setColor(Color.CYAN);
+        user.setColor(ModelColor.CYAN);
         user.setAge(33);
         user.setGod(new Pan());
         user.setOutCome(OutCome.WINNER);
@@ -33,13 +33,13 @@ public class UserTest {
 
     @Test
     public void getColor_CYAN_shouldSeeCyan(){
-        assertEquals(Color.CYAN, user.getColor());
+        assertEquals(ModelColor.CYAN, user.getColor());
     }
 
     @Test
     public void setColor_GREEN_shouldSetColorGreen() {
-        user.setColor(Color.GREEN);
-        assertEquals(Color.GREEN, user.getColor());
+        user.setColor(ModelColor.GREEN);
+        assertEquals(ModelColor.GREEN, user.getColor());
     }
 
     @Test

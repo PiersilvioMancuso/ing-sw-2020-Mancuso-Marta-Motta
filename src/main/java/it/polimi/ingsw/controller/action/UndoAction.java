@@ -13,4 +13,11 @@ public class UndoAction extends Action{
         this.username = message[0].split("=")[1];
     }
 
+    /**Get the object instance
+     * @return the instance of the class
+     */
+    public Class getInstance(){
+        return UndoAction.class;
+    }
+
 }

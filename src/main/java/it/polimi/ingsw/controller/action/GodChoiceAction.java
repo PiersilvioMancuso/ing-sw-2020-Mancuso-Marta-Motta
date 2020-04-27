@@ -1,8 +1,9 @@
 package it.polimi.ingsw.controller.action;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.User;
 import it.polimi.ingsw.model.event.*;
-import it.polimi.ingsw.model.event.response.*;
+
+import java.util.List;
 
 /**God Choice Action
  * @author Piersilvio Mancuso
@@ -32,23 +33,22 @@ public class GodChoiceAction extends Action{
         return godChosen;
     }
 
+    /**Get the object instance
+     * @return the instance of the class
+     */
+    public Class getInstance(){
+        return GodChoiceAction.class;
+    }
 
     // ------------------ ACTION ----------------------
 
     /**Execute the GodChoiceAction: Set the user's God
-     * @param modelGame is the model of the game
-     * @param godList is a list of Gods
-     * @return an Ack if the action has been executed, otherwise a Nack
+     * @param godEnum is a list of Gods
+     * @param userList is the list of all players
      */
-    public void executeAction(ModelGame modelGame, GodList godList){
-        if ((godChosen >= godList.getGodList().size() || godChosen < 0)) throw new IllegalArgumentException("Color has to be in the list");
-        else {
-            for (User user: modelGame.getUserList()){
-                if (user.getUsername().equals(getUsername())) {
-                    user.setGod(godList.getGodList().get(godChosen));
-
-                }
-            }
+    public void executeAction(List<GodEnum> godEnum, List<User> userList){
+        for (User user: userList){
+            if (user.getUsername().equals(username)) user.setGod(godEnum.get(godChosen).getGod());
         }
     }
 }

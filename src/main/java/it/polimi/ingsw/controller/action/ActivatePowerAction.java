@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.event.response.*;
 import it.polimi.ingsw.model.god.*;
 
 /**Activate Power Action
@@ -35,11 +34,20 @@ public class ActivatePowerAction extends Action{
         return cell;
     }
 
+
     /**Get Power Up
      * @return the boolean value of the activation Power
      */
     public boolean isPowerUp() {
         return powerUp;
+    }
+
+
+    /**Get the object instance
+     * @return the instance of the class
+     */
+    public Class getInstance(){
+        return ActivatePowerAction.class;
     }
 
 
@@ -49,15 +57,12 @@ public class ActivatePowerAction extends Action{
      * @param modelGame is the model of the game
      * @param worker is the worker that will be used
      */
-    public void ExecutePower(ModelGame modelGame, Worker worker){
-        if (worker == null || !worker.getUser().getUsername().equals(this.getUsername())) throw  new IllegalArgumentException("Is not the correct user");
+    public void executeAction(ModelGame modelGame, Worker worker){
+        God godInGame = worker.getUser().getGod();
 
-        else {
-            God godInGame = worker.getUser().getGod();
-            if (powerUp) godInGame.activatePower(modelGame, worker);
-            godInGame.setUpTurn(modelGame,worker);
+        if (powerUp) godInGame.activatePower(modelGame, worker);
+        godInGame.setUpTurn(modelGame,worker);
 
-        }
     }
 
 

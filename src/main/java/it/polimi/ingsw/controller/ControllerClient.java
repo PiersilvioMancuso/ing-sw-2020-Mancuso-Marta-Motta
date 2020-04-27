@@ -12,8 +12,10 @@ public class ControllerClient {
     private View view;
     private  String user;
     private ControllerState controllerState;
+    private boolean wait;
 
     public ControllerClient(View view) {
+        wait = false;
         this.view = view;
         this.user = "";
         this.controllerState = new RegisterState();
@@ -23,9 +25,9 @@ public class ControllerClient {
      * send it to the Remote Controller
      */
     public void notifyControllerAction() {
-        String string = view.getString();
-        if (!(controllerState instanceof WaitControllerState)){
-
+        String string = view.getUserData();
+        if (!wait){
+            wait = true;
             if (string.contains("user")) {
                 this.user = "";
             }

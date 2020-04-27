@@ -1,8 +1,8 @@
 package it.polimi.ingsw.controller.action;
 
+import it.polimi.ingsw.model.ModelColor;
 import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.User;
-import java.awt.*;
 
 import java.util.List;
 
@@ -30,13 +30,20 @@ public class ColorChoiceAction extends Action{
         return colorChosen;
     }
 
+    /**Get the object instance
+     * @return the instance of the class
+     */
+    public Class getInstance(){
+        return ColorChoiceAction.class;
+    }
+
 
     /**Set User's color
-     * @param modelGame is the model of the game
+     * @param user is the user to which the color will be set
      * @param colorList is the list of remaining colors
      */
-    public void executeAction(ModelGame modelGame, List<Color> colorList){
-        User user = modelGame.getUserFromUsername(username);
+    public void executeAction(User user, List<ModelColor> colorList){
         user.setColor(colorList.get(colorChosen));
+        colorList.remove(colorChosen);
     }
 }

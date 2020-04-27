@@ -35,27 +35,27 @@ public class WorkerSetupAction extends Action{
         return cell;
     }
 
+    /**Get the object instance
+     * @return the instance of the class
+     */
+    public Class getInstance(){
+        return WorkerSetupAction.class;
+    }
 
 
     // ---------------- ACTION ---------------
 
     /**Execute the Worker Setup Action
      * @param modelGame is the model of the game
-     * @return an Ack if the action has been completed successfully
      */
-    public void executeAction(ModelGame modelGame){
-        User user = modelGame.getUserFromUsername(getUsername());
-        if (user == null) throw new NullPointerException("Username is null");
+    public void executeAction(ModelGame modelGame, User user){
+
         Worker worker = new Worker(user);
         modelGame.addWorker(worker);
 
-        if (!modelGame.getBoard().getBuildMap().contains(cell) || (modelGame.getWorkerListPosition().contains(cell))){
-            throw new IllegalArgumentException("Cell is not a Valid Position");
-        }
-        else {
-            cell = modelGame.getBoard().getCell(cell);
-            modelGame.getCurrentState().executeState(modelGame,worker, cell);
-        }
+        cell = modelGame.getBoard().getCell(cell);
+        modelGame.getCurrentState().executeState(modelGame,worker, cell);
+
 
     }
 

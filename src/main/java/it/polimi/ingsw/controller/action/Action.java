@@ -14,4 +14,12 @@ abstract public class Action {
         return username;
     }
 
+
+    /**Get the object instance
+     * @return the instance of the class
+     */
+    public Class getInstance(){
+        return Action.class;
+    }
+
 }

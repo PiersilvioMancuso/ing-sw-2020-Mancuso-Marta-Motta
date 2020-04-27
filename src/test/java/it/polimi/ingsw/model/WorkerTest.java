@@ -16,7 +16,7 @@ public class WorkerTest {
     @Before
     public void setUp() throws Exception {
         testUser = new User("testUser");
-        testUser.setColor(Color.GREEN);
+        testUser.setColor(ModelColor.GREEN);
         testWorker = new Worker(testUser);
     }
 
@@ -32,19 +32,19 @@ public class WorkerTest {
     @Test
     public void setUser_newUser_shouldBePairedWithNewUser() {
         User newUser = new User("newUser");
-        newUser.setColor(Color.CYAN);
+        newUser.setColor(ModelColor.CYAN);
         testWorker.setUser(newUser);
         assertEquals(newUser, testWorker.getUser());
     }
 
     @Test
     public void getColor_GREEN_shouldBeGreen() {
-        assertEquals(Color.GREEN, testWorker.getColor());
+        assertEquals(ModelColor.GREEN, testWorker.getColor());
     }
 
     @Test
     public void setColor_CYAN_shouldBeCyan() {
-        testWorker.setColor(Color.CYAN);
-        assertEquals(Color.CYAN, testWorker.getColor());
+        testWorker.setColor(ModelColor.CYAN);
+        assertEquals(ModelColor.CYAN, testWorker.getColor());
     }
 }

@@ -8,7 +8,7 @@ package it.polimi.ingsw.model;
  */
 public class Worker {
     private User user;
-    private Color color;
+    private ModelColor color;
     private Cell position;
 
     /**
@@ -41,7 +41,7 @@ public class Worker {
      * Color of the worker.
      * @return the color chosen for the worker.
      */
-    public Color getColor() {
+    public ModelColor getColor() {
         return this.color;
     }
 
@@ -49,7 +49,7 @@ public class Worker {
      * Set a color to the worker
      * @param color is the color chosen for the worker
      */
-    public void setColor(Color color) {
+    public void setColor(ModelColor color) {
         this.color = color;
     }
 

@@ -111,15 +111,15 @@
 <i>37</i>&nbsp;
 <i>38</i>&nbsp;    /**Execute the GodChoiceAction: Set the user&#39;s God
 <i>39</i>&nbsp;     * @param modelGame is the model of the game
-<i>40</i>&nbsp;     * @param godList is a list of Gods
+<i>40</i>&nbsp;     * @param godEnum is a list of Gods
 <i>41</i>&nbsp;     * @return an Ack if the action has been executed, otherwise a Nack
 <i>42</i>&nbsp;     */
-<i>43</i>&nbsp;    public void executeAction(ModelGame modelGame, GodList godList){
-<b class="nc"><i>44</i>&nbsp;        if ((godChosen &gt;= godList.getGodList().size() || godChosen &lt; 0)) throw new IllegalArgumentException(&quot;Color has to be in the list&quot;);</b>
+<i>43</i>&nbsp;    public void executeAction(ModelGame modelGame, GodList godEnum){
+<b class="nc"><i>44</i>&nbsp;        if ((godChosen &gt;= godEnum.getGodList().size() || godChosen &lt; 0)) throw new IllegalArgumentException(&quot;Color has to be in the list&quot;);</b>
 <i>45</i>&nbsp;        else {
 <b class="nc"><i>46</i>&nbsp;            for (User user: modelGame.getUserList()){</b>
 <b class="nc"><i>47</i>&nbsp;                if (user.getUsername().equals(getUsername())) {</b>
-<b class="nc"><i>48</i>&nbsp;                    user.setGod(godList.getGodList().get(godChosen));</b>
+<b class="nc"><i>48</i>&nbsp;                    user.setGod(godEnum.getGodList().get(godChosen));</b>
 <i>49</i>&nbsp;
 <i>50</i>&nbsp;                }
 <b class="nc"><i>51</i>&nbsp;            }</b>

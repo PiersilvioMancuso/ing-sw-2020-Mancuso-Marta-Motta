@@ -77,7 +77,7 @@
 <i>3</i>&nbsp;
 <i>4</i>&nbsp;import it.polimi.ingsw.controller.action.*;
 <i>5</i>&nbsp;import it.polimi.ingsw.model.*;
-<i>6</i>&nbsp;import it.polimi.ingsw.model.event.GodList;
+<i>6</i>&nbsp;import it.polimi.ingsw.model.event.GodEnum;
 <i>7</i>&nbsp;import it.polimi.ingsw.model.event.response.Ack;
 <i>8</i>&nbsp;import it.polimi.ingsw.model.event.response.Nack;
 <i>9</i>&nbsp;import it.polimi.ingsw.model.event.response.Response;
@@ -94,7 +94,7 @@
 <i>20</i>&nbsp;    private Cell cell;
 <i>21</i>&nbsp;    private ModelGame modelGame;
 <i>22</i>&nbsp;    private List&lt;User&gt; playerList;
-<i>23</i>&nbsp;    private GodList godList;
+<i>23</i>&nbsp;    private GodList godEnum;
 <i>24</i>&nbsp;    private Worker worker;
 <i>25</i>&nbsp;    private State lastState;
 <i>26</i>&nbsp;
@@ -106,7 +106,7 @@
 <b class="nc"><i>32</i>&nbsp;    public RemoteController(ModelGame modelGame){</b>
 <b class="nc"><i>33</i>&nbsp;        this.modelGame = modelGame;</b>
 <b class="nc"><i>34</i>&nbsp;        this.playerList = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i>35</i>&nbsp;        this.godList = new GodList();</b>
+<b class="nc"><i>35</i>&nbsp;        this.godEnum = new GodList();</b>
 <i>36</i>&nbsp;    }
 <i>37</i>&nbsp;
 <i>38</i>&nbsp;

@@ -11,7 +11,7 @@ import java.util.concurrent.locks.Condition;
  */
 public class User {
     private String username;
-    private Color color;
+    private ModelColor color;
     private God godChosen;
     private OutCome outCome;
     private int age;
@@ -44,7 +44,7 @@ public class User {
      * Color chosen by the player.
      * @return the color chosen.
      */
-    public Color getColor() {
+    public ModelColor getColor() {
         return this.color;
     }
 
@@ -52,7 +52,7 @@ public class User {
      * Color chosen by the player.
      * @param color is the color chosen by the player.
      */
-    public void setColor(Color color) {
+    public void setColor(ModelColor color) {
         this.color = color;
     }
 

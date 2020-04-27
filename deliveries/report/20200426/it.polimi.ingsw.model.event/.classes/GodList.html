@@ -87,35 +87,35 @@
 <i>13</i>&nbsp; */
 <i>14</i>&nbsp;public class GodList {
 <i>15</i>&nbsp;
-<i>16</i>&nbsp;    private List&lt;God&gt; godList;
+<i>16</i>&nbsp;    private List&lt;God&gt; godEnum;
 <i>17</i>&nbsp;
 <b class="nc"><i>18</i>&nbsp;    public GodList(){</b>
-<b class="nc"><i>19</i>&nbsp;        godList = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i>20</i>&nbsp;        godList.add(new Apollo());</b>
-<b class="nc"><i>21</i>&nbsp;        godList.add(new Atlas());</b>
-<b class="nc"><i>22</i>&nbsp;        godList.add(new Athena());</b>
-<b class="nc"><i>23</i>&nbsp;        godList.add(new Artemis());</b>
-<b class="nc"><i>24</i>&nbsp;        godList.add(new Demeter());</b>
-<b class="nc"><i>25</i>&nbsp;        godList.add(new Hephaestus());</b>
-<b class="nc"><i>26</i>&nbsp;        godList.add(new Minotaur());</b>
-<b class="nc"><i>27</i>&nbsp;        godList.add(new Pan());</b>
-<b class="nc"><i>28</i>&nbsp;        godList.add(new Prometheus());</b>
+<b class="nc"><i>19</i>&nbsp;        godEnum = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>20</i>&nbsp;        godEnum.add(new Apollo());</b>
+<b class="nc"><i>21</i>&nbsp;        godEnum.add(new Atlas());</b>
+<b class="nc"><i>22</i>&nbsp;        godEnum.add(new Athena());</b>
+<b class="nc"><i>23</i>&nbsp;        godEnum.add(new Artemis());</b>
+<b class="nc"><i>24</i>&nbsp;        godEnum.add(new Demeter());</b>
+<b class="nc"><i>25</i>&nbsp;        godEnum.add(new Hephaestus());</b>
+<b class="nc"><i>26</i>&nbsp;        godEnum.add(new Minotaur());</b>
+<b class="nc"><i>27</i>&nbsp;        godEnum.add(new Pan());</b>
+<b class="nc"><i>28</i>&nbsp;        godEnum.add(new Prometheus());</b>
 <i>29</i>&nbsp;    }
 <i>30</i>&nbsp;
 <i>31</i>&nbsp;    public List&lt;God&gt; getGodList() {
-<b class="nc"><i>32</i>&nbsp;        return godList;</b>
+<b class="nc"><i>32</i>&nbsp;        return godEnum;</b>
 <i>33</i>&nbsp;    }
 <i>34</i>&nbsp;
 <i>35</i>&nbsp;    public void setGodList(List&lt;Integer&gt; godChosen){
 <b class="nc"><i>36</i>&nbsp;        for (Integer i : godChosen){</b>
-<b class="nc"><i>37</i>&nbsp;            if (i &gt;= godList.size()) throw new IllegalArgumentException();</b>
+<b class="nc"><i>37</i>&nbsp;            if (i &gt;= godEnum.size()) throw new IllegalArgumentException();</b>
 <b class="nc"><i>38</i>&nbsp;        }</b>
 <i>39</i>&nbsp;
 <b class="nc"><i>40</i>&nbsp;        List &lt;God&gt; res = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i>41</i>&nbsp;        for (int i = 0; i &lt; godList.size(); i++){</b>
-<b class="nc"><i>42</i>&nbsp;            if (godChosen.contains(i)) res.add(godList.get(i));</b>
+<b class="nc"><i>41</i>&nbsp;        for (int i = 0; i &lt; godEnum.size(); i++){</b>
+<b class="nc"><i>42</i>&nbsp;            if (godChosen.contains(i)) res.add(godEnum.get(i));</b>
 <i>43</i>&nbsp;        }
-<b class="nc"><i>44</i>&nbsp;        godList = res;</b>
+<b class="nc"><i>44</i>&nbsp;        godEnum = res;</b>
 <i>45</i>&nbsp;    }
 <i>46</i>&nbsp;
 <i>47</i>&nbsp;

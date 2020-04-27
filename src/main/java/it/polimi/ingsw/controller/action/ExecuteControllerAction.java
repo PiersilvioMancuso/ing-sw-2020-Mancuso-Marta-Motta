@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.event.response.Ack;
-import it.polimi.ingsw.model.event.response.Nack;
-import it.polimi.ingsw.model.event.response.Response;
 import it.polimi.ingsw.model.god.*;
 
 /**Execute State Action
@@ -37,6 +34,14 @@ public class ExecuteControllerAction extends Action{
     }
 
 
+    /**Get the object instance
+     * @return the instance of the class
+     */
+    public Class getInstance(){
+        return ExecuteControllerAction.class;
+    }
+
+
     // ------------- ACTION -------------------
 
     /**Execute the current Controller Action
@@ -44,11 +49,7 @@ public class ExecuteControllerAction extends Action{
      * @param worker is the worker that will do the Action
      */
     public void executeAction(ModelGame modelGame, Worker worker){
-        if (!worker.getUser().getUsername().equals(getUsername())) throw  new IllegalArgumentException("Is not the correct user");
         God god = worker.getUser().getGod();
-        if (!god.getPower().getValidCells().contains(cell)) throw  new IllegalArgumentException("Cell is not a Valid Cell");
-        else {
-            god.executePower(modelGame, worker, cell);
-        }
+        god.executePower(modelGame, worker, cell);
     }
 }

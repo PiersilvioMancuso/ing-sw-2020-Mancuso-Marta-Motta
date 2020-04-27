@@ -27,4 +27,18 @@ public class PlayersInGameChoiceAction extends Action{
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
+
+
+    /**Get the object instance
+     * @return the instance of the class
+     */
+    public Class getInstance(){
+        return PlayersInGameChoiceAction.class;
+    }
+
+    // ------------- EFFECT -------------------
+
+    public void executePower(int maxPlayers){
+        maxPlayers = this.numberOfPlayers;
+    }
 }
