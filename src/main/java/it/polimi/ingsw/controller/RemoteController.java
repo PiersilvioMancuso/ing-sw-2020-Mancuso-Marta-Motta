@@ -2,14 +2,13 @@ package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.controller.action.*;
-import it.polimi.ingsw.controller.state.ExecutionControllerState;
 import it.polimi.ingsw.controller.state.GodInGameChoiceState;
 import it.polimi.ingsw.controller.state.PlayersInGameChoiceState;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.event.GodEnum;
-import it.polimi.ingsw.model.event.response.Ack;
-import it.polimi.ingsw.model.event.response.Nack;
-import it.polimi.ingsw.model.event.response.Response;
+import it.polimi.ingsw.model.messages.GodEnum;
+import it.polimi.ingsw.model.messages.controllersMessages.Ack;
+import it.polimi.ingsw.model.messages.controllersMessages.Nack;
+import it.polimi.ingsw.model.messages.controllersMessages.Response;
 import it.polimi.ingsw.model.state.EndState;
 import it.polimi.ingsw.model.state.State;
 
@@ -129,12 +128,13 @@ public class RemoteController {
     // ------------- EFFECT ----------------
 
 
-
-
+    /**Execute the action in input and send an Ack or a Nack containing the Data to send to the Controller Client
+     * @param action is the action that will be executed
+     */
     public void executeAction(Action action){
 
         Class instance = action.getInstance();
-        Response response = new Nack();
+        //Response response = new Nack();
 
         // --------- Registration Action ------------
         if (RegisterAction.class.equals(instance)) {
@@ -149,20 +149,20 @@ public class RemoteController {
                      */
 
 
-                    response = new Ack(new PlayersInGameChoiceState());
+                    //response = new Ack(new PlayersInGameChoiceState());
                 }
                 else {
                     if (playerList.size() > 1 && playerList.size() == maxPlayers){
-                        response = new Ack(new GodInGameChoiceState());
+                      //  response = new Ack(new GodInGameChoiceState());
                     }
                 }
             }
         }
         else {
-            if (!(isUserWithUsername(action.getUsername()))) response = new Nack();
+            //if (!(isUserWithUsername(action.getUsername()))) response = new Nack();
 
 
-            else {
+            //else {
                 User user = getUserFromUsername(action.getUsername());
 
                 // ------------- PlayersInGameChoice Action --------------
@@ -181,7 +181,7 @@ public class RemoteController {
                 // -------------- GodChoice Action --------------------
                 if (GodChoiceAction.class.equals(instance)){
                     if (((GodChoiceAction)action).getGodChosen() > godEnum.size() || ((GodChoiceAction)action).getGodChosen() < 0){
-                        response = new Nack();
+              //          response = new Nack();
                     }
                     else {
                         ((GodChoiceAction)action).executeAction(godEnum, playerList);
@@ -199,7 +199,7 @@ public class RemoteController {
                 // -------------- WorkerSetup Action -----------------
                 if (WorkerSetupAction.class.equals(instance)){
                     if (modelGame.getWorkerListPosition().contains(((WorkerSetupAction)action).getCell())){
-                        response = new Nack();
+                //        response = new Nack();
                     }
                     else {
                         ((WorkerSetupAction)action).executeAction(modelGame, user);
@@ -211,66 +211,74 @@ public class RemoteController {
                 if (ActivatePowerAction.class.equals(instance)){
                     Cell cell = ((ActivatePowerAction)action).getCell();
                     if (!modelGame.getWorkerList().contains(cell)){
-                        response = new Nack();
+                  //      response = new Nack();
                     }
                     else {
                         Worker worker = modelGame.getWorkerFromPosition(cell);
                         this.currentWorker = worker;
                         ((ActivatePowerAction)action).executeAction(modelGame, worker);
 
-                        if (user.getGod().isLoser(modelGame, worker)){
-                            user.setOutCome(OutCome.LOOSER);
+                        user.getGod().looseEffect(modelGame, worker);
 
-                            int count = 0;
-                            for (User player : playerList){
-                                if (player.getOutCome().equals(OutCome.LOOSER)) count++;
-                            }
+                        if (modelGame.getUserList().size() == 1){
+                            //End Game
+                        }
 
-                            if (count + 1 == maxPlayers){
-                                //TODO: Esegue la vittoria dell'altro
-                            }
+                        else if (!modelGame.getUserList().contains(user)){
+                            //Send Nack Loose
                         }
                         else {
-                            response = new Ack(new ExecutionControllerState());
+                            //Send Ack
                         }
-
 
                     }
                 }
 
                 // -------------- ExecuteState Action --------------
                 if (ExecuteControllerAction.class.equals(instance)){
-                    Cell workerPosition = modelGame.getWorkerPosition(currentWorker);
+                    Cell lastWorkerPosition = modelGame.getWorkerPosition(currentWorker);
                     Cell cell = ((ExecuteControllerAction)action).getCell();
                     if (!user.getGod().getPower().getValidCells().contains(cell)){
-                        response = new Nack();
+                    //    response = new Nack();
                     }
                     else {
                         lastState = modelGame.getCurrentState();
                         ((ExecuteControllerAction)action).executeAction(modelGame, currentWorker);
-                        if (user.getGod().getPower().isWinner(modelGame,currentWorker,workerPosition)){
-                            for (User player : playerList){
-                                if (player.equals(user)) player.setOutCome(OutCome.WINNER);
-                                else player.setOutCome(OutCome.LOOSER);
+                        user.getGod().winEffect(modelGame, currentWorker, lastWorkerPosition);
+
+                        if (user.getOutCome().equals(OutCome.WINNER)){
+                            //send Ack
+                        }
+                        else if (!(modelGame.getCurrentState() instanceof EndState)){
+                            user.getGod().looseEffect(modelGame, currentWorker);
+
+                            if (modelGame.getUserList().size() == 1){
+                                //End Game
+                            }
+
+                            else if (!modelGame.getUserList().contains(user)){
+                                //Send Nack Loose
+                            }
+                            else {
+                                //Send Ack
                             }
 
                         }
+
                         else {
-                            if (modelGame.getCurrentState() instanceof EndState) modelGame.getCurrentState().executeState(modelGame, currentWorker, workerPosition);
-                            response = new Ack(new ExecutionControllerState());
+                            //send Ack
                         }
                     }
                 }
 
 
-                else {
-                    throw new IllegalStateException("Unexpected value: " + action.getInstance());
-                }
 
-
-            }
+            //}
         }
 
     }
+
+    // -------------- UTILITIES --------------
+
 
 }

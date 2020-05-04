@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.action;
 
-import it.polimi.ingsw.model.event.GodEnum;
+import it.polimi.ingsw.model.messages.GodEnum;
 
 import java.util.ArrayList;
 import java.util.List;

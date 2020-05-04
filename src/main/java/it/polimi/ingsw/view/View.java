@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Piersilvio Mancuso
  */
-public class View {
+abstract public class View {
     protected String userData;
     protected ControllerClient controllerClient;
 
@@ -154,4 +154,8 @@ public class View {
         this.availableGod = availableGod;
     }
 
+
+    abstract public void run();
+
+    abstract public void printError(String message);
 }

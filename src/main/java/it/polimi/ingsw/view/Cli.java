@@ -57,7 +57,7 @@ public class Cli extends View {
 
         for(int i=0; i<ROW; i++){
             for(int j=0; j<COLUMN; j++){
-                board.append(CliColor.WHITE_BACKGROUND);
+                //board.append(CliColor.WHITE_BACKGROUND);
                 board.append(" ");
 
                 // If is there any worker
@@ -162,6 +162,11 @@ public class Cli extends View {
                 break;
         }
         controllerClient.notifyControllerAction();
+    }
+
+    @Override
+    public void printError(String message) {
+
     }
 
     /**Called by run method it register data user

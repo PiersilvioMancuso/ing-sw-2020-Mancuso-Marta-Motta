@@ -1,0 +1,367 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RemoteController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RemoteController (it.polimi.ingsw.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RemoteController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 63)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import it.polimi.ingsw.controller.action.*;
+<i>5</i>&nbsp;import it.polimi.ingsw.controller.state.GodInGameChoiceState;
+<i>6</i>&nbsp;import it.polimi.ingsw.controller.state.PlayersInGameChoiceState;
+<i>7</i>&nbsp;import it.polimi.ingsw.model.*;
+<i>8</i>&nbsp;import it.polimi.ingsw.model.messages.GodEnum;
+<i>9</i>&nbsp;import it.polimi.ingsw.model.messages.controllersMessages.Ack;
+<i>10</i>&nbsp;import it.polimi.ingsw.model.messages.controllersMessages.Nack;
+<i>11</i>&nbsp;import it.polimi.ingsw.model.messages.controllersMessages.Response;
+<i>12</i>&nbsp;import it.polimi.ingsw.model.state.EndState;
+<i>13</i>&nbsp;import it.polimi.ingsw.model.state.State;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import java.util.ArrayList;
+<i>16</i>&nbsp;import java.util.Arrays;
+<i>17</i>&nbsp;import java.util.List;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;/**RemoteController Class
+<i>21</i>&nbsp; * @author Piersilvio Mancuso
+<i>22</i>&nbsp; */
+<i>23</i>&nbsp;public class RemoteController {
+<i>24</i>&nbsp;    private Cell cell;
+<i>25</i>&nbsp;    private ModelGame modelGame;
+<i>26</i>&nbsp;    private List&lt;User&gt; playerList;
+<i>27</i>&nbsp;    private List&lt;GodEnum&gt; godEnum;
+<i>28</i>&nbsp;    private Worker currentWorker;
+<i>29</i>&nbsp;    private State lastState;
+<i>30</i>&nbsp;    private List&lt;ModelColor&gt; modelColorList;
+<i>31</i>&nbsp;    private int maxPlayers;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    // ------------- CONSTRUCTOR ----------------
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**RemoteController Constructor
+<i>36</i>&nbsp;     */
+<b class="nc"><i>37</i>&nbsp;    public RemoteController(){</b>
+<b class="nc"><i>38</i>&nbsp;        this.playerList = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>39</i>&nbsp;        this.godEnum = new ArrayList&lt;GodEnum&gt;(Arrays.asList(GodEnum.values()));</b>
+<b class="nc"><i>40</i>&nbsp;        modelColorList = new ArrayList&lt;ModelColor&gt;(Arrays.asList(ModelColor.values()));</b>
+<b class="nc"><i>41</i>&nbsp;        this.maxPlayers = 1;</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    // --------------- GETTER ---------------------
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**Cell Getter
+<i>49</i>&nbsp;     * @return the Cell
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;    public Cell getCell() {
+<b class="nc"><i>52</i>&nbsp;        return cell;</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**ModelGame Getter
+<i>57</i>&nbsp;     * @return the ModelGame
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    public ModelGame getModelGame() {
+<b class="nc"><i>60</i>&nbsp;        return modelGame;</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    /**User List Players
+<i>65</i>&nbsp;     * @return a list of players
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    public List&lt;User&gt; getPlayerList() {
+<b class="nc"><i>68</i>&nbsp;        return playerList;</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**Current Worker Getter
+<i>73</i>&nbsp;     * @return the Current Worker
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    public Worker getCurrentWorker() {
+<b class="nc"><i>76</i>&nbsp;        return currentWorker;</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    /**Check if there is a User with the username in input
+<i>81</i>&nbsp;     * @param username is the username checked
+<i>82</i>&nbsp;     * @return true if there is a User with the username in input
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    public boolean isUserWithUsername(String username){
+<b class="nc"><i>85</i>&nbsp;        for (User user: playerList){</b>
+<b class="nc"><i>86</i>&nbsp;            if (user.getUsername().equals(username)) return true;</b>
+<b class="nc"><i>87</i>&nbsp;        }</b>
+<b class="nc"><i>88</i>&nbsp;        return false;</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    public User getUserFromUsername(String username){
+<b class="nc"><i>92</i>&nbsp;        for (User user : playerList){</b>
+<b class="nc"><i>93</i>&nbsp;            if (user.getUsername().equals(username)) return user;</b>
+<b class="nc"><i>94</i>&nbsp;        }</b>
+<b class="nc"><i>95</i>&nbsp;        return null;</b>
+<i>96</i>&nbsp;    }
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    // ------------- SETTER ---------------------
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    /**Cell Setter
+<i>101</i>&nbsp;     * @param cell is the cell useful for undoAction
+<i>102</i>&nbsp;     */
+<i>103</i>&nbsp;    public void setCell(Cell cell) {
+<b class="nc"><i>104</i>&nbsp;        this.cell = cell;</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    /**ModelGame Setter
+<i>108</i>&nbsp;     * @param modelGame is the model of the game
+<i>109</i>&nbsp;     */
+<i>110</i>&nbsp;    public void setModelGame(ModelGame modelGame) {
+<b class="nc"><i>111</i>&nbsp;        this.modelGame = modelGame;</b>
+<i>112</i>&nbsp;    }
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    public void setPlayerList(List&lt;User&gt; playerList) {
+<b class="nc"><i>115</i>&nbsp;        this.playerList = playerList;</b>
+<i>116</i>&nbsp;    }
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    public void setCurrentWorker(Worker currentWorker) {
+<b class="nc"><i>119</i>&nbsp;        this.currentWorker = currentWorker;</b>
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    public void setLastState(State lastState) {
+<b class="nc"><i>123</i>&nbsp;        this.lastState = lastState;</b>
+<i>124</i>&nbsp;    }
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    // ------------- EFFECT ----------------
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    /**Execute the action in input and send an Ack or a Nack containing the Data to send to the Controller Client
+<i>132</i>&nbsp;     * @param action is the action that will be executed
+<i>133</i>&nbsp;     */
+<i>134</i>&nbsp;    public void executeAction(Action action){
+<i>135</i>&nbsp;
+<b class="nc"><i>136</i>&nbsp;        Class instance = action.getInstance();</b>
+<i>137</i>&nbsp;        //Response response = new Nack();
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;        // --------- Registration Action ------------
+<b class="nc"><i>140</i>&nbsp;        if (RegisterAction.class.equals(instance)) {</b>
+<b class="nc"><i>141</i>&nbsp;            if (!(isUserWithUsername(action.getUsername()) || playerList.size() + 1 &gt; maxPlayers )){</b>
+<b class="nc"><i>142</i>&nbsp;                ((RegisterAction) action).executeAction(playerList);</b>
+<i>143</i>&nbsp;
+<b class="nc"><i>144</i>&nbsp;                if (playerList.size() == 1) {</b>
+<i>145</i>&nbsp;                    /*
+<i>146</i>&nbsp;                    TODO: Check if the player has a game not ended
+<i>147</i>&nbsp;                        : if yes, will be sent a message to the client asking him if he want to play another game
+<i>148</i>&nbsp;                        : otherwise there will be created another game
+<i>149</i>&nbsp;                     */
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;                    //response = new Ack(new PlayersInGameChoiceState());
+<i>153</i>&nbsp;                }
+<i>154</i>&nbsp;                else {
+<b class="nc"><i>155</i>&nbsp;                    if (playerList.size() &gt; 1 &amp;&amp; playerList.size() == maxPlayers){</b>
+<i>156</i>&nbsp;                      //  response = new Ack(new GodInGameChoiceState());
+<i>157</i>&nbsp;                    }
+<i>158</i>&nbsp;                }
+<i>159</i>&nbsp;            }
+<i>160</i>&nbsp;        }
+<i>161</i>&nbsp;        else {
+<i>162</i>&nbsp;            //if (!(isUserWithUsername(action.getUsername()))) response = new Nack();
+<i>163</i>&nbsp;
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;            //else {
+<b class="nc"><i>166</i>&nbsp;                User user = getUserFromUsername(action.getUsername());</b>
+<i>167</i>&nbsp;
+<i>168</i>&nbsp;                // ------------- PlayersInGameChoice Action --------------
+<b class="nc"><i>169</i>&nbsp;                if (PlayersInGameChoiceAction.class.equals(instance)){</b>
+<b class="nc"><i>170</i>&nbsp;                    ((PlayersInGameChoiceAction) action).executePower(maxPlayers);</b>
+<i>171</i>&nbsp;                }
+<i>172</i>&nbsp;
+<i>173</i>&nbsp;
+<i>174</i>&nbsp;                // -------------- GodInGameChoice Action -----------------
+<b class="nc"><i>175</i>&nbsp;                if (GodInGameChoiceAction.class.equals(instance)){</b>
+<b class="nc"><i>176</i>&nbsp;                    ((GodInGameChoiceAction)action).executeAction(godEnum);</b>
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;                }
+<i>179</i>&nbsp;
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;                // -------------- GodChoice Action --------------------
+<b class="nc"><i>182</i>&nbsp;                if (GodChoiceAction.class.equals(instance)){</b>
+<b class="nc"><i>183</i>&nbsp;                    if (((GodChoiceAction)action).getGodChosen() &gt; godEnum.size() || ((GodChoiceAction)action).getGodChosen() &lt; 0){</b>
+<i>184</i>&nbsp;              //          response = new Nack();
+<i>185</i>&nbsp;                    }
+<i>186</i>&nbsp;                    else {
+<b class="nc"><i>187</i>&nbsp;                        ((GodChoiceAction)action).executeAction(godEnum, playerList);</b>
+<b class="nc"><i>188</i>&nbsp;                        modelGame.setUserList(playerList);</b>
+<i>189</i>&nbsp;                    }
+<i>190</i>&nbsp;                }
+<i>191</i>&nbsp;
+<i>192</i>&nbsp;
+<i>193</i>&nbsp;                // -------------- ColorChoice Action --------------------
+<b class="nc"><i>194</i>&nbsp;                if (ColorChoiceAction.class.equals(instance)){</b>
+<i>195</i>&nbsp;
+<b class="nc"><i>196</i>&nbsp;                    ((ColorChoiceAction)action).executeAction(user, modelColorList);</b>
+<i>197</i>&nbsp;                }
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;                // -------------- WorkerSetup Action -----------------
+<b class="nc"><i>200</i>&nbsp;                if (WorkerSetupAction.class.equals(instance)){</b>
+<b class="nc"><i>201</i>&nbsp;                    if (modelGame.getWorkerListPosition().contains(((WorkerSetupAction)action).getCell())){</b>
+<i>202</i>&nbsp;                //        response = new Nack();
+<i>203</i>&nbsp;                    }
+<i>204</i>&nbsp;                    else {
+<b class="nc"><i>205</i>&nbsp;                        ((WorkerSetupAction)action).executeAction(modelGame, user);</b>
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;                    }
+<i>208</i>&nbsp;                }
+<i>209</i>&nbsp;
+<i>210</i>&nbsp;                // -------------- ActivatePower Action -------------
+<b class="nc"><i>211</i>&nbsp;                if (ActivatePowerAction.class.equals(instance)){</b>
+<b class="nc"><i>212</i>&nbsp;                    Cell cell = ((ActivatePowerAction)action).getCell();</b>
+<b class="nc"><i>213</i>&nbsp;                    if (!modelGame.getWorkerList().contains(cell)){</b>
+<i>214</i>&nbsp;                  //      response = new Nack();
+<i>215</i>&nbsp;                    }
+<i>216</i>&nbsp;                    else {
+<b class="nc"><i>217</i>&nbsp;                        Worker worker = modelGame.getWorkerFromPosition(cell);</b>
+<b class="nc"><i>218</i>&nbsp;                        this.currentWorker = worker;</b>
+<b class="nc"><i>219</i>&nbsp;                        ((ActivatePowerAction)action).executeAction(modelGame, worker);</b>
+<i>220</i>&nbsp;
+<b class="nc"><i>221</i>&nbsp;                        user.getGod().looseEffect(modelGame, worker);</b>
+<i>222</i>&nbsp;
+<b class="nc"><i>223</i>&nbsp;                        if (modelGame.getUserList().size() == 1){</b>
+<i>224</i>&nbsp;                            //End Game
+<i>225</i>&nbsp;                        }
+<i>226</i>&nbsp;
+<b class="nc"><i>227</i>&nbsp;                        else if (!modelGame.getUserList().contains(user)){</b>
+<i>228</i>&nbsp;                            //Send Nack Loose
+<i>229</i>&nbsp;                        }
+<i>230</i>&nbsp;                        else {
+<i>231</i>&nbsp;                            //Send Ack
+<i>232</i>&nbsp;                        }
+<i>233</i>&nbsp;
+<i>234</i>&nbsp;                    }
+<i>235</i>&nbsp;                }
+<i>236</i>&nbsp;
+<i>237</i>&nbsp;                // -------------- ExecuteState Action --------------
+<b class="nc"><i>238</i>&nbsp;                if (ExecuteControllerAction.class.equals(instance)){</b>
+<b class="nc"><i>239</i>&nbsp;                    Cell lastWorkerPosition = modelGame.getWorkerPosition(currentWorker);</b>
+<b class="nc"><i>240</i>&nbsp;                    Cell cell = ((ExecuteControllerAction)action).getCell();</b>
+<b class="nc"><i>241</i>&nbsp;                    if (!user.getGod().getPower().getValidCells().contains(cell)){</b>
+<i>242</i>&nbsp;                    //    response = new Nack();
+<i>243</i>&nbsp;                    }
+<i>244</i>&nbsp;                    else {
+<b class="nc"><i>245</i>&nbsp;                        lastState = modelGame.getCurrentState();</b>
+<b class="nc"><i>246</i>&nbsp;                        ((ExecuteControllerAction)action).executeAction(modelGame, currentWorker);</b>
+<b class="nc"><i>247</i>&nbsp;                        user.getGod().winEffect(modelGame, currentWorker, lastWorkerPosition);</b>
+<i>248</i>&nbsp;
+<b class="nc"><i>249</i>&nbsp;                        if (user.getOutCome().equals(OutCome.WINNER)){</b>
+<i>250</i>&nbsp;                            //send Ack
+<i>251</i>&nbsp;                        }
+<b class="nc"><i>252</i>&nbsp;                        else if (!(modelGame.getCurrentState() instanceof EndState)){</b>
+<b class="nc"><i>253</i>&nbsp;                            user.getGod().looseEffect(modelGame, currentWorker);</b>
+<i>254</i>&nbsp;
+<b class="nc"><i>255</i>&nbsp;                            if (modelGame.getUserList().size() == 1){</b>
+<i>256</i>&nbsp;                                //End Game
+<i>257</i>&nbsp;                            }
+<i>258</i>&nbsp;
+<b class="nc"><i>259</i>&nbsp;                            else if (!modelGame.getUserList().contains(user)){</b>
+<i>260</i>&nbsp;                                //Send Nack Loose
+<i>261</i>&nbsp;                            }
+<i>262</i>&nbsp;                            else {
+<i>263</i>&nbsp;                                //Send Ack
+<i>264</i>&nbsp;                            }
+<i>265</i>&nbsp;
+<i>266</i>&nbsp;                        }
+<i>267</i>&nbsp;
+<i>268</i>&nbsp;                        else {
+<i>269</i>&nbsp;                            //send Ack
+<i>270</i>&nbsp;                        }
+<i>271</i>&nbsp;                    }
+<i>272</i>&nbsp;                }
+<i>273</i>&nbsp;
+<i>274</i>&nbsp;
+<i>275</i>&nbsp;
+<i>276</i>&nbsp;            //}
+<i>277</i>&nbsp;        }
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    }
+<i>280</i>&nbsp;
+<i>281</i>&nbsp;    // -------------- UTILITIES --------------
+<i>282</i>&nbsp;
+<i>283</i>&nbsp;
+<i>284</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-04 12:21</div>
+</div>
+</body>
+</html>

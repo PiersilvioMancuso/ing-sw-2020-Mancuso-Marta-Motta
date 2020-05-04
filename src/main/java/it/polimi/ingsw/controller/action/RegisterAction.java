@@ -1,8 +1,6 @@
 package it.polimi.ingsw.controller.action;
 
-import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.event.response.*;
 
 import java.util.List;
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.god;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.power.Power;
+import it.polimi.ingsw.model.state.EndState;
 
 /**Abstract God Class
  * @author Piersilvio Mancuso
@@ -56,4 +57,40 @@ abstract public class God{
         power.runPower(modelGame, worker, position);
 
     }
+
+    /**Set the OutCome of User to OutCome.LOOSER
+     * @param modelGame is the model of the game
+     * @param worker is the worker used by the player
+     */
+    public void looseEffect(ModelGame modelGame, Worker worker){
+        if (isLoser(modelGame, worker) && !(modelGame.getCurrentState() instanceof EndState)){
+            worker.getUser().setOutCome(OutCome.LOOSER);
+
+            for (User player: modelGame.getUserList()){
+                if (player.getOutCome().equals(OutCome.LOOSER)){
+                    modelGame.removeUser(player);
+                    for (Worker workerPlayer : modelGame.getWorkerList()){
+                        if (workerPlayer.getUser().equals(player)) modelGame.removeWorker(workerPlayer);
+                    }
+                }
+            }
+
+        }
+    }
+
+
+    /**Set the OutCome of all User to OutCome.LOOSER except for the winner one, that will be set to OutCome.WINNER
+     * @param modelGame is the model of the game
+     * @param worker is the worker used by the player
+     * @param position  is the position thanks which the win condition will be evaluated
+     */
+    public void winEffect(ModelGame modelGame, Worker worker, Cell position){
+        if (power.isWinner(modelGame, worker, position)){
+            for (User user : modelGame.getUserList()){
+                if (worker.getUser().equals(user)) user.setOutCome(OutCome.WINNER);
+                else user.setOutCome(OutCome.LOOSER);
+            }
+        }
+    }
+
 }

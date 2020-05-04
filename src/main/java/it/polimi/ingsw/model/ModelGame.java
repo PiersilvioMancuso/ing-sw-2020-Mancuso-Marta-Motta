@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ModelGame implements Cloneable{
+public class ModelGame{
     private Board boardGame;
     private List<User> userList;
     private int currentUser;

@@ -1,0 +1,179 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: God</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model.god</a> ]
+</div>
+
+<h1>Coverage Summary for Class: God (it.polimi.ingsw.model.god)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">God</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    38,5%
+  </span>
+  <span class="absValue">
+    (10/ 26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model.god;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.power.Power;
+<i>5</i>&nbsp;import it.polimi.ingsw.model.state.EndState;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**Abstract God Class
+<i>8</i>&nbsp; * @author Piersilvio Mancuso
+<i>9</i>&nbsp; */
+<b class="fc"><i>10</i>&nbsp;abstract public class God{</b>
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    protected Power power;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    public Power getPower() {
+<b class="fc"><i>15</i>&nbsp;        return power;</b>
+<i>16</i>&nbsp;    }
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**Activate the power on a Worker
+<i>19</i>&nbsp;     *
+<i>20</i>&nbsp;     * @param modelGame is the model of the game
+<i>21</i>&nbsp;     * @param worker is the worker used by the player
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    public void activatePower(ModelGame modelGame, Worker worker) {
+<b class="fc"><i>24</i>&nbsp;        power.setActiveEffect(true);</b>
+<b class="fc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**SetUp worker&#39;s turn
+<i>29</i>&nbsp;     *
+<i>30</i>&nbsp;     * @param modelGame is the model of the game
+<i>31</i>&nbsp;     * @param worker is the worker that will be used
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    public void setUpTurn(ModelGame modelGame, Worker worker) {
+<b class="fc"><i>34</i>&nbsp;        power.startPower(modelGame, worker);</b>
+<b class="fc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**Check if the player, who use the worker, loose the game
+<i>39</i>&nbsp;     *
+<i>40</i>&nbsp;     * @param modelGame is the model of the game
+<i>41</i>&nbsp;     * @param worker is the worker chosen by the player
+<i>42</i>&nbsp;     * @return true if the player loose, otherwise false
+<i>43</i>&nbsp;     */
+<i>44</i>&nbsp;    public boolean isLoser(ModelGame modelGame, Worker worker) {
+<b class="fc"><i>45</i>&nbsp;        return power.getValidCells().size() == 0;</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**Execute the state of the game and, if the player wins, set the outcome of all players
+<i>50</i>&nbsp;     *  @param modelGame is the model of the game
+<i>51</i>&nbsp;     * @param worker is the worker used by the player
+<i>52</i>&nbsp;     * @param position is the position where the the action will take place using the worker
+<i>53</i>&nbsp;     * @exception IllegalArgumentException if position is not a valid cell
+<i>54</i>&nbsp;     */
+<i>55</i>&nbsp;    public void executePower(ModelGame modelGame, Worker worker, Cell position) {
+<b class="fc"><i>56</i>&nbsp;        if (!power.getValidCells().contains(position)) throw new IllegalArgumentException(&quot;Position is Invalid&quot;);</b>
+<b class="fc"><i>57</i>&nbsp;        power.runPower(modelGame, worker, position);</b>
+<i>58</i>&nbsp;
+<b class="fc"><i>59</i>&nbsp;    }</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    /**Set the OutCome of User to OutCome.LOOSER
+<i>62</i>&nbsp;     * @param modelGame is the model of the game
+<i>63</i>&nbsp;     * @param worker is the worker used by the player
+<i>64</i>&nbsp;     */
+<i>65</i>&nbsp;    public void looseEffect(ModelGame modelGame, Worker worker){
+<b class="nc"><i>66</i>&nbsp;        if (isLoser(modelGame, worker) &amp;&amp; !(modelGame.getCurrentState() instanceof EndState)){</b>
+<b class="nc"><i>67</i>&nbsp;            worker.getUser().setOutCome(OutCome.LOOSER);</b>
+<i>68</i>&nbsp;
+<b class="nc"><i>69</i>&nbsp;            for (User player: modelGame.getUserList()){</b>
+<b class="nc"><i>70</i>&nbsp;                if (player.getOutCome().equals(OutCome.LOOSER)){</b>
+<b class="nc"><i>71</i>&nbsp;                    modelGame.removeUser(player);</b>
+<b class="nc"><i>72</i>&nbsp;                    for (Worker workerPlayer : modelGame.getWorkerList()){</b>
+<b class="nc"><i>73</i>&nbsp;                        if (workerPlayer.getUser().equals(player)) modelGame.removeWorker(workerPlayer);</b>
+<b class="nc"><i>74</i>&nbsp;                    }</b>
+<i>75</i>&nbsp;                }
+<b class="nc"><i>76</i>&nbsp;            }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;        }
+<b class="nc"><i>79</i>&nbsp;    }</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    /**Set the OutCome of all User to OutCome.LOOSER except for the winner one, that will be set to OutCome.WINNER
+<i>83</i>&nbsp;     * @param modelGame is the model of the game
+<i>84</i>&nbsp;     * @param worker is the worker used by the player
+<i>85</i>&nbsp;     * @param position  is the position thanks which the win condition will be evaluated
+<i>86</i>&nbsp;     */
+<i>87</i>&nbsp;    public void winEffect(ModelGame modelGame, Worker worker, Cell position){
+<b class="nc"><i>88</i>&nbsp;        if (power.isWinner(modelGame, worker, position)){</b>
+<b class="nc"><i>89</i>&nbsp;            for (User user : modelGame.getUserList()){</b>
+<b class="nc"><i>90</i>&nbsp;                if (worker.getUser().equals(user)) user.setOutCome(OutCome.WINNER);</b>
+<b class="nc"><i>91</i>&nbsp;                else user.setOutCome(OutCome.LOOSER);</b>
+<b class="nc"><i>92</i>&nbsp;            }</b>
+<i>93</i>&nbsp;        }
+<b class="nc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-04 12:21</div>
+</div>
+</body>
+</html>

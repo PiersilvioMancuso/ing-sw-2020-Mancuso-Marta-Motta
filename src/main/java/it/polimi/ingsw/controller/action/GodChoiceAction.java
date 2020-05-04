@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.model.User;
-import it.polimi.ingsw.model.event.*;
+import it.polimi.ingsw.model.messages.*;
 
 import java.util.List;
 

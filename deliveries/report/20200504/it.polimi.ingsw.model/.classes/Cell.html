@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Cell</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Cell (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Cell</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (34/ 34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Objects;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * Class that manage all the parameters of a cell element.
+<i>7</i>&nbsp; * @author Mattia Marta
+<i>8</i>&nbsp; */
+<i>9</i>&nbsp;public class Cell {
+<i>10</i>&nbsp;    private int x;
+<i>11</i>&nbsp;    private int y;
+<i>12</i>&nbsp;    private int height;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;    public Cell (){</b>
+<b class="fc"><i>16</i>&nbsp;        this.x = 0;</b>
+<b class="fc"><i>17</i>&nbsp;        this.y = 0;</b>
+<b class="fc"><i>18</i>&nbsp;        this.height = 0;</b>
+<b class="fc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<b class="fc"><i>21</i>&nbsp;    public Cell(int x, int y){</b>
+<b class="fc"><i>22</i>&nbsp;        this.x = x;</b>
+<b class="fc"><i>23</i>&nbsp;        this.y = y;</b>
+<b class="fc"><i>24</i>&nbsp;        this.height = 0;</b>
+<b class="fc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;    public Cell(int x, int y, int height){</b>
+<b class="fc"><i>28</i>&nbsp;        this.x = x;</b>
+<b class="fc"><i>29</i>&nbsp;        this.y = y;</b>
+<b class="fc"><i>30</i>&nbsp;        this.height = height;</b>
+<b class="fc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;
+<b class="fc"><i>33</i>&nbsp;    public Cell (Cell cell){</b>
+<b class="fc"><i>34</i>&nbsp;        this.x = cell.getX();</b>
+<b class="fc"><i>35</i>&nbsp;        this.y = cell.getY();</b>
+<b class="fc"><i>36</i>&nbsp;        this.height = cell.getHeight();</b>
+<b class="fc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * This method is used to override equals in &quot;contains()&quot; method
+<i>42</i>&nbsp;     * @param o is the object passed to the function, expected a cell
+<i>43</i>&nbsp;     * @return is a bool, true if equals, false otherwise.
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    @Override
+<i>46</i>&nbsp;    public boolean equals(Object o) {
+<b class="fc"><i>47</i>&nbsp;        if (this == o) return true;</b>
+<b class="fc"><i>48</i>&nbsp;        if (!(o instanceof Cell)) return false;</b>
+<b class="fc"><i>49</i>&nbsp;        Cell cell = (Cell) o;</b>
+<b class="fc"><i>50</i>&nbsp;        return getX() == cell.getX() &amp;&amp;</b>
+<b class="fc"><i>51</i>&nbsp;                getY() == cell.getY();</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * Getter for the x parameter
+<i>57</i>&nbsp;     * @return value of x
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    public int getX() {
+<b class="fc"><i>60</i>&nbsp;        return x;</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * Getter for the y parameter
+<i>65</i>&nbsp;     * @return value of y
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    public int getY() {
+<b class="fc"><i>68</i>&nbsp;        return y;</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /**
+<i>72</i>&nbsp;     * Getter for the height parameter
+<i>73</i>&nbsp;     * @return height of the cell
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    public int getHeight() {
+<b class="fc"><i>76</i>&nbsp;        return height;</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    /**
+<i>80</i>&nbsp;     * Setter for the x parameter
+<i>81</i>&nbsp;     * @param x is the first compoment of position (x,y)
+<i>82</i>&nbsp;     */
+<i>83</i>&nbsp;    public void setX(int x) {
+<b class="fc"><i>84</i>&nbsp;        this.x = x;</b>
+<b class="fc"><i>85</i>&nbsp;    }</b>
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    /**
+<i>88</i>&nbsp;     * Setter for the y parameter
+<i>89</i>&nbsp;     * @param y is the second compoment of position (x,y)
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;    public void setY(int y) {
+<b class="fc"><i>92</i>&nbsp;        this.y = y;</b>
+<b class="fc"><i>93</i>&nbsp;    }</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * Setter for the height parameter
+<i>97</i>&nbsp;     * @param height is the level of the cell
+<i>98</i>&nbsp;     */
+<i>99</i>&nbsp;    public void setHeight(int height) {
+<b class="fc"><i>100</i>&nbsp;        this.height = height;</b>
+<b class="fc"><i>101</i>&nbsp;    }</b>
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-04 12:21</div>
+</div>
+</body>
+</html>

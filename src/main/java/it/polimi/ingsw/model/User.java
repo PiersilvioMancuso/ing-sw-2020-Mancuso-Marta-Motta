@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.god.God;
-import java.awt.*;
-
-import java.util.concurrent.locks.Condition;
 
 /**
  * Class User.
