@@ -9,15 +9,11 @@ public class UndoAction extends Action{
      * @param data is the string with which the action already made will be canceled
      */
     public UndoAction(String data){
+        super();
+        this.className = getClass().getSimpleName();
         String[] message = username.split(";");
         this.username = message[0].split("=")[1];
     }
 
-    /**Get the object instance
-     * @return the instance of the class
-     */
-    public Class getInstance(){
-        return UndoAction.class;
-    }
 
 }

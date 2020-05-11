@@ -2,12 +2,7 @@ package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.state.BuildState;
-import it.polimi.ingsw.model.state.EndState;
 import it.polimi.ingsw.model.state.MovementState;
-import it.polimi.ingsw.model.state.State;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**Prometheus Power Class
@@ -44,11 +39,11 @@ public class PrometheusPower extends Power{
             if (modelGame.getCurrentState() instanceof MovementState){
 
                 //On Movement State worker cannot move up
-                for (Cell position: getValidCells()){
+                for (Cell position: modelGame.getValidCells()){
                     int positionHeight = position.getHeight();
 
                     if (modelGame.getCurrentState() instanceof MovementState){
-                        if (positionHeight > workerHeight) validCells.remove(position);
+                        if (positionHeight > workerHeight) modelGame.getValidCells().remove(position);
                     }
 
                 }

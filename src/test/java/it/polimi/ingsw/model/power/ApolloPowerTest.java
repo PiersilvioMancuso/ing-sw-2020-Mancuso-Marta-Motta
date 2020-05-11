@@ -47,9 +47,9 @@ public class ApolloPowerTest {
         cells.add(new Cell(1,1));
 
         power.startPower(modelGame, worker);
-        assertTrue(!power.getValidCells().contains(cell2));
-        assertTrue(power.getValidCells().containsAll(cells));
-        assertTrue(cells.containsAll(power.getValidCells()));
+        assertTrue(!power.getValidCells(modelGame).contains(cell2));
+        assertTrue(power.getValidCells(modelGame).containsAll(cells));
+        assertTrue(cells.containsAll(power.getValidCells(modelGame)));
 
     }
 
@@ -68,10 +68,10 @@ public class ApolloPowerTest {
         cells.add(new Cell(1,1));
 
         power.startPower(modelGame, worker);
-        assertTrue(!power.getValidCells().contains(cell2));
-        assertTrue(!power.getValidCells().contains(cell3));
-        assertTrue(power.getValidCells().containsAll(cells));
-        assertTrue(cells.containsAll(power.getValidCells()));
+        assertTrue(!power.getValidCells(modelGame).contains(cell2));
+        assertTrue(!power.getValidCells(modelGame).contains(cell3));
+        assertTrue(power.getValidCells(modelGame).containsAll(cells));
+        assertTrue(cells.containsAll(power.getValidCells(modelGame)));
 
     }
 
@@ -88,9 +88,9 @@ public class ApolloPowerTest {
         cells.add(cell3);
 
         power.startPower(modelGame, worker);
-        assertTrue(!power.getValidCells().contains(cell2));
-        assertTrue(power.getValidCells().containsAll(cells));
-        assertTrue(cells.containsAll(power.getValidCells()));
+        assertTrue(!power.getValidCells(modelGame).contains(cell2));
+        assertTrue(power.getValidCells(modelGame).containsAll(cells));
+        assertTrue(cells.containsAll(power.getValidCells(modelGame)));
 
     }
 

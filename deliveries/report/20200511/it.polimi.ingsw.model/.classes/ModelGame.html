@@ -1,0 +1,369 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ModelGame</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ModelGame (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ModelGame</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (24/ 30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    82,6%
+  </span>
+  <span class="absValue">
+    (71/ 86)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.messages.modelViewMessages.Update;
+<i>5</i>&nbsp;import it.polimi.ingsw.model.state.SetupState;
+<i>6</i>&nbsp;import it.polimi.ingsw.model.state.State;
+<i>7</i>&nbsp;import it.polimi.ingsw.network.server.Server;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.ArrayList;
+<i>10</i>&nbsp;import java.util.List;
+<i>11</i>&nbsp;import java.util.Random;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;public class ModelGame{
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    // -------------- FIELDS --------------
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    private Board boardGame;
+<i>19</i>&nbsp;    private List&lt;User&gt; userList;
+<i>20</i>&nbsp;    private int currentUser;
+<i>21</i>&nbsp;    private State currentState;
+<i>22</i>&nbsp;    private List&lt;Worker&gt; workerList;
+<i>23</i>&nbsp;    private List&lt;Cell&gt; validCells;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    private Update updateObject;
+<i>26</i>&nbsp;    private Server server;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    // --------------------- CONSTRUCTOR ----------------
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**ModelGame Constructor*/
+<b class="fc"><i>31</i>&nbsp;    public ModelGame() {</b>
+<b class="fc"><i>32</i>&nbsp;        this.boardGame = new Board();</b>
+<b class="fc"><i>33</i>&nbsp;        this.userList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>34</i>&nbsp;        this.currentUser = 0;</b>
+<b class="fc"><i>35</i>&nbsp;        this.currentState = new SetupState();</b>
+<b class="fc"><i>36</i>&nbsp;        this.workerList= new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>37</i>&nbsp;        this.validCells = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>38</i>&nbsp;        addUpdate(new ModelUpdate(this));</b>
+<i>39</i>&nbsp;
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**ModelGame Copy-Constructor
+<i>43</i>&nbsp;     * @param modelGame is the modelGame that will be copied
+<i>44</i>&nbsp;     */
+<b class="fc"><i>45</i>&nbsp;    public ModelGame(final ModelGame modelGame){</b>
+<b class="fc"><i>46</i>&nbsp;        this.boardGame = new Board();</b>
+<b class="fc"><i>47</i>&nbsp;        for (Cell cell : boardGame.getBuildMap()){</b>
+<b class="fc"><i>48</i>&nbsp;            this.getBoard().setCellBoard(cell);</b>
+<b class="fc"><i>49</i>&nbsp;        }</b>
+<b class="fc"><i>50</i>&nbsp;        this.validCells = new ArrayList&lt;&gt;(modelGame.getValidCells());</b>
+<b class="fc"><i>51</i>&nbsp;        this.userList = new ArrayList&lt;&gt;(modelGame.getUserList());</b>
+<b class="fc"><i>52</i>&nbsp;        this.currentState = modelGame.getCurrentState();</b>
+<b class="fc"><i>53</i>&nbsp;        this.currentUser = modelGame.getCurrentUserIndex();</b>
+<b class="fc"><i>54</i>&nbsp;        this.workerList = modelGame.getWorkerList();</b>
+<b class="fc"><i>55</i>&nbsp;    }</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    // -------------- GETTER ---------------------------
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    /**Board Getter
+<i>61</i>&nbsp;     * @return the board
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    public Board getBoard() {
+<b class="fc"><i>64</i>&nbsp;        return boardGame;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**Current State Getter
+<i>69</i>&nbsp;     * @return the current State
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;    public State getCurrentState() {
+<b class="fc"><i>72</i>&nbsp;        return currentState;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    public Server getServer() {
+<b class="nc"><i>76</i>&nbsp;        return server;</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    public void setServer(Server server) {
+<b class="nc"><i>80</i>&nbsp;        this.server = server;</b>
+<b class="nc"><i>81</i>&nbsp;    }</b>
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    /**UserList Getter
+<i>84</i>&nbsp;     * @return a list containing all the users in game
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;    public List&lt;User&gt; getUserList() {
+<b class="fc"><i>87</i>&nbsp;        return userList;</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    /**ValidCells Getter
+<i>91</i>&nbsp;     * @return a list of all validCells
+<i>92</i>&nbsp;     */
+<i>93</i>&nbsp;    public List&lt;Cell&gt; getValidCells() {
+<b class="fc"><i>94</i>&nbsp;        return validCells;</b>
+<i>95</i>&nbsp;    }
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    /**CurrentUser Getter
+<i>98</i>&nbsp;     * @return the current user
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    public User getCurrentUser() {
+<b class="fc"><i>101</i>&nbsp;        return userList.get(currentUser);</b>
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /**CurrentUserIndex Getter
+<i>105</i>&nbsp;     * @return the index of the current user
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;    public int getCurrentUserIndex(){
+<b class="fc"><i>108</i>&nbsp;        return currentUser;</b>
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    /**WorkerList Getter
+<i>112</i>&nbsp;     * @return a list of all workers in game
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    public List&lt;Worker&gt; getWorkerList() {
+<b class="fc"><i>115</i>&nbsp;        return workerList;</b>
+<i>116</i>&nbsp;    }
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    /**Get the position of a Worker
+<i>120</i>&nbsp;     * @param worker is the worker from who we want to know the position
+<i>121</i>&nbsp;     * @return the position of the worker
+<i>122</i>&nbsp;     */
+<i>123</i>&nbsp;    public Cell getWorkerPosition(Worker worker) {
+<b class="fc"><i>124</i>&nbsp;        return worker.getPosition();</b>
+<i>125</i>&nbsp;    }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    /**Get all workers belonged to an user
+<i>130</i>&nbsp;     * @author Motta
+<i>131</i>&nbsp;     * @param user is the user from which we get his workers
+<i>132</i>&nbsp;     * @return a list containing all user&#39;s workers
+<i>133</i>&nbsp;     */
+<i>134</i>&nbsp;    public List&lt;Worker&gt; getWorkerFromUser(User user) {
+<b class="fc"><i>135</i>&nbsp;        List&lt;Worker&gt; res = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>136</i>&nbsp;        for (Worker worker : workerList){</b>
+<b class="fc"><i>137</i>&nbsp;            if (worker.getUser().equals(user)) res.add(worker);</b>
+<b class="fc"><i>138</i>&nbsp;        }</b>
+<b class="fc"><i>139</i>&nbsp;        return res ;</b>
+<i>140</i>&nbsp;    }
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    public Update getUpdateObject() {
+<b class="nc"><i>143</i>&nbsp;        return updateObject;</b>
+<i>144</i>&nbsp;    }
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;    // ------------------ SETTER --------------------------
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;    /**Current User Setter
+<i>149</i>&nbsp;     * @author Motta
+<i>150</i>&nbsp;     * @param userIndex
+<i>151</i>&nbsp;     */
+<i>152</i>&nbsp;    public void setCurrentUser(int userIndex) {
+<b class="fc"><i>153</i>&nbsp;        currentUser = userIndex;</b>
+<b class="fc"><i>154</i>&nbsp;    }</b>
+<i>155</i>&nbsp;
+<i>156</i>&nbsp;    /**ValidCells Setter
+<i>157</i>&nbsp;     * @param validCells is a list of all valid Cells
+<i>158</i>&nbsp;     */
+<i>159</i>&nbsp;    public void setValidCells(List&lt;Cell&gt; validCells) {
+<b class="fc"><i>160</i>&nbsp;        this.validCells = new ArrayList&lt;&gt;(validCells);</b>
+<b class="fc"><i>161</i>&nbsp;    }</b>
+<i>162</i>&nbsp;
+<i>163</i>&nbsp;    /**Current State Setter
+<i>164</i>&nbsp;     * @param state is the state that will be set as current state
+<i>165</i>&nbsp;     */
+<i>166</i>&nbsp;    public void setCurrentState(State state) {
+<b class="fc"><i>167</i>&nbsp;        currentState=state;</b>
+<b class="fc"><i>168</i>&nbsp;    }</b>
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;    /**
+<i>171</i>&nbsp;     * set worker position after a move
+<i>172</i>&nbsp;     * @author Motta
+<i>173</i>&nbsp;     * @param worker
+<i>174</i>&nbsp;     * @param position
+<i>175</i>&nbsp;     */
+<i>176</i>&nbsp;    public void setWorkerPosition(Worker worker, Cell position) {
+<b class="fc"><i>177</i>&nbsp;        if (worker == null) throw new NullPointerException(&quot;worker is null&quot;);</b>
+<b class="fc"><i>178</i>&nbsp;        else if (position == null) throw new NullPointerException(&quot;worker is null&quot;);</b>
+<b class="fc"><i>179</i>&nbsp;        else if (!getBoard().getBuildMap().contains(position)) throw new IndexOutOfBoundsException(&quot;Position is not in the Board&quot;);</b>
+<i>180</i>&nbsp;
+<b class="fc"><i>181</i>&nbsp;        int height = position.getHeight();</b>
+<b class="fc"><i>182</i>&nbsp;        if (height &lt; 0 || height &gt;= 4) throw new IllegalArgumentException(&quot;Height not valid&quot;);</b>
+<i>183</i>&nbsp;
+<b class="fc"><i>184</i>&nbsp;        worker.setPosition(position);</b>
+<b class="fc"><i>185</i>&nbsp;    }</b>
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;    public void addUpdate(Update update){
+<b class="fc"><i>188</i>&nbsp;        updateObject = update;</b>
+<b class="fc"><i>189</i>&nbsp;        notifyServer();</b>
+<b class="fc"><i>190</i>&nbsp;    }</b>
+<i>191</i>&nbsp;
+<i>192</i>&nbsp;    /**
+<i>193</i>&nbsp;     * add new user to play
+<i>194</i>&nbsp;     * @author Motta
+<i>195</i>&nbsp;     * @param user
+<i>196</i>&nbsp;     */
+<i>197</i>&nbsp;    public void addUser(User user) {
+<b class="fc"><i>198</i>&nbsp;        userList.add(user);</b>
+<b class="fc"><i>199</i>&nbsp;    }</b>
+<i>200</i>&nbsp;
+<i>201</i>&nbsp;    /**
+<i>202</i>&nbsp;     * add worker
+<i>203</i>&nbsp;     * @author Motta
+<i>204</i>&nbsp;     * @param worker
+<i>205</i>&nbsp;     */
+<i>206</i>&nbsp;    public void addWorker(Worker worker){
+<b class="fc"><i>207</i>&nbsp;        workerList.add(worker);</b>
+<b class="fc"><i>208</i>&nbsp;    }</b>
+<i>209</i>&nbsp;
+<i>210</i>&nbsp;    /**
+<i>211</i>&nbsp;     * remove a user from a game
+<i>212</i>&nbsp;     * @author Motta
+<i>213</i>&nbsp;     * @param user
+<i>214</i>&nbsp;     */
+<i>215</i>&nbsp;    public void removeUser(User user) {
+<b class="fc"><i>216</i>&nbsp;        userList.remove(user);</b>
+<b class="fc"><i>217</i>&nbsp;        currentUser--;</b>
+<b class="fc"><i>218</i>&nbsp;    }</b>
+<i>219</i>&nbsp;
+<i>220</i>&nbsp;    /**
+<i>221</i>&nbsp;     * remove worker from a game
+<i>222</i>&nbsp;     * @author Motta
+<i>223</i>&nbsp;     * @param worker
+<i>224</i>&nbsp;     */
+<i>225</i>&nbsp;    public void removeWorker(Worker worker){
+<b class="fc"><i>226</i>&nbsp;        workerList.remove(worker);</b>
+<b class="fc"><i>227</i>&nbsp;    }</b>
+<i>228</i>&nbsp;
+<i>229</i>&nbsp;    /**
+<i>230</i>&nbsp;     * set the next user
+<i>231</i>&nbsp;     * @author Motta
+<i>232</i>&nbsp;     */
+<i>233</i>&nbsp;    public void nextUser(){
+<b class="fc"><i>234</i>&nbsp;        currentUser = (currentUser+1) % userList.size();</b>
+<b class="fc"><i>235</i>&nbsp;    }</b>
+<i>236</i>&nbsp;
+<i>237</i>&nbsp;
+<i>238</i>&nbsp;    /**Create an ArrayList containing the position of all workers in game
+<i>239</i>&nbsp;     * @return a list of all workers&#39; position
+<i>240</i>&nbsp;     */
+<i>241</i>&nbsp;    public List&lt;Cell&gt; getWorkerListPosition(){
+<b class="fc"><i>242</i>&nbsp;        List&lt;Cell&gt; res = new ArrayList&lt;&gt;();</b>
+<i>243</i>&nbsp;
+<b class="fc"><i>244</i>&nbsp;        for (Worker worker : workerList){</b>
+<b class="fc"><i>245</i>&nbsp;            res.add(worker.getPosition());</b>
+<b class="fc"><i>246</i>&nbsp;        }</b>
+<b class="fc"><i>247</i>&nbsp;        return  res;</b>
+<i>248</i>&nbsp;    }
+<i>249</i>&nbsp;
+<i>250</i>&nbsp;    /**Get the worker in a position, if there is one
+<i>251</i>&nbsp;     * @param position is the position where it could be a worker
+<i>252</i>&nbsp;     * @return null if there is no worker in that position, otherwise the worker in that position
+<i>253</i>&nbsp;     */
+<i>254</i>&nbsp;    public Worker getWorkerFromPosition(Cell position){
+<b class="fc"><i>255</i>&nbsp;        for (Worker worker : workerList){</b>
+<b class="fc"><i>256</i>&nbsp;            if (worker.getPosition().equals(position)) return worker;</b>
+<b class="fc"><i>257</i>&nbsp;        }</b>
+<b class="fc"><i>258</i>&nbsp;        return null;</b>
+<i>259</i>&nbsp;    }
+<i>260</i>&nbsp;
+<i>261</i>&nbsp;    public User getUserFromUsername(String string){
+<b class="nc"><i>262</i>&nbsp;        for (User user : userList){</b>
+<b class="nc"><i>263</i>&nbsp;            if (user.getUsername().equals(string)) return user;</b>
+<b class="nc"><i>264</i>&nbsp;        }</b>
+<b class="nc"><i>265</i>&nbsp;        return null;</b>
+<i>266</i>&nbsp;    }
+<i>267</i>&nbsp;
+<i>268</i>&nbsp;    public void setUserList(List&lt;User&gt; userList) {
+<b class="nc"><i>269</i>&nbsp;        this.userList = userList;</b>
+<b class="nc"><i>270</i>&nbsp;    }</b>
+<i>271</i>&nbsp;
+<i>272</i>&nbsp;
+<i>273</i>&nbsp;    public void startGame(){
+<b class="nc"><i>274</i>&nbsp;        Random random = new Random();</b>
+<b class="nc"><i>275</i>&nbsp;        setCurrentUser(Math.abs(random.nextInt()) % userList.size());</b>
+<b class="nc"><i>276</i>&nbsp;        currentState = new SetupState();</b>
+<b class="nc"><i>277</i>&nbsp;    }</b>
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    public void notifyServer(){
+<i>280</i>&nbsp;
+<b class="fc"><i>281</i>&nbsp;        if (server != null){</b>
+<b class="nc"><i>282</i>&nbsp;            server.broadcast(updateObject);</b>
+<i>283</i>&nbsp;        }
+<i>284</i>&nbsp;
+<b class="fc"><i>285</i>&nbsp;    }</b>
+<i>286</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-11 13:27</div>
+</div>
+</body>
+</html>

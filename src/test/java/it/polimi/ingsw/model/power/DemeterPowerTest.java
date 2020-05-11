@@ -49,7 +49,7 @@ public class DemeterPowerTest {
                 power.stateList.get(2) instanceof BuildState &&
                 power.stateList.get(3) instanceof EndState);
 
-        assertTrue(power.getValidCells().size() > 0);
+        assertTrue(power.getValidCells(model).size() > 0);
     }
 
 

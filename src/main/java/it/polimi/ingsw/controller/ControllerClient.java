@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.action.*;
-import it.polimi.ingsw.controller.state.*;
+import it.polimi.ingsw.controller.controllerState.*;
 import it.polimi.ingsw.model.messages.controllersMessages.*;
 import it.polimi.ingsw.view.*;
 
@@ -14,12 +14,19 @@ public class ControllerClient {
     private  String user;
     private ControllerState controllerState;
     private boolean wait;
+    private boolean registered;
+    private Response response;
 
+
+    /**ControllerClient Constructor
+     * @param view is the view from which Controller Client will be notified
+     */
     public ControllerClient(View view) {
+        this.registered = false;
         this.wait = false;
         this.view = view;
         this.user = "";
-        this.controllerState = new RegisterState();
+        this.controllerState = new RegisterControllerState();
     }
 
     /**Get the View changes, create the Action following the state and
@@ -43,14 +50,18 @@ public class ControllerClient {
     /**If the response is related to the user:
      *  - 1)If the response is an Ack, ControllerClient will set his ControllerState, will set View Command and will run it
      *  - 2)If the response is a Nack, ControllerClient will set the Command to the View and will run View after Error Message Printing
-     * @param response is the response belong to Action Execution
      */
-    public void notifyResponse(Response response) throws InterruptedException {
+    public void notifyResponse() throws InterruptedException {
         //Check if the response is related to the user
         if (response.getUsername().equals(user)) {
 
+            //If receive a registrationAck
+            if (response.getClassName().contains("RegistrationAck")  && !registered){
+                registered = true;
+            }
+
             //If the response is an Ack, ControllerClient will set his ControllerState, will set View Command and will run it
-            if (response instanceof Ack) {
+            else if (response.getClassName().contains("Ack")) {
                 wait = false;
                 this.controllerState = ((Ack) response).getControllerState();
                 view.setCommand(response.getCommand());
@@ -58,7 +69,7 @@ public class ControllerClient {
             }
 
             //If the response is a Nack, ControllerClient will set the Command to the View and will run View after Error Message Printing
-            if (response instanceof Nack) {
+            if (response.getClassName().contains("Nack")) {
                 wait = false;
                 view.setCommand(response.getCommand());
                 view.printError(((Nack) response).getMessage());

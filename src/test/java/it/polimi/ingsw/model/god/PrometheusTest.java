@@ -64,6 +64,7 @@ public class PrometheusTest {
         model.getBoard().setCellBoard(cell);
         model.getBoard().setCellBoard(cell2);
         model.getBoard().setCellBoard(cell3);
+        model.addUser(new User("Helo"));
 
         god.power.startPower(model, worker);
 

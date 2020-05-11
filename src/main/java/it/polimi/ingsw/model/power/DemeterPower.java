@@ -43,7 +43,7 @@ public class DemeterPower extends Power{
             State startState = modelGame.getCurrentState();
             super.runPower(modelGame, worker, position);
             if (startState instanceof BuildState && modelGame.getCurrentState() instanceof BuildState){
-                validCells.remove(position);
+                modelGame.getValidCells().remove(position);
             }
         }
 

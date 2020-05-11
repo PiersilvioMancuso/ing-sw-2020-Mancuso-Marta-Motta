@@ -19,6 +19,7 @@ public class Nack extends Response{
     public Nack(String message, String username, Command command) {
         super(username, command);
         this.message = message;
+        this.className = getClass().getSimpleName();
     }
 
 

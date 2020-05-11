@@ -15,6 +15,8 @@ public class ExecuteControllerAction extends Action{
      * @param string is the string containing the position where the action will be executed
      */
     public ExecuteControllerAction(String string){
+        super();
+        this.className = getClass().getSimpleName();
         String[] message = string.split(";");
         this.username = message[0].split("=")[1];
         String cellString = message[1].split("=")[1];
@@ -33,13 +35,6 @@ public class ExecuteControllerAction extends Action{
         return cell;
     }
 
-
-    /**Get the object instance
-     * @return the instance of the class
-     */
-    public Class getInstance(){
-        return ExecuteControllerAction.class;
-    }
 
 
     // ------------- ACTION -------------------

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.god;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.model.power.Power;
 import it.polimi.ingsw.model.state.EndState;
 
@@ -32,6 +33,7 @@ abstract public class God{
      */
     public void setUpTurn(ModelGame modelGame, Worker worker) {
         power.startPower(modelGame, worker);
+        modelGame.addUpdate(new ModelUpdate(modelGame));
     }
 
 
@@ -42,7 +44,7 @@ abstract public class God{
      * @return true if the player loose, otherwise false
      */
     public boolean isLoser(ModelGame modelGame, Worker worker) {
-        return power.getValidCells().size() == 0;
+        return power.getValidCells(modelGame).size() == 0;
     }
 
 
@@ -53,9 +55,9 @@ abstract public class God{
      * @exception IllegalArgumentException if position is not a valid cell
      */
     public void executePower(ModelGame modelGame, Worker worker, Cell position) {
-        if (!power.getValidCells().contains(position)) throw new IllegalArgumentException("Position is Invalid");
+        if (!power.getValidCells(modelGame).contains(position)) throw new IllegalArgumentException("Position is Invalid");
         power.runPower(modelGame, worker, position);
-
+        modelGame.addUpdate(new ModelUpdate(modelGame));
     }
 
     /**Set the OutCome of User to OutCome.LOOSER

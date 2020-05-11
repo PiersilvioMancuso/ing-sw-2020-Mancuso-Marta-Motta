@@ -1,6 +1,14 @@
 package it.polimi.ingsw.controller.action;
 
+import it.polimi.ingsw.controller.RemoteController;
+import it.polimi.ingsw.controller.controllerState.ColorChoiceControllerState;
+import it.polimi.ingsw.controller.controllerState.GodChoiceControllerState;
+import it.polimi.ingsw.model.ModelGame;
+import it.polimi.ingsw.model.User;
 import it.polimi.ingsw.model.messages.GodEnum;
+import it.polimi.ingsw.model.messages.controllersMessages.Ack;
+import it.polimi.ingsw.model.messages.controllersMessages.Nack;
+import it.polimi.ingsw.view.Command;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +26,8 @@ public class GodInGameChoiceAction extends Action{
      * @param data is a string in the following pattern: god=n1god=n2..
      */
     public GodInGameChoiceAction(String data){
+        super();
+        this.className = getClass().getSimpleName();
         godList = new ArrayList<>();
         String[] godArray = data.split(";");
         this.username = godArray[0].split("=")[1];
@@ -35,14 +45,6 @@ public class GodInGameChoiceAction extends Action{
         return godList;
     }
 
-    /**Get the object instance
-     * @return the instance of the class
-     */
-    public Class getInstance(){
-        return GodInGameChoiceAction.class;
-    }
-
-
 
 
     // ---------------- ACTION ----------------
@@ -55,6 +57,62 @@ public class GodInGameChoiceAction extends Action{
             if (godList.contains(i)) copy.add(gods.get(i));
         }
         gods = new ArrayList<>(copy);
+    }
+
+
+    // --------------- CONTROLLER ACTION --------------
+    public void controlAction(ModelGame modelGame, List<GodEnum> godEnumList, RemoteController remoteController){
+        boolean checkIntegrity = true;
+
+        // -------- Check if there is any repetition
+        for (int i = 0; i < godList.size() - 1; i++){
+            for (int j = i + 1; j < godList.size(); j++){
+                if (godList.get(i).equals(godList.get(i))) {
+                    checkIntegrity = false;
+                }
+            }
+        }
+
+        // ------------- Check if there is any value that's not in godEnumList range
+        for (int godIndex : godList){
+            if (godIndex < 0 || godIndex >= godEnumList.size()) checkIntegrity = false;
+        }
+
+        // ------------ If there is any problem send a Nack thanks which the action will be repeated
+        if (!checkIntegrity){
+            String message = "Invalid God Chosen";
+
+            if (godList.size() == 3){
+                remoteController.setResponse(new Nack(message, username, Command.GOD_LIST_THREE));
+
+            }
+            else {
+                remoteController.setResponse(new Nack(message, username, Command.GOD_LIST_TWO)) ;
+
+            }
+
+        }
+
+        // ----------- If there is no problem the action will be executed and it will be sent an Ack for Color Choice
+        else {
+
+            executeAction(godEnumList);
+            User user = modelGame.getCurrentUser();
+
+
+            if (user.getUsername().equals(remoteController.getYoungerUsername())){
+                user = modelGame.getCurrentUser();
+                remoteController.setResponse(new Ack(user.getUsername(), Command.COLOR, new ColorChoiceControllerState()));
+            }
+            else {
+                modelGame.nextUser();
+                user = modelGame.getCurrentUser();
+
+                remoteController.setResponse(new Ack(user.getUsername(), Command.GOD, new GodChoiceControllerState()));
+
+            }
+
+        }
     }
 
 }

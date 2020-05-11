@@ -17,6 +17,8 @@ public class WorkerSetupAction extends Action{
      * @param string is the String which contains worker's destination cell
      */
     public WorkerSetupAction(String string){
+        super();
+        this.className = getClass().getSimpleName();
         String [] message = string.split(";");
         username = message[0].split("=")[1];
         this.cell = new Cell(message[1].charAt(5) - '0', message[1].charAt(7) - '0');
@@ -27,18 +29,12 @@ public class WorkerSetupAction extends Action{
     //---------------- GETTER ------------------
 
     /**Getter Cell
-     * @return the Cell
+     * @return the Cell where to put the worker
      */
     public Cell getCell() {
         return cell;
     }
 
-    /**Get the object instance
-     * @return the instance of the class
-     */
-    public Class getInstance(){
-        return WorkerSetupAction.class;
-    }
 
 
     // ---------------- ACTION ---------------
@@ -52,7 +48,7 @@ public class WorkerSetupAction extends Action{
         modelGame.addWorker(worker);
 
         cell = modelGame.getBoard().getCell(cell);
-        modelGame.getCurrentState().executeState(modelGame,worker, cell);
+        user.getGod().executePower(modelGame, worker, cell);
 
 
     }
