@@ -54,7 +54,7 @@ public class ControllerClient {
                 wait = false;
                 this.controllerState = ((Ack) response).getControllerState();
                 view.setCommand(response.getCommand());
-                view.run();
+
             }
 
             //If the response is a Nack, ControllerClient will set the Command to the View and will run View after Error Message Printing
@@ -63,10 +63,16 @@ public class ControllerClient {
                 view.setCommand(response.getCommand());
                 view.printError(((Nack) response).getMessage());
                 Thread.sleep(1500l);
-                view.run();
+
             }
         }
 
+
+
+    }
+
+    public void run(){
+        view.run();
     }
 
 

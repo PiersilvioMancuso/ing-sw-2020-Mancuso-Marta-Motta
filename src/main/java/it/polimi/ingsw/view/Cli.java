@@ -25,7 +25,7 @@ public class Cli extends View {
     public Cli(){
         printLogo();
         this.command=Command.REGISTER;
-        run();
+        //run();
 
     }
 
