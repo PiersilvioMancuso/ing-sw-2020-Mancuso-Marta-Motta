@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.state;
+package it.polimi.ingsw.controller.controllerState;
 
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.ExecuteControllerAction;
@@ -7,6 +7,15 @@ import it.polimi.ingsw.controller.action.ExecuteControllerAction;
  * @author Piersilvio Mancuso
  */
 public class ExecutionControllerState extends ControllerState{
+
+
+    // --------- CONSTRUCTOR -------------
+
+    /**ExecutionControllerState Constructor
+     */
+    public ExecutionControllerState() {
+        this.className = getClass().getSimpleName();
+    }
 
     /**Create an ExecuteControllerAction
      * @param string is the string with which an ExecuteControllerAction object will be created

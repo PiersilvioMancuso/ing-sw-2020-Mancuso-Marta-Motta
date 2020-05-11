@@ -1,12 +1,20 @@
-package it.polimi.ingsw.controller.state;
+package it.polimi.ingsw.controller.controllerState;
 
 import it.polimi.ingsw.controller.action.*;
 
 /**Players In Game Choice State
  * @author Piersilvio Mancuso
  */
-public class PlayersInGameChoiceState extends ControllerState{
+public class PlayersInGameChoiceControllerState extends ControllerState{
 
+
+    // ------------------ CONSTRUCTOR ---------------
+
+    /** PlayersInGameChoiceControllerState Constructor
+     */
+    public PlayersInGameChoiceControllerState() {
+        this.className = getClass().getSimpleName();
+    }
 
     /**Create the Action of the State
      * @param string is a string used for PlayerInGameChoiceAction creation

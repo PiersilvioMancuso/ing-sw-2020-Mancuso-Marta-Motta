@@ -41,7 +41,7 @@ public class ApolloPower extends Power{
                 User userWorker = worker.getUser();
                 for (Worker worker1 : modelGame.getWorkerList()){
                     if (!worker1.getUser().equals(userWorker) && modelGame.getBoard().getNeighbourCell(workerPosition).contains(worker1.getPosition())){
-                        validCells.add(worker1.getPosition());
+                        modelGame.getValidCells().add(worker1.getPosition());
                     }
                 }
             }
@@ -65,7 +65,7 @@ public class ApolloPower extends Power{
         else {
             //Check if Position is a Valid Cell
             if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState) {
-                if (!validCells.contains(position)) throw new IllegalArgumentException("Position is Invalid");
+                if (!modelGame.getValidCells().contains(position)) throw new IllegalArgumentException("Position is Invalid");
             }
 
             //Check if in position there is a worker controlled by another User during MovementState

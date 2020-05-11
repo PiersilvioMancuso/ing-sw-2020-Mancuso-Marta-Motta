@@ -28,6 +28,7 @@ public class PowerTest {
         modelGame = new ModelGame();
         worker = new Worker(new User("Test"));
         cell = new Cell(0,0,1);
+        modelGame.addUser(new User("Helo"));
         modelGame.getBoard().setCellBoard(cell);
         modelGame.addWorker(worker);
         modelGame.setWorkerPosition(worker, cell);
@@ -79,8 +80,8 @@ public class PowerTest {
         List<Cell> cells = new ArrayList<>();
         cells.add(cell3);
         cells.add(cell2);
-        assertTrue(!power.getValidCells().contains(cell1));
-        assertTrue(power.getValidCells().containsAll(cells));
+        assertTrue(!power.getValidCells(modelGame).contains(cell1));
+        assertTrue(power.getValidCells(modelGame).containsAll(cells));
         assertTrue(cells.containsAll(cells));
 
     }
@@ -105,9 +106,9 @@ public class PowerTest {
         cells.add(cell3);
         cells.add(cell2);
 
-        assertTrue(!power.getValidCells().contains(cellTest));
-        assertTrue(power.getValidCells().containsAll(cells));
-        assertTrue(cells.containsAll(power.getValidCells()));
+        assertTrue(!power.getValidCells(modelGame).contains(cellTest));
+        assertTrue(power.getValidCells(modelGame).containsAll(cells));
+        assertTrue(cells.containsAll(power.getValidCells(modelGame)));
     }
 
 
@@ -132,9 +133,9 @@ public class PowerTest {
         power.setActiveEffect(false);
         power.startPower(modelGame, worker);
 
-        assertTrue(!power.getValidCells().contains(cellTest));
-        assertTrue(!power.getValidCells().contains(cell1));
-        assertTrue(power.getValidCells().contains(cell2));
+        assertTrue(!power.getValidCells(modelGame).contains(cellTest));
+        assertTrue(!power.getValidCells(modelGame).contains(cell1));
+        assertTrue(power.getValidCells(modelGame).contains(cell2));
 
     }
 
@@ -158,9 +159,9 @@ public class PowerTest {
         power.startPower(modelGame, worker);
 
 
-        assertTrue(!power.getValidCells().contains(cellTest));
-        assertTrue(!power.getValidCells().contains(cell1));
-        assertTrue(power.getValidCells().contains(cell2));
+        assertTrue(!power.getValidCells(modelGame).contains(cellTest));
+        assertTrue(!power.getValidCells(modelGame).contains(cell1));
+        assertTrue(power.getValidCells(modelGame).contains(cell2));
 
     }
 

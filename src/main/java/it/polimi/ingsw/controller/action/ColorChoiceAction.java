@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.model.ModelColor;
-import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.User;
 
 import java.util.List;
@@ -18,6 +17,8 @@ public class ColorChoiceAction extends Action{
      * @param data is a String with the following pattern: 'username=%userName,color=%color'
      */
     public ColorChoiceAction(String data){
+        super();
+        this.className = getClass().getSimpleName();
         String[] message = data.split(";");
         this.username = message[0].split("=")[1];
         this.colorChosen = Integer.parseInt(message[1].split("=")[1]);
@@ -30,12 +31,6 @@ public class ColorChoiceAction extends Action{
         return colorChosen;
     }
 
-    /**Get the object instance
-     * @return the instance of the class
-     */
-    public Class getInstance(){
-        return ColorChoiceAction.class;
-    }
 
 
     /**Set User's color

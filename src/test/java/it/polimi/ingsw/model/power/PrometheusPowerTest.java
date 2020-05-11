@@ -48,7 +48,7 @@ public class PrometheusPowerTest {
         model.getBoard().setCellBoard(cell);
 
         power.startPower(model, worker);
-        assertTrue(power.getValidCells().size()>0);
+        assertTrue(power.getValidCells(model).size()>0);
     }
 
     @Test (expected = IllegalArgumentException.class)
@@ -65,8 +65,8 @@ public class PrometheusPowerTest {
 
         power.startPower(model, worker);
         power.runPower(model, worker, cell);
-        assertTrue(power.getValidCells().size()>0);
-        assertFalse(power.getValidCells().contains(cell));
-        assertFalse(power.getValidCells().contains(worker2Cell));
+        assertTrue(power.getValidCells(model).size()>0);
+        assertFalse(power.getValidCells(model).contains(cell));
+        assertFalse(power.getValidCells(model).contains(worker2Cell));
     }
 }

@@ -18,6 +18,8 @@ public class GodChoiceAction extends Action{
      * @param data is a string with the following pattern: 'username=%s;god=%s'
      */
     public GodChoiceAction(String data){
+        super();
+        this.className = getClass().getSimpleName();
         String[] message = data.split(";");
         this.username = message[0].split("=")[1];
         this.godChosen = Integer.parseInt(message[1].split("=")[1]);
@@ -33,12 +35,7 @@ public class GodChoiceAction extends Action{
         return godChosen;
     }
 
-    /**Get the object instance
-     * @return the instance of the class
-     */
-    public Class getInstance(){
-        return GodChoiceAction.class;
-    }
+
 
     // ------------------ ACTION ----------------------
 

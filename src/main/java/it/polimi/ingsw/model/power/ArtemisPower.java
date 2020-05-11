@@ -45,7 +45,7 @@ public class ArtemisPower extends Power {
             Cell workerPosition = worker.getPosition();
             super.runPower(modelGame, worker, position);
 
-            if (modelGame.getCurrentState() instanceof MovementState) validCells.remove(workerPosition);
+            if (modelGame.getCurrentState() instanceof MovementState) modelGame.getValidCells().remove(workerPosition);
         }
 
     }

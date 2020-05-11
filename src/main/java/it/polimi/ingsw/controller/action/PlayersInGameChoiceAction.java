@@ -13,6 +13,8 @@ public class PlayersInGameChoiceAction extends Action{
      * @param string is the string that will be analyzed to set the Action data
      */
     public PlayersInGameChoiceAction(String string){
+        super();
+        this.className = getClass().getSimpleName();
         String[] message = string.split(";");
         this.username = message[0].split("=")[1];
         this.numberOfPlayers = Integer.parseInt(message[1].split("=")[1]);
@@ -29,16 +31,13 @@ public class PlayersInGameChoiceAction extends Action{
     }
 
 
-    /**Get the object instance
-     * @return the instance of the class
-     */
-    public Class getInstance(){
-        return PlayersInGameChoiceAction.class;
-    }
 
     // ------------- EFFECT -------------------
 
-    public void executePower(int maxPlayers){
+    /**Set the max number of players in the game
+     * @param maxPlayers is the number Of players
+     */
+    public void executeAction(int maxPlayers){
         maxPlayers = this.numberOfPlayers;
     }
 }

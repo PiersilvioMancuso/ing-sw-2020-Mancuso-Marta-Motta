@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.state;
+package it.polimi.ingsw.controller.controllerState;
 
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.WorkerSetupAction;
@@ -6,7 +6,16 @@ import it.polimi.ingsw.controller.action.WorkerSetupAction;
 /**Worker Setup State
  * @author Piersilvio Mancuso
  */
-public class WorkerSetupState extends ControllerState{
+public class WorkerSetupControllerState extends ControllerState{
+
+
+    // ------------------ CONSTRUCTOR ---------------
+
+    /** WorkerSetupControllerState Constructor
+     */
+    public WorkerSetupControllerState() {
+        this.className = getClass().getSimpleName();
+    }
 
     /**Create a Worker Setup Action
      * @param string is the string with which the action will be created

@@ -25,6 +25,7 @@ public class AtlasPowerTest {
         modelGame.addWorker(worker);
         modelGame.setWorkerPosition(worker,cell);
         power.setActiveEffect(true);
+        modelGame.addUser(new User("Helo"));
     }
 
     @Test(expected = IllegalArgumentException.class)

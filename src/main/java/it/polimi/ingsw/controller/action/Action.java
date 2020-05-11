@@ -4,8 +4,22 @@ package it.polimi.ingsw.controller.action;
  * @author Piersilvio Mancuso
  */
 abstract public class Action {
+
+    protected String className;
     protected String username;
 
+
+
+    // ---------- CONSTRUCTOR --------------
+
+    /**Action Constructor
+     */
+    protected Action() {
+        this.className = getClass().getSimpleName();
+    }
+
+
+    // ------------ GETTER -------------------
 
     /**Username Getter
      * @return the username of the user that generates the action
@@ -14,12 +28,10 @@ abstract public class Action {
         return username;
     }
 
-
-    /**Get the object instance
-     * @return the instance of the class
+    /**ClassName Getter
+     * @return the name of the class
      */
-    public Class getInstance(){
-        return Action.class;
+    public String getClassName() {
+        return className;
     }
-
 }

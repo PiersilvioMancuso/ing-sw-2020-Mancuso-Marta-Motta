@@ -43,7 +43,7 @@ public class GodTest {
     @Test
     public void setUpTurn_startingTheGame_shouldHaveAValidCellsListAndAStateList() {
         god.setUpTurn(modelGame,worker);
-        assertTrue(god.getPower().getValidCells() != null);
+        assertTrue(god.getPower().getValidCells(modelGame) != null);
         assertTrue(god.getPower().getStateList().size() == 3);
     }
 

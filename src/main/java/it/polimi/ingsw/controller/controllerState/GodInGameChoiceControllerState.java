@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.state;
+package it.polimi.ingsw.controller.controllerState;
 
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.GodInGameChoiceAction;
@@ -6,7 +6,15 @@ import it.polimi.ingsw.controller.action.GodInGameChoiceAction;
 /**God In Game Choice Controller State Class
  * @author Piersilvio Mancuso
  */
-public class GodInGameChoiceState extends ControllerState{
+public class GodInGameChoiceControllerState extends ControllerState{
+
+    // -------------- CONSTRUCTOR ------------
+
+    /**GodInGameChoiceController Constructor
+     */
+    public GodInGameChoiceControllerState() {
+        this.className = getClass().getSimpleName();
+    }
 
     /**Create a God In Game Choice Action
      * @param string is the string with which an Action will be created

@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.User;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.power.AthenaPower;
+import it.polimi.ingsw.network.server.Server;
 import org.junit.Before;
 import org.junit.Test;
 

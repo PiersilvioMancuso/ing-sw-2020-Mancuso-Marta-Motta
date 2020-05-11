@@ -29,7 +29,7 @@ public class AtlasPower extends Power{
             if (!(modelGame.getCurrentState() instanceof BuildState)) super.runPower(modelGame, worker, position);
 
             else{
-                if (!validCells.contains(position)) throw new IllegalArgumentException("Position is Invalid");
+                if (!modelGame.getValidCells().contains(position)) throw new IllegalArgumentException("Position is Invalid");
 
                 while (position.getHeight() < 4){
                     modelGame.getCurrentState().executeState(modelGame, worker, position);

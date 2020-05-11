@@ -26,7 +26,7 @@ public class HephaestusPower extends Power{
             if (!(modelGame.getCurrentState() instanceof BuildState)) super.runPower(modelGame, worker, position);
 
             else {
-                if (!validCells.contains(position)) throw new IllegalArgumentException("Position is Not a Valid Cell");
+                if (!modelGame.getValidCells().contains(position)) throw new IllegalArgumentException("Position is Not a Valid Cell");
 
                 modelGame.getCurrentState().executeState(modelGame, worker, position);
                 if (position.getHeight() <3) modelGame.getCurrentState().executeState(modelGame, worker, position);

@@ -5,8 +5,9 @@ import it.polimi.ingsw.view.Command;
 /**Abstract Response Class
  * @author Piersilvio Mancuso
  */
-public class Response {
+abstract public class Response {
 
+    protected String className;
     protected String username;
     protected Command command;
 
@@ -19,6 +20,7 @@ public class Response {
     public Response(String username, Command command) {
         this.username = username;
         this.command = command;
+        this.className = getClass().getSimpleName();
     }
 
 
@@ -39,6 +41,13 @@ public class Response {
         return command;
     }
 
+
+    /**ClassNameGetter
+     * @return the name of the class
+     */
+    public String getClassName() {
+        return className;
+    }
 
     // ------------- SETTER --------------------
 

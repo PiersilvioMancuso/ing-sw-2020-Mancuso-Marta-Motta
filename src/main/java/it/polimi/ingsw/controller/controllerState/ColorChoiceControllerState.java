@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.state;
+package it.polimi.ingsw.controller.controllerState;
 
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.ColorChoiceAction;
@@ -7,6 +7,17 @@ import it.polimi.ingsw.controller.action.ColorChoiceAction;
  * @author Piersilvio Mancuso
  */
 public class ColorChoiceControllerState extends ControllerState{
+
+    // ------------ CONSTRUCTOR ------------
+
+    /**ColorChoiceControllerState Constructor
+     */
+    public ColorChoiceControllerState() {
+        this.className = getClass().getSimpleName();
+    }
+
+
+    // ------------ EFFECT ----------------
 
     /**Create a Color Choice Action
      * @param string is the string with which an Action will be created

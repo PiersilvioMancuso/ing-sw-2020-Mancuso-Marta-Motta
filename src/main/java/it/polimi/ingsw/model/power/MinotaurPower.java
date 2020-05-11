@@ -59,7 +59,7 @@ public class MinotaurPower extends Power{
 
                             //3)have a free Cell in the same direction
                             if (modelGame.getBoard().getNeighbourCell(position).contains(lastPosition) && lastPosition.getHeight() < 4 && !modelGame.getWorkerListPosition().contains(lastPosition)){
-                                if (!validCells.contains(position)) validCells.add(position);
+                                if (!modelGame.getValidCells().contains(position)) modelGame.getValidCells().add(position);
                             }
                         }
 
@@ -85,7 +85,7 @@ public class MinotaurPower extends Power{
         if (!(modelGame.getCurrentState() instanceof MovementState) || !isActiveEffect()) super.runPower(modelGame, worker, position);
 
         else {
-            if (!validCells.contains(position)) throw new IllegalArgumentException("Position is not Valid");
+            if (!modelGame.getValidCells().contains(position)) throw new IllegalArgumentException("Position is not Valid");
 
             //If position is occupied by another worker, it will be pushed in the next Cell on the same direction
             if (modelGame.getWorkerListPosition().contains(position)){

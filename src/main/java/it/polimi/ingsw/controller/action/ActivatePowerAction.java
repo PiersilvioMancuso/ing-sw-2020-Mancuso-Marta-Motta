@@ -17,6 +17,8 @@ public class ActivatePowerAction extends Action{
      * @param message is a String with the following pattern: 'username=%userName,cell=2-4,powerUp='
      */
     public ActivatePowerAction(String message){
+        super();
+        this.className = getClass().getSimpleName();
         String[] messageComponent = message.split(";");
         this.username = messageComponent[0];
         this.cell = new Cell(messageComponent[1].charAt(5) - '0', messageComponent[0].charAt(7) - '0');
@@ -42,13 +44,6 @@ public class ActivatePowerAction extends Action{
         return powerUp;
     }
 
-
-    /**Get the object instance
-     * @return the instance of the class
-     */
-    public Class getInstance(){
-        return ActivatePowerAction.class;
-    }
 
 
     // --------------- ACTION -------------------
