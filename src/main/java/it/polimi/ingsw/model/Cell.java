@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Class that manage all the parameters of a cell element.
  * @author Mattia Marta
  */
-public class Cell {
+public class Cell implements Serializable {
     private int x;
     private int y;
     private int height;

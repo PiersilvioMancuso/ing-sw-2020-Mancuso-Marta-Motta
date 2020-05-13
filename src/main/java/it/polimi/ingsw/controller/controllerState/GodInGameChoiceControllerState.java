@@ -13,7 +13,7 @@ public class GodInGameChoiceControllerState extends ControllerState{
     /**GodInGameChoiceController Constructor
      */
     public GodInGameChoiceControllerState() {
-        this.className = getClass().getSimpleName();
+        this.className = "GodInGameChoiceControllerState";
     }
 
     /**Create a God In Game Choice Action

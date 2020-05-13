@@ -16,7 +16,7 @@ public class ExecuteControllerAction extends Action{
      */
     public ExecuteControllerAction(String string){
         super();
-        this.className = getClass().getSimpleName();
+        this.className = "ExecuteControllerAction";
         String[] message = string.split(";");
         this.username = message[0].split("=")[1];
         String cellString = message[1].split("=")[1];

@@ -18,7 +18,7 @@ public class WorkerSetupAction extends Action{
      */
     public WorkerSetupAction(String string){
         super();
-        this.className = getClass().getSimpleName();
+        this.className = "WorkerSetupAction";
         String [] message = string.split(";");
         username = message[0].split("=")[1];
         this.cell = new Cell(message[1].charAt(5) - '0', message[1].charAt(7) - '0');

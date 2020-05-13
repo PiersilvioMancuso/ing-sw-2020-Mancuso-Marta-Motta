@@ -1,9 +1,11 @@
 package it.polimi.ingsw.controller.action;
 
+import java.io.Serializable;
+
 /**Abstract Class Action
  * @author Piersilvio Mancuso
  */
-abstract public class Action {
+abstract public class Action implements Serializable {
 
     protected String className;
     protected String username;

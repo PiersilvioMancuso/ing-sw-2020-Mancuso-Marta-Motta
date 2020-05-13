@@ -17,6 +17,7 @@ public class ModelUpdate extends Update{
      * @param modelGame is the modelGame that will update View
      */
     public ModelUpdate(ModelGame modelGame) {
+        super();
         this.modelGame = new ModelGame(modelGame);
     }
 

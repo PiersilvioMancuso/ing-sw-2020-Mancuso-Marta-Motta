@@ -13,7 +13,7 @@ public class ColorChoiceControllerState extends ControllerState{
     /**ColorChoiceControllerState Constructor
      */
     public ColorChoiceControllerState() {
-        this.className = getClass().getSimpleName();
+        this.className = "ColorChoiceControllerState";
     }
 
 

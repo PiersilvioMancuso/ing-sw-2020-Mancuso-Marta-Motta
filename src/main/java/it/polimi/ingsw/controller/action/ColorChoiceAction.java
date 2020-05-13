@@ -18,7 +18,7 @@ public class ColorChoiceAction extends Action{
      */
     public ColorChoiceAction(String data){
         super();
-        this.className = getClass().getSimpleName();
+        this.className = "ColorChoiceAction";
         String[] message = data.split(";");
         this.username = message[0].split("=")[1];
         this.colorChosen = Integer.parseInt(message[1].split("=")[1]);

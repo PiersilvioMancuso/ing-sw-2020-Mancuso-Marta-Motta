@@ -2,10 +2,12 @@ package it.polimi.ingsw.controller.controllerState;
 
 import it.polimi.ingsw.controller.action.Action;
 
+import java.io.Serializable;
+
 /**Abstract Controller State Class
  * @author Piersilvio Mancuso
  */
-abstract public class ControllerState {
+abstract public class ControllerState implements Serializable {
 
     protected String className;
 

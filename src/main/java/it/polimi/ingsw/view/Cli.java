@@ -161,12 +161,13 @@ public class Cli extends View {
                 quit();
                 break;
         }
+        printWriter.println(userData);
         controllerClient.notifyControllerAction();
     }
 
     @Override
     public void printError(String message) {
-
+        printWriter.println(message);
     }
 
     /**Called by run method it register data user
@@ -175,7 +176,7 @@ public class Cli extends View {
     public void register(){
         printWriter.println("Insert Username and Press Enter:\n");
         scan = scanner.nextLine();
-        this.userData = "name=" + scan + ";";
+        this.userData = "username=" + scan + ";";
 
         printWriter.println("Insert IpAddress and Press Enter:\n");
         scan = scanner.nextLine();
@@ -231,7 +232,7 @@ public class Cli extends View {
         for(int i=0; i<2; i++){
             printWriter.println("Choose a god from the previous list:");
             scan = scanner.nextLine();
-            userData="god=" + scan + ";";
+            userData+="god=" + scan + ";";
         }
     }
 

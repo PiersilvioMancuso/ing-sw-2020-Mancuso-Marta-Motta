@@ -2,63 +2,84 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.RemoteController;
 import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.model.messages.Message;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Server
- * @author Mattia
+ * Server Class
+ * @author Mattia Marta
  */
-public class Server implements Receiver<Action>, Broadcast {
-    public final static int SOCKET_PORT = 8888;
+public class Server implements Receiver<Action>, Broadcast<Message> {
 
+    public final static int SOCKET_PORT = 8888;
     private ClientGatherer clientGatherer;
     private List<VirtualClient> virtualClientList;
     private RemoteController remoteController;
+
 
     public List<VirtualClient> getVirtualClientList(){
         return virtualClientList;
     }
 
+
+
+    // ------------- CONSTRUCTOR ----------------
+
+    /**Server Constructor
+     * Initialize virtualClientList, Remote Controller and Client Gatherer
+     */
     public Server (){
         virtualClientList = new ArrayList<>();
-        remoteController = new RemoteController();
+        remoteController = new RemoteController(this);
         clientGatherer = new ClientGatherer(SOCKET_PORT, this);
     }
 
 
-    /**
-     * Getter for the client gatherer
+    // ---------------- GETTER --------------
+
+    /**Getter for the client gatherer
      * @return the client gatherer
      */
     public ClientGatherer getClientGatherer() {
         return clientGatherer;
     }
 
-    /**
-     * Setter for the client gatherer
+
+    /**Getter for the remote controller
+     * @return the remote controller
+     */
+    public RemoteController getRemoteController() {
+        return remoteController;
+    }
+
+
+
+    // ---------------- SETTER --------------
+
+    /**Setter for the client gatherer
      * @param clientGatherer
      */
     public void setClientGatherer(ClientGatherer clientGatherer) {
         this.clientGatherer = clientGatherer;
     }
 
-    /**
-     * Setter for the Virtual Client list
+    /**Setter for the Virtual Client list
      * @param virtualClientList is the list of Virtual Clients
      */
     public void setVirtualClientList(List<VirtualClient> virtualClientList) {
         this.virtualClientList = virtualClientList;
     }
 
-    /**
-     * Getter for the remote controller
-     * @return the remote controller
-     */
-    public RemoteController getRemoteController() {
-        return remoteController;
-    }
+
+
+    // ---------------- SERVER ACTION --------------
+
+
+
 
     /**
      * Add a Virtual Client to the list
@@ -68,9 +89,11 @@ public class Server implements Receiver<Action>, Broadcast {
         this.virtualClientList.add(client);
     }
 
+
+
     /**
      * Remove the selected Virtual Client from the list
-     * @param client is the Vrtual Client that is going to be removed
+     * @param client is the Virtual Client that is going to be removed
      */
     public void removeClient(VirtualClient client){
         this.virtualClientList.remove(client);
@@ -88,17 +111,22 @@ public class Server implements Receiver<Action>, Broadcast {
 
     /**
      * Send the object to all the clients
-     * @param obj is the object that will be sent containing the information.
+     * @param message is the object that will be sent containing the information.
      */
     @Override
-    public void broadcast(Object obj) {
+    public void broadcast(Message message) {
         for(VirtualClient client : this.virtualClientList){
-            client.send(obj);
+            System.out.println(client.getUserName());
+            client.send(message);
         }
     }
 
 
-    //--------------------------------------------------
+    // --------------- MAIN -----------------
+
+    /**Is the runnable Server's Code
+     * @param args
+     */
     public static void main(String[] args)
     {
         Server server = new Server();

@@ -4,13 +4,14 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.model.state.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**Abstract Power Class
  * @author Piersilvio Mancuso
  */
- public abstract class Power {
+ public abstract class Power implements Serializable {
 
     private static boolean athenaEffect;
     protected List<State> stateList;

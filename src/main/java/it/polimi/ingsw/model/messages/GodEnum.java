@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.messages;
 
 import it.polimi.ingsw.model.god.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * @author Piersilvio Mancuso
  */
-public enum GodEnum {
+public enum GodEnum implements Serializable {
     APOLLO (new Apollo()),
     ARTEMIS (new Artemis()),
     ATHENA (new Athena()),

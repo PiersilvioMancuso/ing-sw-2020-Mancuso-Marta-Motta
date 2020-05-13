@@ -5,10 +5,12 @@ import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.model.power.Power;
 import it.polimi.ingsw.model.state.EndState;
 
+import java.io.Serializable;
+
 /**Abstract God Class
  * @author Piersilvio Mancuso
  */
-abstract public class God{
+abstract public class God implements Serializable {
 
     protected Power power;
 

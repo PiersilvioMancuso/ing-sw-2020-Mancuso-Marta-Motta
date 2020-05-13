@@ -1,26 +1,40 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.model.messages.Message;
+import it.polimi.ingsw.model.messages.controllersMessages.EndSending;
 import it.polimi.ingsw.model.messages.controllersMessages.Response;
+import it.polimi.ingsw.view.Command;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 /**
  * Virtual client
  * @author Mattia
  */
-public class VirtualClient implements Sender<Object>, Runnable{
+public class VirtualClient implements Sender<Message>, Runnable{
     private Server server;
     private Socket clientSocket;
-    private String userName;
+    private String userName = null;
+    private ObjectOutputStream outputStream;
+    private ObjectInputStream inputStream;
+
+
 
     public VirtualClient(Server server, Socket clientSocket) {
         this.server = server;
         this.clientSocket = clientSocket;
+        try {
+            this.outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+
+            this.inputStream = new ObjectInputStream(clientSocket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
         Thread thread = new Thread(this);
 
         thread.start();
@@ -34,6 +48,10 @@ public class VirtualClient implements Sender<Object>, Runnable{
         return userName;
     }
 
+    public ObjectOutputStream getOutputStream() {
+        return outputStream;
+    }
+
     /**
      * Setter for the username
      * @param userName is the new username to set
@@ -44,23 +62,42 @@ public class VirtualClient implements Sender<Object>, Runnable{
 
     /**
      * Selective send, it forward the object only if the username math
-     * @param obj is the generic object sent
+     * @param message is the generic object sent
      */
     @Override
-    public synchronized void send(Object obj) {
+    public void send(Message message) {
         try {
-            if (obj instanceof Response && !((Response) obj).getUsername().equals(userName)){
+            if (message.getClassName().contains("End")){
+                this.outputStream.writeObject(message);
+
+                return;
+            }
+
+            if (message == null){
+
+                return;
+            }
+            else if (message.getClassName().contains("RegistrationAck") && userName == null){
+                setUserName(((Response) message).getUsername());
+            }
+
+            if (message.getClassName().contains("Ack")  && !((Response) message).getUsername().equals(userName)){
+
                 return;
             }
             else {
-                ObjectOutputStream output = (ObjectOutputStream) clientSocket.getOutputStream();
-                output.writeObject(obj);
+
+
+                this.outputStream.writeObject(message);
+
+                return;
 
             }
 
 
         } catch (IOException e) {
             e.printStackTrace();
+
         }
     }
 
@@ -69,12 +106,17 @@ public class VirtualClient implements Sender<Object>, Runnable{
      */
     @Override
     public void run() {
+
+
         try {
-            ObjectInputStream input = (ObjectInputStream) clientSocket.getInputStream();
+
+
             while (true){
-                Object data = input.readObject();
+                Object data = inputStream.readObject();
+                System.out.println(data);
                 if (data != null){
                     Action action = (Action) data;
+                    System.out.println(action);
                     this.userName = action.getUsername();
                     server.receive(action);
                 }

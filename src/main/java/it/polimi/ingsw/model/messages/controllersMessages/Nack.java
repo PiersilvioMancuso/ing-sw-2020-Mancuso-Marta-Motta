@@ -19,7 +19,7 @@ public class Nack extends Response{
     public Nack(String message, String username, Command command) {
         super(username, command);
         this.message = message;
-        this.className = getClass().getSimpleName();
+        this.className = super.className + "-Nack";
     }
 
 
@@ -43,6 +43,12 @@ public class Nack extends Response{
         this.message = message;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Nack{" +
+                "message='" + message + '\'' +
+                ", username='" + username + '\'' +
+                ", command=" + command +
+                '}';
+    }
 }

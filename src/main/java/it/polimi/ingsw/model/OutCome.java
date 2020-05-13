@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * Class Outcome
  * @author Mattia Marta
  */
-public enum OutCome {
+public enum OutCome implements Serializable {
     WINNER("You Win!"), LOOSER("You Loose"), DRAW("");
     private final String MESSAGE;
 

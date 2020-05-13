@@ -1,11 +1,13 @@
 package it.polimi.ingsw.view;
 
+import java.io.Serializable;
+
 /**Use to enum command and use by run method to compare the commands sent by the
  * controller and those of the view to call the right methods
  *
  * @author Veronica Motta
  */
-public enum Command {
+public enum Command implements Serializable {
     REGISTER("register"),
     PLAYERS("numberPlayers"),
     COLOR("color"),

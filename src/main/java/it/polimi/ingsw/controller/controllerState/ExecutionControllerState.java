@@ -14,7 +14,7 @@ public class ExecutionControllerState extends ControllerState{
     /**ExecutionControllerState Constructor
      */
     public ExecutionControllerState() {
-        this.className = getClass().getSimpleName();
+        this.className = "ExecutionControllerState";
     }
 
     /**Create an ExecuteControllerAction

@@ -20,6 +20,7 @@ public class GodListUpdate extends Update{
      * @param godEnumList
      */
     public GodListUpdate(List<GodEnum> godEnumList) {
+        super();
         this.gods = new ArrayList<>();
 
         for (GodEnum godEnum : godEnumList){

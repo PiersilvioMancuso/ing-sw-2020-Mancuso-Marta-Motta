@@ -4,11 +4,11 @@ package it.polimi.ingsw.network.server;
  * Broadcast
  * @author Mattia
  */
-public interface Broadcast {
+public interface Broadcast<T> {
     /**
      * Sends a message to all the clients
-     * @param obj is the object that will be sent containing the information.
+     * @param t is the object that will be sent containing the information.
      */
-    public void broadcast(Object obj);
+    public void broadcast(T t);
 
 }

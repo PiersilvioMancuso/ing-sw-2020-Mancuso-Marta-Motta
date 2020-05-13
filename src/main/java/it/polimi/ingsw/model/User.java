@@ -2,11 +2,13 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.god.God;
 
+import java.io.Serializable;
+
 /**
  * Class User.
  * @author Mattia Marta.
  */
-public class User {
+public class User implements Serializable {
     private String username;
     private ModelColor color;
     private God godChosen;

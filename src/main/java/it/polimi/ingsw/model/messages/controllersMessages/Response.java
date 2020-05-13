@@ -1,15 +1,17 @@
 package it.polimi.ingsw.model.messages.controllersMessages;
 
+import it.polimi.ingsw.model.messages.Message;
 import it.polimi.ingsw.view.Command;
 
 /**Abstract Response Class
  * @author Piersilvio Mancuso
  */
-abstract public class Response {
+abstract public class Response extends Message {
 
-    protected String className;
+
     protected String username;
     protected Command command;
+
 
     // ----------- CONSTRUCTOR ---------
 
@@ -20,7 +22,7 @@ abstract public class Response {
     public Response(String username, Command command) {
         this.username = username;
         this.command = command;
-        this.className = getClass().getSimpleName();
+        this.className = super.getClassName() + "-Response";
     }
 
 

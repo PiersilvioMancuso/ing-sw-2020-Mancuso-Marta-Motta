@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Board {
+public class Board implements Serializable {
     private List<Cell> buildMap;
 
     public Board() {

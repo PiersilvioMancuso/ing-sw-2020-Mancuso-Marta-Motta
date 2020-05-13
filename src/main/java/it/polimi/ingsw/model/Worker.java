@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model;
 
         import java.awt.Color;
+        import java.io.Serializable;
 
 /**
  * Class to define the worker.
  * @author Mattia Marta.
  */
-public class Worker {
+public class Worker implements Serializable {
     private User user;
     private ModelColor color;
     private Cell position;

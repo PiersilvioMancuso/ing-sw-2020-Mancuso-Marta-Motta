@@ -11,7 +11,7 @@ public class ActivatePowerControllerState  extends ControllerState{
     /**ActivatePowerController Constructor
      */
     public ActivatePowerControllerState() {
-        this.className = getClass().getSimpleName();
+        this.className = "ActivatePowerControllerState";
     }
 
     /**Create an ExecuteControllerAction

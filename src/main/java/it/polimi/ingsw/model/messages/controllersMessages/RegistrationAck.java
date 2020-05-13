@@ -5,7 +5,7 @@ import it.polimi.ingsw.view.Command;
 /**Registration Ack Class
  * @author Piersilvio Mancuso
  */
-public class RegistrationAck extends Response{
+public class RegistrationAck extends Ack{
 
     // ------------------ CONSTRUCTOR ---------------
 
@@ -15,7 +15,7 @@ public class RegistrationAck extends Response{
      * @param command  is the command that Controller Client will set to the View
      */
     public RegistrationAck(String username, Command command) {
-        super(username, command);
-        this.className = getClass().getSimpleName();
+        super(username, command, null);
+        this.className = super.getClassName() + "-RegistrationAck";
     }
 }

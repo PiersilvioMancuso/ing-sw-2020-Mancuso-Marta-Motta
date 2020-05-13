@@ -4,7 +4,9 @@ import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.Worker;
 
-abstract public class State {
+import java.io.Serializable;
+
+abstract public class State implements Serializable {
 
     /**Execute the proper action for the State
      * @author Piersilvio Mancuso

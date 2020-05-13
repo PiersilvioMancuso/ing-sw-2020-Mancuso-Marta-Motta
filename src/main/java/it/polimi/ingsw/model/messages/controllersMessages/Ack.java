@@ -21,7 +21,7 @@ public class Ack extends Response{
     public Ack(String username, Command command, ControllerState controllerState) {
         super(username,command);
         this.controllerState = controllerState;
-        this.className = getClass().getSimpleName();
+        this.className = super.className +"-Ack-" + controllerState;
     }
 
 
@@ -32,5 +32,13 @@ public class Ack extends Response{
      */
     public ControllerState getControllerState() {
         return controllerState;
+    }
+
+    @Override
+    public String toString() {
+        return "Ack{" +
+                "username=" + username +
+                "/ncontrollerState=" + controllerState + "/nCommand=" + command +
+                '}';
     }
 }

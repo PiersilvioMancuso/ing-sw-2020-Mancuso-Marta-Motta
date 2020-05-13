@@ -9,10 +9,17 @@ import java.net.Socket;
  * @author Mattia
  */
 public class ClientGatherer extends Thread{
+
     private Server server;
-    //private Receiver receiver;
     private ServerSocket serverSocket;
 
+
+    // --------------- CONSTRUCTOR ----------------
+
+    /**ClientGatherer Constructor
+     * @param port is the port of the Server's Socket
+     * @param server is the Server
+     */
     public ClientGatherer(int port, Server server){
         this.server = server;
 
@@ -23,9 +30,9 @@ public class ClientGatherer extends Thread{
         }
     }
 
-    /**
-     * Accept the connection and assigns a Virtual Client to it
-     */
+    // ------------------ THREAD EXECUTION --------------------
+
+    /**Accept the connections and assigns a Virtual Client to them*/
     @Override
     public void run() {
 
@@ -37,6 +44,7 @@ public class ClientGatherer extends Thread{
                 VirtualClient client = new VirtualClient(server, newClient);
 
                 server.addClient(client);
+                System.out.println(server.getVirtualClientList().size());
 
             }catch (IOException e){
                 e.printStackTrace();

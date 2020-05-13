@@ -19,7 +19,7 @@ public class GodChoiceAction extends Action{
      */
     public GodChoiceAction(String data){
         super();
-        this.className = getClass().getSimpleName();
+        this.className = "GodChoiceAction";
         String[] message = data.split(";");
         this.username = message[0].split("=")[1];
         this.godChosen = Integer.parseInt(message[1].split("=")[1]);

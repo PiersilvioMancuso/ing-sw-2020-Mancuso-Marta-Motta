@@ -11,15 +11,16 @@ import java.util.List;
  */
 public class ModelColorListUpdate extends Update{
 
-    private ArrayList<ModelColor> modelColorList;
+    private List<ModelColor> modelColorList;
 
     // --------------- CONSTRUCTOR -------------
 
     /**ModelColorListUpdate Constructor
      * @param modelColorList is a list of modelColor
      */
-    public ModelColorListUpdate(ArrayList<ModelColor> modelColorList) {
-        this.modelColorList = (ArrayList)modelColorList.clone();
+    public ModelColorListUpdate(List<ModelColor> modelColorList) {
+        super();
+        this.modelColorList = modelColorList;
     }
 
 
@@ -38,8 +39,8 @@ public class ModelColorListUpdate extends Update{
     /**ModelColorList Setter
      * @param modelColorList is a list of all ModelColors that can be set to players
      */
-    public void setModelColorList(ArrayList<ModelColor> modelColorList) {
-        this.modelColorList = (ArrayList)modelColorList.clone();
+    public void setModelColorList(List<ModelColor> modelColorList) {
+        this.modelColorList = modelColorList;
     }
 
 

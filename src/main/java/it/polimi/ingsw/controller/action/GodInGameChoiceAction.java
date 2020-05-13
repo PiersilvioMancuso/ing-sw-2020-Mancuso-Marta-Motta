@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.User;
 import it.polimi.ingsw.model.messages.GodEnum;
 import it.polimi.ingsw.model.messages.controllersMessages.Ack;
 import it.polimi.ingsw.model.messages.controllersMessages.Nack;
+import it.polimi.ingsw.model.messages.modelViewMessages.GodListUpdate;
+import it.polimi.ingsw.model.messages.modelViewMessages.ModelColorListUpdate;
 import it.polimi.ingsw.view.Command;
 
 import java.util.ArrayList;
@@ -27,12 +29,12 @@ public class GodInGameChoiceAction extends Action{
      */
     public GodInGameChoiceAction(String data){
         super();
-        this.className = getClass().getSimpleName();
+        this.className = "GodInGameChoiceAction";
         godList = new ArrayList<>();
         String[] godArray = data.split(";");
         this.username = godArray[0].split("=")[1];
         for (int i = 1; i < godArray.length; i++){
-            godList.add(Integer.parseInt(godArray[i].split("=")[1]));
+            godList.add(Integer.parseInt(godArray[i].split("=")[1]) - 1);
         }
     }
 
@@ -49,25 +51,29 @@ public class GodInGameChoiceAction extends Action{
 
     // ---------------- ACTION ----------------
     /**Execute the Action of GodInGameChoose
+     * @param gods is a list of GodEnum
+     * @return a list containing just the gods selected
      */
-    public void executeAction(List<GodEnum> gods){
+    public List<GodEnum> executeAction(List<GodEnum> gods){
         List<GodEnum> copy = new ArrayList<>();
+        System.out.println(godList);
 
         for (int i = 0; i < gods.size(); i++){
             if (godList.contains(i)) copy.add(gods.get(i));
         }
-        gods = new ArrayList<>(copy);
+        return copy;
     }
 
 
     // --------------- CONTROLLER ACTION --------------
-    public void controlAction(ModelGame modelGame, List<GodEnum> godEnumList, RemoteController remoteController){
+    public void controlAction(ModelGame modelGame, RemoteController remoteController){
         boolean checkIntegrity = true;
+        List<GodEnum> godEnumList = remoteController.getGodEnumList();
 
         // -------- Check if there is any repetition
         for (int i = 0; i < godList.size() - 1; i++){
             for (int j = i + 1; j < godList.size(); j++){
-                if (godList.get(i).equals(godList.get(i))) {
+                if (godList.get(j).equals(godList.get(i))) {
                     checkIntegrity = false;
                 }
             }
@@ -96,16 +102,22 @@ public class GodInGameChoiceAction extends Action{
         // ----------- If there is no problem the action will be executed and it will be sent an Ack for Color Choice
         else {
 
-            executeAction(godEnumList);
-            User user = modelGame.getCurrentUser();
+            remoteController.setGodEnumList(executeAction(godEnumList));
+            modelGame.setCurrentUser(remoteController.getPlayerList().indexOf(remoteController.getUserFromUsername(username)));
 
+
+            User user = modelGame.getCurrentUser();
+            System.out.println(user.getUsername());
 
             if (user.getUsername().equals(remoteController.getYoungerUsername())){
+                remoteController.getModelGame().addUpdate(new ModelColorListUpdate(remoteController.getModelColorList()));
                 user = modelGame.getCurrentUser();
+                System.out.println(user.getUsername());
                 remoteController.setResponse(new Ack(user.getUsername(), Command.COLOR, new ColorChoiceControllerState()));
             }
             else {
-                modelGame.nextUser();
+                remoteController.getModelGame().addUpdate(new GodListUpdate(remoteController.getGodEnumList()));
+
                 user = modelGame.getCurrentUser();
 
                 remoteController.setResponse(new Ack(user.getUsername(), Command.GOD, new GodChoiceControllerState()));

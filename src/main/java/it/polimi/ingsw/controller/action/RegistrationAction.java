@@ -19,20 +19,19 @@ import java.util.List;
 public class RegistrationAction extends Action{
 
 
-    String userName;
     int age;
-    String ipAddress;
+    private String ipAddress;
 
     /**Register Action Constructor
      * @param data is the String that will be analyzed to set Register Action's fields
      */
     public RegistrationAction(String data){
         super();
-        this.className = getClass().getSimpleName();
+        this.className = "RegistrationAction";
         String [] messageComponent = data.split(";");
-        this.userName = messageComponent[0].substring(9);
-        this.age = Integer.parseInt(messageComponent[1].substring(4));
-        this.ipAddress = messageComponent[2].substring(10);
+        this.username = messageComponent[0].split("=")[1];
+        this.age = Integer.parseInt(messageComponent[2].split("=")[1]);
+        this.ipAddress = messageComponent[1].split("=")[1];
     }
 
 
@@ -52,13 +51,6 @@ public class RegistrationAction extends Action{
         return ipAddress;
     }
 
-    /**Username Getter
-     * @return the username of the player
-     */
-    public String getUserName() {
-        return userName;
-    }
-
 
     // -------------------- ACTION -------------------------
 
@@ -66,7 +58,7 @@ public class RegistrationAction extends Action{
      * @return the Response of the model's modifies
      */
     public void executeAction(List<User> userList){
-        User user = new User(userName);
+        User user = new User(username);
         user.setAge(age);
         userList.add(user);
     }
@@ -77,42 +69,43 @@ public class RegistrationAction extends Action{
      */
     public void controlAction(RemoteController remoteController){
 
+
         // ---------- Lobby Full
         if (remoteController.getPlayerList().size() + 1 > remoteController.getMaxPlayers()){
             String message = "Lobby is full, please try again in some minutes";
-            remoteController.setResponse(new Nack(message, userName, Command.QUIT));
+            remoteController.setResponse(new Nack(message, username, Command.QUIT));
         }
 
         // --------- Username Already in use from another user
-        else if (remoteController.checkUserExistenceWithUsername(userName)){
+        else if (remoteController.checkUserExistenceWithUsername(username)){
             String message = "Username already used by another player, please set another username";
-            remoteController.setResponse(new Nack(message, userName, Command.REGISTER));
+            remoteController.setResponse(new Nack(message, username, Command.REGISTER));
         }
 
         // --------- Registration can be executed
         else {
-            remoteController.getPlayerList().add(new User(userName));
-            remoteController.setResponse(new RegistrationAck(userName, null));
+            remoteController.getPlayerList().add(new User(username));
+            remoteController.setResponse(new RegistrationAck(username, Command.PLAYERS));
 
 
-            remoteController.getUserFromUsername(userName).setAge(age);
+            remoteController.getUserFromUsername(username).setAge(age);
 
             // --------------
             if (remoteController.getPlayerList().size() == 1){
 
                 remoteController.sendResponse();
-                remoteController.setResponse(new Ack(userName, Command.PLAYERS, new PlayersInGameChoiceControllerState()));
-
+                remoteController.setResponse(new Ack(username, Command.PLAYERS, new PlayersInGameChoiceControllerState()));
+                return;
             }
 
-            else if (remoteController.getPlayerList().size() == remoteController.getMaxPlayers() && remoteController.getPlayerList().size() > 1){
+            else if (remoteController.getPlayerList().size() == remoteController.getMaxPlayers() && remoteController.getMaxPlayers() > 1){
                 String username = remoteController.getYoungerUsername();
                 remoteController.sendResponse();
                 remoteController.setGameStarted(true);
 
                 //TODO: A.F. Persistence
                 remoteController.setModelGame(new ModelGame());
-                remoteController.setServer(remoteController.getServer());
+                remoteController.getModelGame().setServer(remoteController.getServer());
                 remoteController.getModelGame().setUserList(remoteController.getPlayerList());
                 remoteController.getModelGame().addUpdate(new GodListUpdate(remoteController.getGodEnumList()));
 

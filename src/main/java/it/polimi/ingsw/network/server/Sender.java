@@ -2,17 +2,14 @@ package it.polimi.ingsw.network.server;
 
 import java.io.IOException;
 
-/**
- * Sender
+/**Sender
  * @param <T> is the generic type of object
- * @author Mattia
+ * @author Mattia Marta
  */
 public interface Sender<T> {
 
-    /**
-     * Method that's used to send objects
-     * @param obj is the generic object sent
-     * @throws IOException
+    /**Method that's used to send objects
+     * @param t is the generic t sent
      */
-    public void send(T obj) throws IOException;
+    public void send(T t);
 }

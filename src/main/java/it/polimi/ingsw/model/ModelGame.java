@@ -6,12 +6,13 @@ import it.polimi.ingsw.model.state.SetupState;
 import it.polimi.ingsw.model.state.State;
 import it.polimi.ingsw.network.server.Server;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 
-public class ModelGame{
+public class ModelGame implements Serializable {
 
     // -------------- FIELDS --------------
 

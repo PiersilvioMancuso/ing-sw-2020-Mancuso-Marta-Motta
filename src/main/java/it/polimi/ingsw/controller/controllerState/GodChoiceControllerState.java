@@ -14,7 +14,7 @@ public class GodChoiceControllerState extends ControllerState{
     /**GodChoiceControllerState Constructor
      */
     public GodChoiceControllerState() {
-        this.className = getClass().getSimpleName();
+        this.className = "GodChoiceControllerState";
     }
 
     /**Create a God Choice Action

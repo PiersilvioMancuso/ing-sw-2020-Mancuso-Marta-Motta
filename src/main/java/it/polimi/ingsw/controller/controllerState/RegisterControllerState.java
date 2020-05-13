@@ -14,7 +14,7 @@ public class RegisterControllerState extends ControllerState{
     /** RegisterControllerState Constructor
      */
     public RegisterControllerState() {
-        this.className = getClass().getSimpleName();
+        this.className = "RegisterControllerState";
     }
 
 

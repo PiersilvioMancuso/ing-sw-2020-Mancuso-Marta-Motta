@@ -14,7 +14,7 @@ public class WorkerSetupControllerState extends ControllerState{
     /** WorkerSetupControllerState Constructor
      */
     public WorkerSetupControllerState() {
-        this.className = getClass().getSimpleName();
+        this.className = "WorkerSetupControllerState";
     }
 
     /**Create a Worker Setup Action

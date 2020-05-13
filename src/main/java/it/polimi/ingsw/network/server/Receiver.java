@@ -12,8 +12,8 @@ import java.io.Serializable;
 public interface Receiver<T>{
 
     /**
-     * Method used to receive actions
-     * @param action is the generic action received
+     * Method used to receive objects
+     * @param t is the generic t received
      */
-    void receive(T action);
+    void receive(T t);
 }

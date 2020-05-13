@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller;
 
 
-import it.polimi.ingsw.model.messages.modelViewMessages.GodListUpdate;
 import it.polimi.ingsw.model.state.BuildState;
 import it.polimi.ingsw.model.state.MovementState;
+import it.polimi.ingsw.model.messages.controllersMessages.EndSending;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.controller.controllerState.*;
@@ -11,7 +11,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messages.GodEnum;
 import it.polimi.ingsw.model.messages.controllersMessages.Ack;
 import it.polimi.ingsw.model.messages.controllersMessages.Nack;
-import it.polimi.ingsw.model.messages.controllersMessages.RegistrationAck;
 import it.polimi.ingsw.model.messages.controllersMessages.Response;
 import it.polimi.ingsw.model.state.EndState;
 import it.polimi.ingsw.model.state.State;
@@ -55,31 +54,55 @@ public class RemoteController {
 
     // --------------- GETTER ---------------------
 
-
+    /**Server Getter
+     * @return the server to which the Remote Controller is on
+     */
     public Server getServer() {
         return server;
     }
 
+
+    /**MaxPlayers Getter
+     * @return the number of max players that can be in game
+     */
     public int getMaxPlayers() {
         return maxPlayers;
     }
 
+    /**GodEnumList Getter
+     * @return a list of GodEnum that can be set to players as Player's God
+     */
     public List<GodEnum> getGodEnumList() {
         return godEnumList;
     }
 
+    /**ModelColorList Getter
+     * @return a list of all Model Colors that can be set to each user
+     */
     public List<ModelColor> getModelColorList() {
         return modelColorList;
     }
 
+
+    /**Response Getter
+     * @return the Response that will be sent to the current user
+     */
     public Response getResponse() {
         return response;
     }
 
+
+    /**LastState Getter
+     * @return the last state of the game model
+     */
     public State getLastState() {
         return lastState;
     }
 
+
+    /**GameStarted Getter
+     * @return the boolean value that says if the game is started
+     */
     public boolean isGameStarted() {
         return gameStarted;
     }
@@ -93,7 +116,7 @@ public class RemoteController {
 
 
     /**ModelGame Getter
-     * @return the ModelGame
+     * @return the Model of the game
      */
     public ModelGame getModelGame() {
         return modelGame;
@@ -101,7 +124,7 @@ public class RemoteController {
 
 
     /**User List Players
-     * @return a list of players
+     * @return a list of all players
      */
     public List<User> getPlayerList() {
         return playerList;
@@ -116,56 +139,51 @@ public class RemoteController {
     }
 
 
-    /**Check if there is a User with the username in input
-     * @param username is the username checked
-     * @return true if there is a User with the username in input
-     */
-    public boolean checkUserExistenceWithUsername(String username){
-        for (User user: playerList){
-            if (user.getUsername().equals(username)) return true;
-        }
-        return false;
-    }
 
-    public User getUserFromUsername(String username){
-        for (User user : playerList){
-            if (user.getUsername().equals(username)) return user;
-        }
-        return null;
-    }
-
-    public String getYoungerUsername(){
-        int age = 1000;
-        String username = "";
-        for (User user : playerList){
-            if (user.getAge() < age) username = user.getUsername();
-        }
-        return username;
-    }
 
     // ------------- SETTER ---------------------
 
-
+    /**GodEnumList setter
+     * @param godEnumList is the list of all GodEnum that can be set to each player
+     */
     public void setGodEnumList(List<GodEnum> godEnumList) {
         this.godEnumList = godEnumList;
     }
 
+    /**ModelColorList setter
+     * @param modelColorList is the list of all ModelColor that can be set to each player
+     */
     public void setModelColorList(List<ModelColor> modelColorList) {
         this.modelColorList = modelColorList;
     }
 
+
+    /**MaxPlayers Setter
+     * @param maxPlayers is the max number of players that can play
+     */
     public void setMaxPlayers(int maxPlayers) {
         this.maxPlayers = maxPlayers;
     }
 
+    /**Response Setter
+     * @param response is the response that will be sent to Controller Client
+     */
     public void setResponse(Response response) {
         this.response = response;
     }
 
+
+    /**Server Setter
+     * @param server is the server that will be set to Remote Controller
+     */
     public void setServer(Server server) {
         this.server = server;
     }
 
+
+    /**GameStarted Setter
+     * @param gameStarted is the boolean value that say if the game is started
+     */
     public void setGameStarted(boolean gameStarted) {
         this.gameStarted = gameStarted;
     }
@@ -207,12 +225,14 @@ public class RemoteController {
 
 
 
-    // ------------- EFFECT ----------------
+    // ------------- CONTROLLER ACTION ----------------
 
-    /**Execute the action in input and send an Ack or a Nack containing the Data to send to the Controller Client
+    /**Execute the action in input and send an Ack or a Nack containing the Data to send to the Controller Client,
+     * and at the end an EndingResponse that say that it's the last Message that will be sent during this phase
      * @param action is the action that will be executed
      */
     public void executeAction(Action action){
+        System.out.println(maxPlayers);
 
 
         // --------- REGISTRATION ACTION ------------
@@ -220,10 +240,6 @@ public class RemoteController {
             registrationActionControl((RegistrationAction)action);
         }
 
-        else {
-            if (!(checkUserExistenceWithUsername(action.getUsername()))) {
-                ;
-            }
 
             else {
                 User user = getUserFromUsername(action.getUsername());
@@ -234,56 +250,96 @@ public class RemoteController {
                 }
 
                 // -------------- GodInGameChoice Action -----------------
-                if (action.getClassName().contains("GodInGameChoiceAction") ){
+                else if (action.getClassName().contains("GodInGameChoiceAction") ){
                     godInGameChoiceActionControl((GodInGameChoiceAction)action);
 
                 }
 
                 // -------------- GodChoice Action --------------------
-                if (action.getClassName().contains("GodChoiceAction") ){
+                else if (action.getClassName().contains("GodChoiceAction") ){
                     godChoiceActionControl((GodChoiceAction) action);
                 }
 
 
                 // -------------- COLOR CHOICE ACTION --------------------
-                if (action.getClassName().contains("ColorChoiceAction")){
+                else if (action.getClassName().contains("ColorChoiceAction")){
                     colorChoiceActionControl((ColorChoiceAction) action);
                 }
 
                 // -------------- WorkerSetup Action -----------------
-                if (action.getClassName().contains("WorkerSetupAction") ){
+                else if (action.getClassName().contains("WorkerSetupAction") ){
                     workerSetupActionControl((WorkerSetupAction)action);
 
                 }
 
                 // -------------- ActivatePower Action -------------
-                if (action.getClassName().contains("ActivatePowerAction") ){
-
+                else if (action.getClassName().contains("ActivatePowerAction") ){
+                    activationPowerControl((ActivatePowerAction) action);
                 }
 
                 // -------------- ExecuteState Action --------------
-                if (action.getClassName().contains("ExecuteControllerAction") ){
-
-
-
+                else if (action.getClassName().contains("ExecuteControllerAction") ){
+                    executionActionControl((ExecuteControllerAction) action);
 
                 }
 
 
 
             }
-        }
 
+        sendResponse();
+        setResponse(new EndSending(action.getUsername(), Command.MOVE));
+        sendResponse();
+
+    }
+
+
+
+
+    // ---------------- UTILITIES -----------------
+
+    /**Get the user that has the input username
+     * @param username is the username thanks which it will be returned the user
+     * @return the user who has input username
+     */
+    public User getUserFromUsername(String username){
+        for (User user : playerList){
+            if (user.getUsername().equals(username)) return user;
+        }
+        return null;
+    }
+
+
+    /**Get the username of the younger user
+     * @return the username of the younger user
+     */
+    public String getYoungerUsername(){
+        int age = 1000;
+        String username = "";
+        for (User user : playerList){
+            if (user.getAge() < age) username = user.getUsername();
+        }
+        return username;
+    }
+
+
+    /**Check if there is a User with the username in input
+     * @param username is the username checked
+     * @return true if there is a User with the username in input
+     */
+    public boolean checkUserExistenceWithUsername(String username){
+        for (User user: playerList){
+            if (user.getUsername().equals(username)) return true;
+        }
+        return false;
     }
 
 
     /**Send response to Controller Client via Virtual Client
      */
     public void sendResponse(){
-        server.broadcast(response);
+        if (response != null ) server.broadcast(response);
     }
-
-    // -------------- UTILITIES --------------
 
 
     /**Check if User has set all of his workers
@@ -306,7 +362,6 @@ public class RemoteController {
      */
     public void registrationActionControl(RegistrationAction action){
         action.controlAction(this);
-        sendResponse();
     }
 
 
@@ -315,13 +370,13 @@ public class RemoteController {
      * @param action is the PlayersInGameChoiceAction thanks which max number of players in game will be set
      */
     public void playersInGameChoiceActionControl(PlayersInGameChoiceAction action){
+        System.out.println(action.getNumberOfPlayers());
         if (action.getNumberOfPlayers() > 3 || action.getNumberOfPlayers() <=1){
             String message = "Invalid number of players in game";
             response = new Nack(message, action.getUsername(), Command.PLAYERS);
-            sendResponse();
         }
         else {
-            action.executeAction(maxPlayers);
+            action.executeAction(this);
         }
 
     }
@@ -333,7 +388,7 @@ public class RemoteController {
      * @param action is the action that will be executed
      */
     public void godInGameChoiceActionControl(GodInGameChoiceAction action){
-        action.controlAction(modelGame,godEnumList,this);
+        action.controlAction(modelGame,this);
         sendResponse();
     }
 
@@ -434,10 +489,13 @@ public class RemoteController {
         }
     }
 
+    /**Execute the Activation Power Control
+     * @param action is the ActivatePowerAction that user sent for the execution
+     */
     public void activationPowerControl(ActivatePowerAction action){
         User user = getUserFromUsername(action.getUsername());
 
-        Cell cell = ((ActivatePowerAction)action).getCell();
+        Cell cell = action.getCell();
         if (!modelGame.getValidCells().contains(cell)){
             String message = "Invalid Cell selected";
             response = new Nack(message, user.getUsername(),Command.USE_GOD_POWER);
@@ -445,7 +503,7 @@ public class RemoteController {
         else {
             Worker worker = modelGame.getWorkerFromPosition(cell);
             this.currentWorker = worker;
-            ((ActivatePowerAction)action).executeAction(modelGame, worker);
+            action.executeAction(modelGame, worker);
 
             user.getGod().looseEffect(modelGame, worker);
 
@@ -467,6 +525,9 @@ public class RemoteController {
     }
 
 
+    /**Execute the ExecuteAction Control
+     * @param action is the ExecuteControllerAction that has been sent by Controller Client
+     */
     public void executionActionControl(ExecuteControllerAction action){
         Cell lastWorkerPosition = modelGame.getWorkerPosition(currentWorker);
         Cell cell = action.getCell();

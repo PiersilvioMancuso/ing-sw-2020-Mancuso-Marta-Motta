@@ -13,7 +13,7 @@ public class PlayersInGameChoiceControllerState extends ControllerState{
     /** PlayersInGameChoiceControllerState Constructor
      */
     public PlayersInGameChoiceControllerState() {
-        this.className = getClass().getSimpleName();
+        this.className = "PlayersInGameChoiceControllerState";
     }
 
     /**Create the Action of the State
