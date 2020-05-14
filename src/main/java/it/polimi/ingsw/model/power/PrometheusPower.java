@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.state.BuildState;
 import it.polimi.ingsw.model.state.MovementState;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**Prometheus Power Class
  * @author Piersilvio Mancuso
@@ -37,19 +40,21 @@ public class PrometheusPower extends Power{
 
         if (isActiveEffect()){
             int workerHeight = worker.getPosition().getHeight();
-
+            List<Cell> validPositions = (ArrayList) ((ArrayList) modelGame.getValidCells()).clone();
             if (modelGame.getCurrentState() instanceof MovementState){
 
                 //On Movement State worker cannot move up
                 for (Cell position: modelGame.getValidCells()){
+
                     int positionHeight = position.getHeight();
 
                     if (modelGame.getCurrentState() instanceof MovementState){
-                        if (positionHeight > workerHeight) modelGame.getValidCells().remove(position);
+                        if (positionHeight > workerHeight) validPositions.remove(position);
                     }
 
                 }
             }
+            modelGame.setValidCells(validPositions);
         }
 
 

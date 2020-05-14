@@ -44,13 +44,15 @@ public class MovementStateTest {
     public void executeState_domeCell_shouldThrowIllegalArgumentException(){
         modelGame.addWorker(worker);
         cell.setHeight(4);
+        modelGame.getBoard().setCellBoard(cell);
         state.executeState(modelGame, worker, cell);
     }
 
     @Test
     public void executeState_unoccupiedCell_shouldSetWorkerPositionEqualsToTheCell(){
         modelGame.addWorker(worker);
+
         state.executeState(modelGame, worker, cell);
-        assertSame(cell, modelGame.getWorkerPosition(worker));
+        assertEquals(cell, modelGame.getWorkerPosition(worker));
     }
 }

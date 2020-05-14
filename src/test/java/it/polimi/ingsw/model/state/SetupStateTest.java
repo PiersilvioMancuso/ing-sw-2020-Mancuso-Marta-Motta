@@ -42,6 +42,6 @@ public class SetupStateTest {
     public void executeState_unoccupiedCell_shouldSetWorkerPositionEqualsToTheCell(){
         modelGame.addWorker(worker);
         state.executeState(modelGame, worker, cell);
-        assertSame(cell, modelGame.getWorkerPosition(worker));
+        assertEquals(cell, modelGame.getWorkerPosition(worker));
     }
 }

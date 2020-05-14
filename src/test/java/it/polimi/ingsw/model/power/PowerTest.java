@@ -28,6 +28,7 @@ public class PowerTest {
         modelGame = new ModelGame();
         worker = new Worker(new User("Test"));
         cell = new Cell(0,0,1);
+        modelGame.getBoard().setCellBoard(cell);
         modelGame.addUser(new User("Helo"));
         modelGame.getBoard().setCellBoard(cell);
         modelGame.addWorker(worker);
@@ -204,6 +205,7 @@ public class PowerTest {
     public void isWinner_theWorkerMovedUpToTheThirdLevel_shouldReturnTrue() {
         Cell cell1 = new Cell(1,1,3);
         cell = new Cell(0,0,2);
+        modelGame.getBoard().setCellBoard(cell);
 
         modelGame.getBoard().setCellBoard(cell1);
         modelGame.setWorkerPosition(worker, cell);
@@ -218,6 +220,8 @@ public class PowerTest {
     @Test
     public void isWinner_theWorkerMovedToTheThirdLevelFromTheThirdLevel_shouldReturnFalse(){
         cell.setHeight(3);
+        modelGame.getBoard().setCellBoard(cell);
+
 
         Cell cell1 = new Cell(1,1,3);
 

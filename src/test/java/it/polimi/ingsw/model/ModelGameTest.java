@@ -178,6 +178,7 @@ public class ModelGameTest {
         User user = new User("Piersilvio");
         Worker worker = new Worker(user);
         Cell cell = new Cell(0,0,4);
+        modelGame.getBoard().setCellBoard(cell);
 
         modelGame.setWorkerPosition(worker,cell);
     }
