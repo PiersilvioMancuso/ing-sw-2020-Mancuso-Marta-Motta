@@ -11,6 +11,7 @@ public class AtlasPower extends Power{
 
     public AtlasPower(){
         super();
+        this.textEffect = "Your Worker may build a dome at any level.";
     }
 
 

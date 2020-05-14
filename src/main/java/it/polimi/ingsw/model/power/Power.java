@@ -17,6 +17,7 @@ import java.util.List;
     protected List<State> stateList;
     protected int currentState;
     protected boolean activeEffect;
+    protected String textEffect;
 
 
     public Power(){
@@ -200,5 +201,10 @@ import java.util.List;
     public boolean isWinner(ModelGame modelGame, Worker worker, Cell position){
         int workerHeight = worker.getPosition().getHeight();
         return (workerHeight == 3 && position.getHeight() < 3);
+    }
+
+    @Override
+    public String toString() {
+        return textEffect;
     }
 }

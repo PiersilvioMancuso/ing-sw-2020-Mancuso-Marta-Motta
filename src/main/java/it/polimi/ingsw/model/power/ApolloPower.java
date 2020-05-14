@@ -14,8 +14,9 @@ public class ApolloPower extends Power{
 
     public ApolloPower(){
         super();
+        this.textEffect = "Your Worker may move into an opponent Worker’s\n\t" +
+                "\tspace by forcing their Worker to the space yours just vacated.";
     }
-
 
     // --------------- Setter ------------------------
 

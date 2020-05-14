@@ -4,10 +4,13 @@ import it.polimi.ingsw.controller.ControllerClient;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.ModelColor;
 import it.polimi.ingsw.model.ModelGame;
+import it.polimi.ingsw.model.User;
 import it.polimi.ingsw.model.god.God;
 
 import java.io.Serializable;
 import java.util.List;
+
+import static it.polimi.ingsw.model.ModelColor.*;
 
 /**It is used to select Cli or GUI view, it set the common variable
  *
@@ -23,6 +26,9 @@ abstract public class View implements Serializable {
     protected ModelGame modelGame;
     public Command command;
     protected ModelColor modelColor;
+    protected User user;
+
+
 
     /**Contains the different userData, used to pass all the infos about User: Username, age, IpaAddress,color etc..
      *
@@ -31,6 +37,30 @@ abstract public class View implements Serializable {
      */
     public String getUserData() {
         return userData;
+    }
+
+    public CliColor userColorAscii(){
+        switch (user.getColor()){
+            case CYAN:
+                return  CliColor.CYAN;
+            case GREEN:
+                return CliColor.GREEN;
+            case RED:
+                return CliColor.RED;
+            case BLUE:
+                return CliColor.BLUE;
+            case PURPLE:
+                return CliColor.PURPLE;
+            case YELLOW:
+                return CliColor.YELLOW;
+            default:
+                return CliColor.RESET;
+        }
+
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     /**

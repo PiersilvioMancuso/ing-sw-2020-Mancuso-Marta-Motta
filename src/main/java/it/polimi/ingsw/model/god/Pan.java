@@ -26,4 +26,8 @@ public class Pan extends God {
         super.setUpTurn(modelGame, worker);
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":\t" + power;
+    }
 }

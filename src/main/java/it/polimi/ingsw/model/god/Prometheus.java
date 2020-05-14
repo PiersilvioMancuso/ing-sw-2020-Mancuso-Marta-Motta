@@ -14,5 +14,8 @@ public class Prometheus extends God {
         this.power = new PrometheusPower();
     }
 
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":\t" + power;
+    }
 }

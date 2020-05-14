@@ -14,4 +14,8 @@ public class Apollo extends God {
         this.power = new ApolloPower();
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":\t" + power;
+    }
 }

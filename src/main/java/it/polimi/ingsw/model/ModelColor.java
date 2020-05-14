@@ -12,9 +12,12 @@ public enum ModelColor implements Serializable {
 
     private final String message;
 
-
-    ModelColor(String message) {
+ModelColor(String message) {
         this.message = message;
     }
 
+
+    public String getMessage() {
+        return message;
+    }
 }

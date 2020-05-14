@@ -24,7 +24,10 @@ public class Athena extends God {
         super.setUpTurn(modelGame, worker);
     }
 
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":\t" + power;
+    }
 
 
 }

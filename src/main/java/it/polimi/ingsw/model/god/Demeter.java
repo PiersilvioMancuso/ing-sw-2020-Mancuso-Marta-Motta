@@ -14,6 +14,9 @@ public class Demeter extends God {
         this.power = new DemeterPower();
     }
 
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":\t" + power;
+    }
 
 }

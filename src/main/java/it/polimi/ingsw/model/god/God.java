@@ -97,4 +97,9 @@ abstract public class God implements Serializable {
         }
     }
 
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "\t" + power.toString();
+    }
 }

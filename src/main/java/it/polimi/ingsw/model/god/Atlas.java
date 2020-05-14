@@ -13,6 +13,9 @@ public class Atlas extends God {
         this.power = new AtlasPower();
     }
 
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":\t" + power;
+    }
 
 }

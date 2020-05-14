@@ -13,6 +13,9 @@ public class Minotaur extends God {
         this.power = new MinotaurPower();
     }
 
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":\t" + power;
+    }
 
 }

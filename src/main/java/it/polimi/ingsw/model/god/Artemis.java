@@ -13,5 +13,9 @@ public class Artemis extends God {
         this.power = new ArtemisPower();
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":\t" + power;
+    }
 
 }

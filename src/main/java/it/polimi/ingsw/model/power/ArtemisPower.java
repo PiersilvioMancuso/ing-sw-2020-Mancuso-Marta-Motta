@@ -16,6 +16,7 @@ public class ArtemisPower extends Power {
 
     public ArtemisPower(){
         super();
+        this.textEffect = "Your Worker may move one additional time, but not\n" + "\t\t\tback to its initial space.";
     }
 
 

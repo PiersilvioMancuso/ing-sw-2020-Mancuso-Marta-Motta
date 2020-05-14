@@ -14,5 +14,8 @@ public class Hephaestus extends God {
         this.power = new HephaestusPower();
     }
 
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":\t" + power;
+    }
 }

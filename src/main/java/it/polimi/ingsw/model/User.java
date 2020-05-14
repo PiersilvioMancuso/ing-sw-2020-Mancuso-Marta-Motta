@@ -104,4 +104,8 @@ public class User implements Serializable {
     }
 
 
+    @Override
+    public String toString() {
+        return username + ":\t" + godChosen.getClass().getSimpleName() + " - " + outCome;
+    }
 }

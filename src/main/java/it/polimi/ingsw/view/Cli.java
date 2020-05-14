@@ -2,7 +2,8 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.ModelColor;
-import it.polimi.ingsw.model.god.God;
+import it.polimi.ingsw.model.User;
+import it.polimi.ingsw.model.god.*;
 
 import java.io.PrintWriter;
 import java.util.Scanner;
@@ -18,6 +19,7 @@ public class Cli extends View {
     private final Scanner scanner = new Scanner(System.in);
     private String scan;
 
+    // --------------- CONSTRUCTOR ---------------
 
     /**It start the game
      *
@@ -28,6 +30,38 @@ public class Cli extends View {
         //run();
 
     }
+
+    // --------------- GETTER ----------------
+
+    public static int getROW() {
+        return ROW;
+    }
+
+    public static int getCOLUMN() {
+        return COLUMN;
+    }
+
+    public PrintWriter getPrintWriter() {
+        return printWriter;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public String getScan() {
+        return scan;
+    }
+
+    // --------------- SETTER ----------------
+
+    public void setScan(String scan) {
+        this.scan = scan;
+    }
+
+
+
+    // --------------- PRINTER ---------------
 
     /**Called by Cli method to print game logo
      *
@@ -56,8 +90,23 @@ public class Cli extends View {
         StringBuilder board = new StringBuilder();
 
         for(int i=0; i<ROW; i++){
+            if (i==0) {
+                board.append(CliColor.CYAN + "      A \t\tB \t\t\tC \t\t\tD \t\t\tE\n" + CliColor.RESET );
+                //board.append(CliColor.CYAN + "  -------------------------------------------------------\n" + CliColor.RESET);
+            }
             for(int j=0; j<COLUMN; j++){
                 //board.append(CliColor.WHITE_BACKGROUND);
+                if(j==0 && i==0)
+                    board.append(CliColor.CYAN + "" + i + " " + CliColor.RESET);
+                if(j==0 && i==1)
+                    board.append(CliColor.CYAN + "" + i + " " + CliColor.RESET);
+                if(j==0 && i==2)
+                    board.append(CliColor.CYAN + "" + i + " " + CliColor.RESET);
+                if(j==0 && i==3)
+                    board.append(CliColor.CYAN + "" + i + " " + CliColor.RESET);
+                if(j==0 && i==4)
+                    board.append(CliColor.CYAN + "" + i + " " + CliColor.RESET);
+
                 board.append(" ");
 
                 // If is there any worker
@@ -72,7 +121,7 @@ public class Cli extends View {
                 board.append("|");
 
                 if (availableCell.contains(new Cell(i, j))){
-                    board.append("A");
+                    board.append("\u001B[1m" + "A");
                 }
                 else {
                     board.append(" ");
@@ -86,7 +135,8 @@ public class Cli extends View {
             }
             board.append("\n");
         }
-        printWriter.println(board);
+        printWriter.println("\n" + board);
+        printUser();
     }
 
     /**Called by printBoard methods to compare the modelColor with the CliColor and return the same color
@@ -115,6 +165,17 @@ public class Cli extends View {
         } else return "";
 
     }
+
+
+
+    public void printUser(){
+        for(User user : modelGame.getUserList()){
+            printWriter.println(userColorAscii() + "" + user + CliColor.RESET);
+        }
+    }
+
+
+    // --------------- LOGIC -----------------
 
     /**It check the command sent from the controller and then call the method, after notifyAll to the controller
      *
@@ -162,9 +223,14 @@ public class Cli extends View {
                 break;
         }
         printWriter.println(userData);
-        controllerClient.notifyControllerAction();
+
+        //controllerClient.notifyControllerAction();
     }
 
+    /**Print message error
+     *
+     * @param message
+     */
     @Override
     public void printError(String message) {
         printWriter.println(message);
@@ -174,15 +240,15 @@ public class Cli extends View {
      *
      */
     public void register(){
-        printWriter.println("Insert Username and Press Enter:\n");
+        printWriter.println(CliColor.CYAN + "Insert Username and Press Enter:");
         scan = scanner.nextLine();
         this.userData = "username=" + scan + ";";
 
-        printWriter.println("Insert IpAddress and Press Enter:\n");
+        printWriter.println("Insert IpAddress and Press Enter:");
         scan = scanner.nextLine();
         userData += "address=" + scan + ";";
 
-        printWriter.println("Insert age and Press Enter:\n");
+        printWriter.println("Insert age and Press Enter:" + CliColor.RESET);
         scan = scanner.nextLine();
         userData += "age=" + scan + ";";
     }
@@ -198,9 +264,32 @@ public class Cli extends View {
      *
      */
     public void color(){
-        printWriter.println("Choose a color from the fallowing list");
+        printWriter.println(CliColor.CYAN + user.getUsername() + "! Choose a color from the fallowing list:" + CliColor.RESET);
         for(ModelColor color : availableColor ){
-            printWriter.println(color);
+            String print = "";
+            switch (color){
+                case RED:
+                    print = "" + CliColor.RED;
+                    break;
+                case GREEN:
+                    print = "" + CliColor.GREEN;
+                    break;
+                case YELLOW:
+                    print = "" + CliColor.YELLOW;
+                    break;
+                case BLUE:
+                    print = "" + CliColor.BLUE;
+                    break;
+                case PURPLE:
+                    print = "" + CliColor.PURPLE;
+                    break;
+                case CYAN:
+                    print = "" + CliColor.CYAN;
+                    break;
+            }
+
+            printWriter.println(print + availableColor.indexOf(color) + " - " + color + CliColor.RESET);
+
         }
         scan = scanner.nextLine();
         this.userData= "color=" + scan + ";";
@@ -211,11 +300,12 @@ public class Cli extends View {
      */
     public void godListThree(){
         for(God god : availableGod ){
-            printWriter.println(god);
+            printWriter.print(userColorAscii());
+            printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
         }
         this.userData="";
         for(int i=0; i<3; i++){
-            printWriter.println("Choose a god from the previous list:");
+            printWriter.println(CliColor.CYAN + "\n" + user.getUsername() + "! Choose a god from the previous list:" + CliColor.RESET);
             scan = scanner.nextLine();
             userData="god=" + scan + ";";
         }
@@ -226,11 +316,12 @@ public class Cli extends View {
      */
     public void godListTwo(){
         for(God god : availableGod ){
-            printWriter.println(god);
+            printWriter.print(userColorAscii());
+            printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
         }
         this.userData="";
         for(int i=0; i<2; i++){
-            printWriter.println("Choose a god from the previous list:");
+            printWriter.println(CliColor.CYAN + user.getUsername() + "! Choose a god from the previous list:" + CliColor.RESET);
             scan = scanner.nextLine();
             userData+="god=" + scan + ";";
         }
@@ -241,20 +332,23 @@ public class Cli extends View {
      */
     public void god(){
         this.userData="";
-        printWriter.println("Choose a god from the fallowing list:");
+        printWriter.println(CliColor.CYAN + user.getUsername() + "! Choose a god from the fallowing list:" + CliColor.RESET);
         for(God god : availableGod ){
-            printWriter.println(god);
+            printWriter.print(CliColor.CYAN);
+            printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
         }
         scan = scanner.nextLine();
         userData="god="+ scan + ";";
     }
+
+
 
     /**Called by run method to let the user set the initial worker's position.
      * The worker is already selected at the beginning of the turn (usePower)and not here
      *
      */
     public void setWorkerPosition(){
-        printWriter.println("Where you want to put your worker?");
+        printWriter.println(CliColor.CYAN + user.getUsername() + "! Where do you want to put your worker?" + CliColor.RESET);
         scan = scanner.nextLine();
         this.userData="workerPosition=" + scan + ";";
     }
@@ -263,7 +357,7 @@ public class Cli extends View {
      * The worker is already selected at the beginning of the turn (usePower)and not here
      */
     public void moveWorker(){
-        printWriter.println("Where you want to put your worker?");
+        printWriter.println(CliColor.CYAN +user.getUsername() + "! Where do you want to move your worker?" + CliColor.RESET);
         scan = scanner.nextLine();
         this.userData="moveWorker=" + scan + ";";
     }
@@ -272,10 +366,10 @@ public class Cli extends View {
      * It is called first and is here where the worker is chosen
      */
     public void usePower(){
-        printWriter.println("Which worker?");
+        printWriter.println(CliColor.CYAN + "Which worker?");
         scan = scanner.nextLine();
         this.userData= "worker="+ scan + ";";
-        printWriter.println("Do you want to use your power?");
+        printWriter.println(user.getUsername() +"! Do you want to use your power?" + CliColor.RESET);
         scan = scanner.nextLine();
         userData+= "power=" + scan + ";";
     }
@@ -284,7 +378,7 @@ public class Cli extends View {
      *
      */
     public void build(){
-        printWriter.println("Where do you want to build?");
+        printWriter.println(CliColor.CYAN + user.getUsername() + "! Where do you want to build?" + CliColor.RESET);
         scan = scanner.nextLine();
         userData+= "build=" + scan + ";";
     }
@@ -293,7 +387,7 @@ public class Cli extends View {
      *
      */
     public void loose(){
-        printWriter.println("Sorry, you loose. Do you want to continue watching the game? Yes or No");
+        printWriter.println(CliColor.CYAN + user.getUsername() + "! Sorry, you loose. Do you want to continue watching the game? Yes or No" +CliColor.RESET);
         scan = scanner.nextLine();
         this.userData= "watch=" + scan + ";";
     }
@@ -302,14 +396,14 @@ public class Cli extends View {
      *
      */
     public void win(){
-        printWriter.println("OH MAN, YOU WIN!");
+        printWriter.println(CliColor.CYAN + user.getUsername() + "! OH MAN, YOU WIN!" + CliColor.RESET);
     }
 
     /**Called by run method to let the user choose how many players can play in the game
      *
      */
     public void players(){
-        printWriter.println("How many play?");
+        printWriter.println(CliColor.CYAN + "How many players " + user.getUsername() +"?" + CliColor.RESET);
         scan = scanner.nextLine();
         this.userData="players=" + scan + ";";
     }
@@ -318,7 +412,10 @@ public class Cli extends View {
      *
      */
     public void quit(){
-        printWriter.println("You're quitting, you have done");
+        printWriter.println(CliColor.CYAN + user.getUsername() + "! You're quitting, you have done" + CliColor.RESET);
     }
+
+
+
 
 }

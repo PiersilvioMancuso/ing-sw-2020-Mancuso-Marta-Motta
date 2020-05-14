@@ -11,6 +11,7 @@ public class AthenaPower extends Power {
 
     public AthenaPower(){
         super();
+        this.textEffect = "If one of your Workers moved up on your last\n" + "\t\tturn, opponent Workers cannot move up this turn.";
     }
 
     // ------------- Action ------------------------

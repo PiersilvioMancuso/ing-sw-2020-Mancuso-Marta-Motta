@@ -8,7 +8,10 @@ import it.polimi.ingsw.model.state.MovementState;
  * @author Piersilvio Mancuso
  */
 public class HephaestusPower extends Power{
-
+    public HephaestusPower() {
+        super();
+        this.textEffect = "Your Worker may build one additional block (not\n" + "\t\t\tdome) on top of your first block.";
+    }
 
     //Action
 
