@@ -31,7 +31,6 @@ public class ControllerClient {
         view.addController(this);
         this.registered = false;
         this.wait = false;
-        this.view = view;
         this.user = "";
         this.controllerState = new RegisterControllerState();
         this.client = client;
@@ -172,13 +171,12 @@ public class ControllerClient {
 
         //Check if the response is related to the user
         if (response.getUsername().equals(user)) {
-            System.out.println(response);
 
 
             //If receive a registrationAck
             if (response.getClassName().contains("RegistrationAck")  && !registered){
                 registered = true;
-                return;
+                view.printError("Connected and Registered to the Lobby, please wait until the lobby is full");
             }
 
             //If the response is an Ack, ControllerClient will set his ControllerState, will set View Command and will run it
@@ -186,12 +184,11 @@ public class ControllerClient {
                 wait = false;
                 this.controllerState = ((Ack) response).getControllerState();
                 view.setCommand((response).getCommand());
-                return;
             }
 
             //If the response is a Nack, ControllerClient will set the Command to the View and will run View after Error Message Printing
             else if (response.getClassName().contains("Nack")) {
-                System.out.println(((Nack)response).getMessage());
+
                 wait = false;
                 view.setCommand(response.getCommand());
                 view.printError(((Nack) response).getMessage());
@@ -201,13 +198,14 @@ public class ControllerClient {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                finally {
-                    return;
-                }
 
             }
         }
 
+    }
+
+    public void printView(){
+        ((Cli)view).printBoard();
     }
 
     /**Execute the view phase*/

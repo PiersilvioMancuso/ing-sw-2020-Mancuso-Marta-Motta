@@ -11,6 +11,7 @@ public class Atlas extends God {
     /**Create the God Atlas which use Atlas Power */
     public Atlas(){
         this.power = new AtlasPower();
+        power.setActiveEffect(false);
     }
 
     @Override

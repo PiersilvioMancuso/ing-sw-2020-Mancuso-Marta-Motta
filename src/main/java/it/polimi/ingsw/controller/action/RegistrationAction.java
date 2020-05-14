@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.messages.controllersMessages.Ack;
 import it.polimi.ingsw.model.messages.controllersMessages.Nack;
 import it.polimi.ingsw.model.messages.controllersMessages.RegistrationAck;
 import it.polimi.ingsw.model.messages.modelViewMessages.GodListUpdate;
+import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.view.Command;
 
 import java.util.List;
@@ -84,37 +85,56 @@ public class RegistrationAction extends Action{
 
         // --------- Registration can be executed
         else {
-            remoteController.getPlayerList().add(new User(username));
+
+            //Operations to User
+            User user = new User(username);
+            user.setAge(age);
+
+            //Add user to the lobby
+            remoteController.getPlayerList().add(user);
+
+            //Registration Ack Creation
             remoteController.setResponse(new RegistrationAck(username, Command.PLAYERS));
 
 
-            remoteController.getUserFromUsername(username).setAge(age);
 
-            // --------------
+            // If user is the first user, it will receive another Ack asking him to set number of players in the game
             if (remoteController.getPlayerList().size() == 1){
 
+                //Send the Registration Ack
                 remoteController.sendResponse();
+
+                //Create a PlayersInGameChoice Ack
                 remoteController.setResponse(new Ack(username, Command.PLAYERS, new PlayersInGameChoiceControllerState()));
-                return;
             }
 
+            // If with user's registration the lobby is full then the modelGame can be created and it will start the Setup state
             else if (remoteController.getPlayerList().size() == remoteController.getMaxPlayers() && remoteController.getMaxPlayers() > 1){
-                String username = remoteController.getYoungerUsername();
+
+                // Send the Registration Ack
                 remoteController.sendResponse();
+
+                //Set that the game is started
                 remoteController.setGameStarted(true);
 
-                //TODO: A.F. Persistence
+                // Initialize the ModelGame with its default properties
                 remoteController.setModelGame(new ModelGame());
                 remoteController.getModelGame().setServer(remoteController.getServer());
                 remoteController.getModelGame().setUserList(remoteController.getPlayerList());
+
+                remoteController.getModelGame().addUpdate(new ModelUpdate(remoteController.getModelGame()));
                 remoteController.getModelGame().addUpdate(new GodListUpdate(remoteController.getGodEnumList()));
 
+
+                //Set the Ack to send to the youngest user
+                user = remoteController.getYoungestUser();
+                remoteController.getModelGame().setCurrentUser(remoteController.getPlayerList().indexOf(user));
                 if (remoteController.getPlayerList().size() == 2){
-                    remoteController.setResponse( new Ack(username, Command.GOD_LIST_TWO, new GodInGameChoiceControllerState()));
+                    remoteController.setResponse( new Ack(user.getUsername(), Command.GOD_LIST_TWO, new GodInGameChoiceControllerState()));
                 }
 
                 else  {
-                    remoteController.setResponse( new Ack(username, Command.GOD_LIST_THREE, new GodInGameChoiceControllerState()));
+                    remoteController.setResponse( new Ack(user.getUsername(), Command.GOD_LIST_THREE, new GodInGameChoiceControllerState()));
                 }
 
             }

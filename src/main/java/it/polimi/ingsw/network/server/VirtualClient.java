@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.controller.RemoteController;
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.model.messages.Message;
 import it.polimi.ingsw.model.messages.controllersMessages.EndSending;
@@ -8,6 +9,8 @@ import it.polimi.ingsw.view.Command;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.ArrayList;
 
 /**
  * Virtual client
@@ -15,7 +18,7 @@ import java.net.Socket;
  */
 public class VirtualClient implements Sender<Message>, Runnable{
     private Server server;
-    private Socket clientSocket;
+    private final Socket clientSocket;
     private String userName = null;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
@@ -48,9 +51,15 @@ public class VirtualClient implements Sender<Message>, Runnable{
         return userName;
     }
 
+    public Socket getClientSocket() {
+        return clientSocket;
+    }
+
     public ObjectOutputStream getOutputStream() {
         return outputStream;
     }
+
+
 
     /**
      * Setter for the username
@@ -65,31 +74,25 @@ public class VirtualClient implements Sender<Message>, Runnable{
      * @param message is the generic object sent
      */
     @Override
-    public void send(Message message) {
+    public synchronized void send(Message message) {
         try {
             if (message.getClassName().contains("End")){
                 this.outputStream.writeObject(message);
+                notify();
+            }
 
+            else if (message == null){
                 return;
             }
 
-            if (message == null){
-
-                return;
-            }
-            else if (message.getClassName().contains("RegistrationAck") && userName == null){
-                setUserName(((Response) message).getUsername());
-            }
-
-            if (message.getClassName().contains("Ack")  && !((Response) message).getUsername().equals(userName)){
-
+            else if (message.getClassName().contains("Ack")  && !((Response) message).getUsername().equals(userName)){
                 return;
             }
             else {
 
 
                 this.outputStream.writeObject(message);
-
+                this.outputStream.reset();
                 return;
 
             }
@@ -111,16 +114,33 @@ public class VirtualClient implements Sender<Message>, Runnable{
         try {
 
 
-            while (true){
+            while (true) {
                 Object data = inputStream.readObject();
-                System.out.println(data);
-                if (data != null){
+                if (data != null) {
                     Action action = (Action) data;
-                    System.out.println(action);
                     this.userName = action.getUsername();
                     server.receive(action);
                 }
             }
+        }catch (SocketException e){
+                server.setRemoteController(new RemoteController(server));
+                for (VirtualClient client : server.getVirtualClientList()){
+                    if (!client.equals(this)){
+                        try {
+                            client.clientSocket.close();
+
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    }
+                }
+            try {
+                clientSocket.close();
+                server.setVirtualClientList(new ArrayList<VirtualClient>());
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

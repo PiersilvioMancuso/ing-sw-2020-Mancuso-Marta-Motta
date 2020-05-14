@@ -44,7 +44,6 @@ public class ClientGatherer extends Thread{
                 VirtualClient client = new VirtualClient(server, newClient);
 
                 server.addClient(client);
-                System.out.println(server.getVirtualClientList().size());
 
             }catch (IOException e){
                 e.printStackTrace();

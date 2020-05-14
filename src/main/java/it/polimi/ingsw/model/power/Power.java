@@ -57,7 +57,7 @@ import java.util.List;
      * @param modelGame is the model of the game
      */
     public List<Cell> getValidCells(ModelGame modelGame){
-        return new ArrayList<>(modelGame.getValidCells());
+        return modelGame.getValidCells();
     }
 
     public List<State> getStateList(){
@@ -85,6 +85,7 @@ import java.util.List;
 
     /**Set the turn state of the player */
     public void setStateList(){
+        currentState = 0;
         List<State> states = new ArrayList<>();
         states.add(new MovementState());
         states.add(new BuildState());
@@ -159,7 +160,7 @@ import java.util.List;
      */
     public void setNextCurrentState(ModelGame modelGame){
         currentState++;
-        modelGame.setCurrentState(getCurrentState());
+        modelGame.setCurrentState(stateList.get(currentState));
     }
 
 

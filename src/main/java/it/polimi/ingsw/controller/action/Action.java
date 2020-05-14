@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
+import it.polimi.ingsw.controller.RemoteController;
+
 import java.io.Serializable;
 
 /**Abstract Class Action
@@ -36,4 +38,9 @@ abstract public class Action implements Serializable {
     public String getClassName() {
         return className;
     }
+
+    /**Execute the ActionControl
+     * @param remoteController is the remoteController that will execute the action
+     */
+    abstract public void controlAction(RemoteController remoteController);
 }

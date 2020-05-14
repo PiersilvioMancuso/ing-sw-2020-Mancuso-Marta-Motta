@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import static it.polimi.ingsw.network.server.Server.SOCKET_PORT;
 
@@ -36,6 +37,7 @@ public class Client implements Receiver<Message>, Sender<Action> {
 
         controllerClient = new ControllerClient(this);
         view = controllerClient.getView();
+        view.addController(controllerClient);
         view.run();
     }
 
@@ -69,7 +71,7 @@ public class Client implements Receiver<Message>, Sender<Action> {
     public void send(Action action) {
 
 
-        if (action instanceof RegistrationAction){
+        if (action.getClassName().contains("RegistrationAction") ){
 
             networkHandler = new NetworkHandler(((RegistrationAction) action).getIpAddress(), SOCKET_PORT, this);
             networkHandler.send(action);
@@ -90,17 +92,25 @@ public class Client implements Receiver<Message>, Sender<Action> {
      * otherwise it's a Response used as notify for the client-side controller
      */
     public void executeMessages(){
-        for (Message message : messageList){
-            if (message.getClassName().contains("Update")){
-                ((Update) message).setChanges(view);
+        if (messageList.size()>0){
+            for (Message message : messageList){
+                if (message.getClassName().contains("Update")){
+                    ((Update) message).setChanges(view);
+                }
+                else if (message.getClassName().contains("Response") ){
+                    controllerClient.setResponse((Response) message);
+                    controllerClient.notifyResponse();
+                }
             }
-            else if (message.getClassName().contains("Response") ){
-                controllerClient.setResponse((Response) message);
-                controllerClient.notifyResponse();
-                System.out.println(controllerClient);
-            }
+            clearMessageList();
+            controllerClient.printView();
+            controllerClient.viewRunner();
         }
-        controllerClient.viewRunner();
+        else {
+            controllerClient.printView();
+        }
+
+
     }
 
 
@@ -116,6 +126,8 @@ public class Client implements Receiver<Message>, Sender<Action> {
 
     /**Run the Cli Client*/
     public static void main(String[] args) {
+
+
         Client client = new Client(0);
 
     }

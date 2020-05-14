@@ -57,6 +57,7 @@ abstract public class God implements Serializable {
      * @exception IllegalArgumentException if position is not a valid cell
      */
     public void executePower(ModelGame modelGame, Worker worker, Cell position) {
+
         if (!power.getValidCells(modelGame).contains(position)) throw new IllegalArgumentException("Position is Invalid");
         power.runPower(modelGame, worker, position);
         modelGame.addUpdate(new ModelUpdate(modelGame));
@@ -68,8 +69,8 @@ abstract public class God implements Serializable {
      */
     public void looseEffect(ModelGame modelGame, Worker worker){
         if (isLoser(modelGame, worker) && !(modelGame.getCurrentState() instanceof EndState)){
-            worker.getUser().setOutCome(OutCome.LOOSER);
 
+            worker.getUser().setOutCome(OutCome.LOOSER);
             for (User player: modelGame.getUserList()){
                 if (player.getOutCome().equals(OutCome.LOOSER)){
                     modelGame.removeUser(player);

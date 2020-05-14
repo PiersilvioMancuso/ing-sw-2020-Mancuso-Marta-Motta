@@ -12,8 +12,8 @@ public class PanPower extends Power{
 
     public PanPower(){
         super();
-        this.textEffect = "You also win if your Worker moves down two or\n" +
-                "\t\tmore levels.";
+        this.textEffect = "\tYou also win if your Worker moves down two or\n" +
+                "\t\t\t\tmore levels.\n";
     }
 
     /**Set true the power activation

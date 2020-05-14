@@ -18,7 +18,8 @@ public class ModelUpdate extends Update{
      */
     public ModelUpdate(ModelGame modelGame) {
         super();
-        this.modelGame = new ModelGame(modelGame);
+        this.modelGame = new ModelGame(modelGame) ;
+        this.className = "ModelUpdate";
     }
 
 
@@ -38,7 +39,7 @@ public class ModelUpdate extends Update{
      * @param modelGame is the ModelGame updated and ready to be sent
      */
     public void setModelGame(ModelGame modelGame) {
-        this.modelGame = new ModelGame(modelGame);
+        this.modelGame = modelGame;
     }
 
     @Override

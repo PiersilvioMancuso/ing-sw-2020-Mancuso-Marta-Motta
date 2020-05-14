@@ -102,5 +102,11 @@ public class Cell implements Serializable {
     }
 
 
-
+    @Override
+    public String toString() {
+        return " [x=" + x +
+                ", y=" + y +
+                ", height=" + height +
+                "]\n";
+    }
 }

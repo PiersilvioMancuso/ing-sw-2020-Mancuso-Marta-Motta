@@ -13,7 +13,7 @@ public class PrometheusPower extends Power{
     public PrometheusPower(){
         super();
         this.textEffect = "If your Worker does not move up, it may build both\n" +
-                "\t\t\tbefore and after moving.";
+                "\t\t\t\tbefore and after moving.\n";
     }
 
     // ------------ Setter -------------

@@ -34,11 +34,5 @@ public class Ack extends Response{
         return controllerState;
     }
 
-    @Override
-    public String toString() {
-        return "Ack{" +
-                "username=" + username +
-                "/ncontrollerState=" + controllerState + "/nCommand=" + command +
-                '}';
-    }
+
 }

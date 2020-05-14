@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.controller.RemoteController;
+import it.polimi.ingsw.model.messages.controllersMessages.Nack;
+import it.polimi.ingsw.view.Command;
 
 /**Players In Game Choice Action
  * @author Piersilvio Mancuso
@@ -16,13 +18,12 @@ public class PlayersInGameChoiceAction extends Action{
      */
     public PlayersInGameChoiceAction(String string){
         super();
-        System.out.println(string);
         this.className = "PlayersInGameChoiceAction";
-        System.out.println(string);
+
         String[] message = string.split(";");
         this.username = message[0].split("=")[1];
         this.numberOfPlayers = Integer.parseInt(message[1].split("=")[1]);
-        System.out.println(numberOfPlayers);
+
     }
 
 
@@ -44,5 +45,21 @@ public class PlayersInGameChoiceAction extends Action{
      */
     public void executeAction(RemoteController remoteController){
         remoteController.setMaxPlayers(numberOfPlayers);
+    }
+
+
+    /**Set the Max Number of players of the game
+     * @param remoteController is the remoteController that will execute the action
+     */
+    @Override
+    public void controlAction(RemoteController remoteController) {
+
+        if (numberOfPlayers > 3 || numberOfPlayers <=1){
+            String message = "Invalid number of players in game";
+            remoteController.setResponse(new Nack(message, username, Command.PLAYERS));
+        }
+        else {
+            executeAction(remoteController);
+        }
     }
 }

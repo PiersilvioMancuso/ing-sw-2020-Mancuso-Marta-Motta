@@ -20,6 +20,7 @@ public class User implements Serializable {
      * @param username is the nickname assigned to a user.
      */
     public User(String username) {
+        this.outCome = OutCome.DRAW;
         this.username = username;
     }
 
@@ -106,6 +107,15 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return username + ":\t" + godChosen.getClass().getSimpleName() + " - " + outCome;
+        if (godChosen!= null){
+            return username + ":\t" + godChosen.getClass().getSimpleName() + " - " + outCome;
+        }
+        else if(color != null) {
+            return username + ":\t" +  godChosen.getClass().getSimpleName() + " - " + color +  " - " + outCome;
+        }
+        else {
+            return username + ":\t" + outCome;
+        }
+
     }
 }

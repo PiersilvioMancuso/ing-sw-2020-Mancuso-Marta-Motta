@@ -43,9 +43,9 @@ public class ModelGame implements Serializable {
     /**ModelGame Copy-Constructor
      * @param modelGame is the modelGame that will be copied
      */
-    public ModelGame(final ModelGame modelGame){
+    public ModelGame( ModelGame modelGame){
         this.boardGame = new Board();
-        for (Cell cell : boardGame.getBuildMap()){
+        for (Cell cell : modelGame.getBoard().getBuildMap()){
             this.getBoard().setCellBoard(cell);
         }
         this.validCells = new ArrayList<>(modelGame.getValidCells());
@@ -53,6 +53,8 @@ public class ModelGame implements Serializable {
         this.currentState = modelGame.getCurrentState();
         this.currentUser = modelGame.getCurrentUserIndex();
         this.workerList = modelGame.getWorkerList();
+
+
     }
 
 
@@ -73,6 +75,9 @@ public class ModelGame implements Serializable {
         return currentState;
     }
 
+    /**Server Getter
+     * @return the server where the modelGame is running
+     */
     public Server getServer() {
         return server;
     }
@@ -165,7 +170,7 @@ public class ModelGame implements Serializable {
      * @param state is the state that will be set as current state
      */
     public void setCurrentState(State state) {
-        currentState=state;
+        currentState = state;
     }
 
     /**
@@ -178,16 +183,20 @@ public class ModelGame implements Serializable {
         if (worker == null) throw new NullPointerException("worker is null");
         else if (position == null) throw new NullPointerException("worker is null");
         else if (!getBoard().getBuildMap().contains(position)) throw new IndexOutOfBoundsException("Position is not in the Board");
-
+        position = getBoard().getCell(position);
         int height = position.getHeight();
         if (height < 0 || height >= 4) throw new IllegalArgumentException("Height not valid");
 
         worker.setPosition(position);
     }
 
+    public void setWorkerList(List<Worker> workerList) {
+        this.workerList = workerList;
+    }
+
     public void addUpdate(Update update){
         updateObject = update;
-        notifyServer();
+        if (server != null) notifyServer();
     }
 
     /**
@@ -232,7 +241,8 @@ public class ModelGame implements Serializable {
      * @author Motta
      */
     public void nextUser(){
-        currentUser = (currentUser+1) % userList.size();
+        currentUser = (currentUser + 1);
+        currentUser = currentUser%userList.size();
     }
 
 
@@ -275,6 +285,7 @@ public class ModelGame implements Serializable {
         Random random = new Random();
         setCurrentUser(Math.abs(random.nextInt()) % userList.size());
         currentState = new SetupState();
+        this.validCells = getBoard().getBuildMap();
     }
 
     public void notifyServer(){

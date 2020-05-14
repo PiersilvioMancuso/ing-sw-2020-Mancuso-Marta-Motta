@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.state;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
 
 public class SetupState extends State{
 
@@ -19,6 +20,7 @@ public class SetupState extends State{
         else {
             modelGame.setWorkerPosition(worker, position);
         }
+        modelGame.addUpdate(new ModelUpdate(modelGame));
 
     }
 }

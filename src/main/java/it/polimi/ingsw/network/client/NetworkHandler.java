@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * NetworkHandler Class
@@ -37,6 +38,7 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
         this.client = client;
         try {
             this.socket = new Socket(ipAddress,port);
+
             outputStream = new ObjectOutputStream(socket.getOutputStream()) ;
 
             inputStream = new ObjectInputStream(socket.getInputStream()) ;
@@ -47,6 +49,7 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
     }
 
@@ -89,7 +92,6 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
             try {
                 Message message = (Message) inputStream.readObject();
                 if (message!= null){
-                    System.out.println(message);
                     if (message.getClassName().contains("End")){
                         client.executeMessages();
                     }
@@ -97,10 +99,14 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
 
                 }
 
+            } catch (SocketException e){
+                return;
+
             } catch (IOException e) {
-                e.printStackTrace();
+                return ;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+
             }
         }
     }

@@ -8,6 +8,9 @@ import it.polimi.ingsw.model.god.*;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.model.ModelColor.*;
+import static it.polimi.ingsw.model.ModelColor.YELLOW;
+
 /**Command Line Interface Class
  *
  * @author Veronica Motta
@@ -27,7 +30,6 @@ public class Cli extends View {
     public Cli(){
         printLogo();
         this.command=Command.REGISTER;
-        //run();
 
     }
 
@@ -51,6 +53,27 @@ public class Cli extends View {
 
     public String getScan() {
         return scan;
+    }
+
+    public CliColor getUserCliColor(User user){
+        if (user.getColor() == null) return CliColor.RESET;
+        switch (user.getColor()){
+            case CYAN:
+                return  CliColor.CYAN;
+            case GREEN:
+                return CliColor.GREEN;
+            case RED:
+                return CliColor.RED;
+            case BLUE:
+                return CliColor.BLUE;
+            case PURPLE:
+                return CliColor.PURPLE;
+            case YELLOW:
+                return CliColor.YELLOW;
+            default:
+                return CliColor.RESET;
+        }
+
     }
 
     // --------------- SETTER ----------------
@@ -87,6 +110,7 @@ public class Cli extends View {
      *
      */
     public void printBoard(){
+        if (modelGame == null) return;
         StringBuilder board = new StringBuilder();
 
         for(int i=0; i<ROW; i++){
@@ -169,9 +193,12 @@ public class Cli extends View {
 
 
     public void printUser(){
-        for(User user : modelGame.getUserList()){
-            printWriter.println(userColorAscii() + "" + user + CliColor.RESET);
+        if (modelGame!= null){
+            for(User user : modelGame.getUserList()){
+                printWriter.println(getUserCliColor(user) + "" + user + CliColor.RESET);
+            }
         }
+
     }
 
 
@@ -211,20 +238,20 @@ public class Cli extends View {
                 break;
             case LOOSE:
                 loose();
-                break;
+                return;
             case WIN:
                 win();
-                break;
+                return;
             case PLAYERS:
                 players();
                 break;
             case QUIT:
                 quit();
-                break;
+                return;
         }
         printWriter.println(userData);
 
-        //controllerClient.notifyControllerAction();
+        controllerClient.notifyControllerAction();
     }
 
     /**Print message error
@@ -264,7 +291,7 @@ public class Cli extends View {
      *
      */
     public void color(){
-        printWriter.println(CliColor.CYAN + user.getUsername() + "! Choose a color from the fallowing list:" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN + "Choose a color from the fallowing list:" + CliColor.RESET);
         for(ModelColor color : availableColor ){
             String print = "";
             switch (color){
@@ -300,14 +327,13 @@ public class Cli extends View {
      */
     public void godListThree(){
         for(God god : availableGod ){
-            printWriter.print(userColorAscii());
             printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
         }
         this.userData="";
         for(int i=0; i<3; i++){
-            printWriter.println(CliColor.CYAN + "\n" + user.getUsername() + "! Choose a god from the previous list:" + CliColor.RESET);
+            printWriter.println(CliColor.CYAN + "\n" + "! Choose a god from the previous list:" + CliColor.RESET);
             scan = scanner.nextLine();
-            userData="god=" + scan + ";";
+            userData += "god=" + scan + ";";
         }
     }
 
@@ -316,14 +342,13 @@ public class Cli extends View {
      */
     public void godListTwo(){
         for(God god : availableGod ){
-            printWriter.print(userColorAscii());
             printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
         }
         this.userData="";
         for(int i=0; i<2; i++){
-            printWriter.println(CliColor.CYAN + user.getUsername() + "! Choose a god from the previous list:" + CliColor.RESET);
+            printWriter.println(CliColor.CYAN  + "! Choose a god from the previous list:" + CliColor.RESET);
             scan = scanner.nextLine();
-            userData+="god=" + scan + ";";
+            userData += "god=" + scan + ";";
         }
     }
 
@@ -332,7 +357,7 @@ public class Cli extends View {
      */
     public void god(){
         this.userData="";
-        printWriter.println(CliColor.CYAN + user.getUsername() + "! Choose a god from the fallowing list:" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN +  "! Choose a god from the fallowing list:" + CliColor.RESET);
         for(God god : availableGod ){
             printWriter.print(CliColor.CYAN);
             printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
@@ -348,7 +373,7 @@ public class Cli extends View {
      *
      */
     public void setWorkerPosition(){
-        printWriter.println(CliColor.CYAN + user.getUsername() + "! Where do you want to put your worker?" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN +  "! Where do you want to put your worker?" + CliColor.RESET);
         scan = scanner.nextLine();
         this.userData="workerPosition=" + scan + ";";
     }
@@ -357,7 +382,7 @@ public class Cli extends View {
      * The worker is already selected at the beginning of the turn (usePower)and not here
      */
     public void moveWorker(){
-        printWriter.println(CliColor.CYAN +user.getUsername() + "! Where do you want to move your worker?" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN  + "! Where do you want to move your worker?" + CliColor.RESET);
         scan = scanner.nextLine();
         this.userData="moveWorker=" + scan + ";";
     }
@@ -369,7 +394,7 @@ public class Cli extends View {
         printWriter.println(CliColor.CYAN + "Which worker?");
         scan = scanner.nextLine();
         this.userData= "worker="+ scan + ";";
-        printWriter.println(user.getUsername() +"! Do you want to use your power?" + CliColor.RESET);
+        printWriter.println("! Do you want to use your power?" + CliColor.RESET);
         scan = scanner.nextLine();
         userData+= "power=" + scan + ";";
     }
@@ -378,32 +403,30 @@ public class Cli extends View {
      *
      */
     public void build(){
-        printWriter.println(CliColor.CYAN + user.getUsername() + "! Where do you want to build?" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN + "! Where do you want to build?" + CliColor.RESET);
         scan = scanner.nextLine();
-        userData+= "build=" + scan + ";";
+        userData= "build=" + scan + ";";
     }
 
     /**Called by run method if the user loose and print loose message
      *
      */
     public void loose(){
-        printWriter.println(CliColor.CYAN + user.getUsername() + "! Sorry, you loose. Do you want to continue watching the game? Yes or No" +CliColor.RESET);
-        scan = scanner.nextLine();
-        this.userData= "watch=" + scan + ";";
+        printWriter.println(CliColor.CYAN +  "! Sorry, you lose" +CliColor.RESET);
     }
 
     /**Called by run method if the user win and print win message
      *
      */
     public void win(){
-        printWriter.println(CliColor.CYAN + user.getUsername() + "! OH MAN, YOU WIN!" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN +  "! OH MAN, YOU WIN!" + CliColor.RESET);
     }
 
     /**Called by run method to let the user choose how many players can play in the game
      *
      */
     public void players(){
-        printWriter.println(CliColor.CYAN + "How many players " + user.getUsername() +"?" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN + "How many players " +  "?" + CliColor.RESET);
         scan = scanner.nextLine();
         this.userData="players=" + scan + ";";
     }
@@ -412,7 +435,7 @@ public class Cli extends View {
      *
      */
     public void quit(){
-        printWriter.println(CliColor.CYAN + user.getUsername() + "! You're quitting, you have done" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN  + "! You're quitting, you have done" + CliColor.RESET);
     }
 
 

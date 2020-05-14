@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.model.state.BuildState;
 import it.polimi.ingsw.model.state.MovementState;
 
@@ -14,8 +15,8 @@ public class ApolloPower extends Power{
 
     public ApolloPower(){
         super();
-        this.textEffect = "Your Worker may move into an opponent Worker’s\n\t" +
-                "\tspace by forcing their Worker to the space yours just vacated.";
+        this.textEffect = "\tYour Worker may move into an opponent Worker’s\n\t" +
+                "\t\t\tspace by forcing their Worker to the space yours just vacated.\n";
     }
 
     // --------------- Setter ------------------------
@@ -67,19 +68,23 @@ public class ApolloPower extends Power{
             //Check if Position is a Valid Cell
             if (modelGame.getCurrentState() instanceof MovementState || modelGame.getCurrentState() instanceof BuildState) {
                 if (!modelGame.getValidCells().contains(position)) throw new IllegalArgumentException("Position is Invalid");
-            }
 
-            //Check if in position there is a worker controlled by another User during MovementState
-            if (modelGame.getCurrentState() instanceof MovementState){
+                //Check if in position there is a worker controlled by another User during MovementState
+                if (modelGame.getCurrentState() instanceof MovementState){
 
-                //If position is occupied by another worker controlled by another user, his position will be switched with worker's position
-                if (modelGame.getWorkerListPosition().contains(position)){
-                    Cell workerPosition = worker.getPosition();
-                    Worker otherWorker = modelGame.getWorkerFromPosition(position);
-                    modelGame.setWorkerPosition(otherWorker, workerPosition);
+                    //If position is occupied by another worker controlled by another user, his position will be switched with worker's position
+                    if (modelGame.getWorkerListPosition().contains(position)){
+                        Cell workerPosition = worker.getPosition();
+                        Worker otherWorker = modelGame.getWorkerFromPosition(position);
+                        modelGame.setWorkerPosition(otherWorker, workerPosition);
+                    }
+
                 }
 
             }
+
+
+
 
             //Execute the State Action
             modelGame.getCurrentState().executeState(modelGame, worker, position);
@@ -89,6 +94,7 @@ public class ApolloPower extends Power{
 
             //Set the valid Cells
             setValidCells(modelGame, worker);
+
 
         }
     }

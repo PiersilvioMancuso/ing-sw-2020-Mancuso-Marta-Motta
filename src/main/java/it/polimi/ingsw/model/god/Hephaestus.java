@@ -12,6 +12,7 @@ public class Hephaestus extends God {
     /**Create the God Hephaestus which use Hephaestus Power */
     public Hephaestus(){
         this.power = new HephaestusPower();
+        power.setActiveEffect(false);
     }
 
     @Override

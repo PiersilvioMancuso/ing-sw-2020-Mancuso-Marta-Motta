@@ -36,6 +36,7 @@ public class RemoteController {
     private Response response;
     private Server server;
     private boolean gameStarted;
+    private boolean gameEnded = false;
 
     // ------------- CONSTRUCTOR ----------------
 
@@ -43,12 +44,14 @@ public class RemoteController {
      */
     public RemoteController(Server server){
         this.playerList = new ArrayList<>();
-        this.godEnumList = new ArrayList<GodEnum>(Arrays.asList(GodEnum.values()));
-        this.modelColorList = new ArrayList<ModelColor>(Arrays.asList(ModelColor.values()));
+        this.godEnumList = new ArrayList<>(Arrays.asList(GodEnum.values()));
+        this.modelColorList = new ArrayList<>(Arrays.asList(ModelColor.values()));
         this.maxPlayers = 1;
         this.server = server;
         this.gameStarted = false;
     }
+
+
 
 
 
@@ -138,8 +141,12 @@ public class RemoteController {
         return currentWorker;
     }
 
-
-
+    /**GameEnded Getter
+     * @return a boolean value that says if the game is ended
+     */
+    public boolean isGameEnded() {
+        return gameEnded;
+    }
 
     // ------------- SETTER ---------------------
 
@@ -223,6 +230,12 @@ public class RemoteController {
         this.lastState = lastState;
     }
 
+    /**GameEnded Setter
+     * @param gameEnded is the boolean value that denote the end of a game
+     */
+    public void setGameEnded(boolean gameEnded) {
+        this.gameEnded = gameEnded;
+    }
 
 
     // ------------- CONTROLLER ACTION ----------------
@@ -232,60 +245,8 @@ public class RemoteController {
      * @param action is the action that will be executed
      */
     public void executeAction(Action action){
-        System.out.println(maxPlayers);
 
-
-        // --------- REGISTRATION ACTION ------------
-        if (action.getClassName().contains("RegistrationAction")) {
-            registrationActionControl((RegistrationAction)action);
-        }
-
-
-            else {
-                User user = getUserFromUsername(action.getUsername());
-
-                // ------------- PlayersInGameChoice Action --------------
-                if (action.getClassName().contains("PlayersInGameChoiceAction")){
-                    playersInGameChoiceActionControl((PlayersInGameChoiceAction) action);
-                }
-
-                // -------------- GodInGameChoice Action -----------------
-                else if (action.getClassName().contains("GodInGameChoiceAction") ){
-                    godInGameChoiceActionControl((GodInGameChoiceAction)action);
-
-                }
-
-                // -------------- GodChoice Action --------------------
-                else if (action.getClassName().contains("GodChoiceAction") ){
-                    godChoiceActionControl((GodChoiceAction) action);
-                }
-
-
-                // -------------- COLOR CHOICE ACTION --------------------
-                else if (action.getClassName().contains("ColorChoiceAction")){
-                    colorChoiceActionControl((ColorChoiceAction) action);
-                }
-
-                // -------------- WorkerSetup Action -----------------
-                else if (action.getClassName().contains("WorkerSetupAction") ){
-                    workerSetupActionControl((WorkerSetupAction)action);
-
-                }
-
-                // -------------- ActivatePower Action -------------
-                else if (action.getClassName().contains("ActivatePowerAction") ){
-                    activationPowerControl((ActivatePowerAction) action);
-                }
-
-                // -------------- ExecuteState Action --------------
-                else if (action.getClassName().contains("ExecuteControllerAction") ){
-                    executionActionControl((ExecuteControllerAction) action);
-
-                }
-
-
-
-            }
+        action.controlAction(this);
 
         sendResponse();
         setResponse(new EndSending(action.getUsername(), Command.MOVE));
@@ -310,16 +271,19 @@ public class RemoteController {
     }
 
 
-    /**Get the username of the younger user
-     * @return the username of the younger user
+    /**Get the younger user
+     * @return the younger user
      */
-    public String getYoungerUsername(){
+    public User getYoungestUser(){
         int age = 1000;
-        String username = "";
+        User younger = null;
         for (User user : playerList){
-            if (user.getAge() < age) username = user.getUsername();
+            if (user.getAge() < age) {
+                younger = user;
+                age = younger.getAge();
+            }
         }
-        return username;
+        return younger;
     }
 
 
@@ -356,240 +320,7 @@ public class RemoteController {
     }
 
 
-    /**Register the player on the lobby, checking if the lobby is full and if there is another player with the same username
-     * It also sends Ack to the right user for game management
-     * @param action is the action thanks which the registration effect is executed
-     */
-    public void registrationActionControl(RegistrationAction action){
-        action.controlAction(this);
-    }
 
-
-
-    /**Set the maximum number of players that will play the game
-     * @param action is the PlayersInGameChoiceAction thanks which max number of players in game will be set
-     */
-    public void playersInGameChoiceActionControl(PlayersInGameChoiceAction action){
-        System.out.println(action.getNumberOfPlayers());
-        if (action.getNumberOfPlayers() > 3 || action.getNumberOfPlayers() <=1){
-            String message = "Invalid number of players in game";
-            response = new Nack(message, action.getUsername(), Command.PLAYERS);
-        }
-        else {
-            action.executeAction(this);
-        }
-
-    }
-
-
-
-
-    /**Choose which Gods will be in the Game
-     * @param action is the action that will be executed
-     */
-    public void godInGameChoiceActionControl(GodInGameChoiceAction action){
-        action.controlAction(modelGame,this);
-        sendResponse();
-    }
-
-
-
-    /**Set User's God and send a Nack if the user didn't chose a god from the list, otherwise
-     * the god will be set to the correct player and if all players have set their God, the next user will receive a ColorCommand,
-     * otherwise next user will receive a God Choice Command
-     * @param action is the action that will trigger the godChoiceAction Execution
-     */
-    public void godChoiceActionControl(GodChoiceAction action){
-        if (action.getGodChosen() > godEnumList.size() || action.getGodChosen() < 0){
-            String errorMessage = "Incorrect God Chosen";
-            response = new Nack(errorMessage, action.getUsername(),Command.GOD);
-        }
-        else {
-            action.executeAction(godEnumList, playerList);
-            modelGame.setUserList(playerList);
-            modelGame.nextUser();
-
-            User user = modelGame.getCurrentUser();
-
-            if (user.getGod() != null){
-                response = new Ack(user.getUsername(), Command.COLOR, new ColorChoiceControllerState());
-            }
-            else {
-                response = new Ack(user.getUsername(), Command.GOD, new GodChoiceControllerState());
-            }
-
-        }
-        sendResponse();
-    }
-
-
-    /**Set User's Color and send a Nack if the user didn't chose a color from the list, otherwise
-     * the color will be set to the correct player and if all players have set their Color, the next user will receive a ColorCommand,
-     * else next user will receive a Color Choice Command
-     * @param action is the action that will trigger the godChoiceAction Execution
-     */
-    public void colorChoiceActionControl(ColorChoiceAction action){
-        User user = getUserFromUsername(action.getUsername());
-        if (action.getColorChosen() <0 || action.getColorChosen() >= modelColorList.size()){
-            String errorMessage = "Invalid Color Chosen";
-            response = new Nack(errorMessage, user.getUsername(), Command.COLOR);
-        }
-        else {
-            action.executeAction(user, modelColorList);
-            modelGame.nextUser();
-            user = modelGame.getCurrentUser();
-
-            if (user.getColor()!= null){
-                modelGame.startGame();
-                user = modelGame.getCurrentUser();
-
-                response = new Ack(user.getUsername(), Command.SET_WORKER_POSITION, new WorkerSetupControllerState());
-            }
-            else {
-                response = new Ack(user.getUsername(), Command.COLOR, new ColorChoiceControllerState());
-            }
-        }
-        sendResponse();
-
-
-    }
-
-    /**Execute the workerSetupAction Control and Action sending a Nack if an error occurs, or an Ack with next State
-     * @param action is the action that will be executed
-     */
-    public void workerSetupActionControl(WorkerSetupAction action){
-        User user = modelGame.getUserFromUsername(action.getUsername());
-        if (modelGame.getWorkerListPosition().contains(action.getCell())){
-            String errorMessage = "Invalid Cell selected";
-            response = new Nack(errorMessage, action.getUsername(), Command.SET_WORKER_POSITION);
-            sendResponse();
-        }
-        else {
-             action.executeAction(modelGame, user);
-
-            if (userCompleteSetup(user)) {
-                modelGame.nextUser();
-                user = modelGame.getCurrentUser();
-
-                if (userCompleteSetup(user)) {
-                    response = new Ack(user.getUsername(), Command.USE_GOD_POWER, new ActivatePowerControllerState());
-                }
-
-                else response = new Ack(user.getUsername(), Command.SET_WORKER_POSITION, new WorkerSetupControllerState());
-
-                sendResponse();
-            }
-
-            else {
-
-                response = new Ack(action.getUsername(), Command.SET_WORKER_POSITION, new WorkerSetupControllerState());
-                sendResponse();
-            }
-
-        }
-    }
-
-    /**Execute the Activation Power Control
-     * @param action is the ActivatePowerAction that user sent for the execution
-     */
-    public void activationPowerControl(ActivatePowerAction action){
-        User user = getUserFromUsername(action.getUsername());
-
-        Cell cell = action.getCell();
-        if (!modelGame.getValidCells().contains(cell)){
-            String message = "Invalid Cell selected";
-            response = new Nack(message, user.getUsername(),Command.USE_GOD_POWER);
-        }
-        else {
-            Worker worker = modelGame.getWorkerFromPosition(cell);
-            this.currentWorker = worker;
-            action.executeAction(modelGame, worker);
-
-            user.getGod().looseEffect(modelGame, worker);
-
-            if (modelGame.getUserList().size() == 1){
-                response = new Ack(user.getUsername(),Command.WIN, new RegisterControllerState());
-            }
-
-            else {
-                if (modelGame.getCurrentState() instanceof MovementState){
-                    response = new Ack(user.getUsername(), Command.MOVE, new ExecutionControllerState());
-                }
-                else if (modelGame.getCurrentState() instanceof BuildState){
-                    response = new Ack(user.getUsername(), Command.BUILD, new ExecutionControllerState());
-                }
-            }
-
-        }
-        sendResponse();
-    }
-
-
-    /**Execute the ExecuteAction Control
-     * @param action is the ExecuteControllerAction that has been sent by Controller Client
-     */
-    public void executionActionControl(ExecuteControllerAction action){
-        Cell lastWorkerPosition = modelGame.getWorkerPosition(currentWorker);
-        Cell cell = action.getCell();
-        User user = getUserFromUsername(action.getUsername());
-
-
-        //Invalid Cell
-        if (modelGame.getValidCells().contains(cell)){
-            String message = "Invalid Cell selected";
-
-            if (modelGame.getCurrentState() instanceof BuildState){
-                response = new Nack(message, action.getUsername(), Command.BUILD);
-            }
-            else if (modelGame.getCurrentState() instanceof MovementState){
-                response = new Nack(message, action.getUsername(), Command.MOVE);
-            }
-
-        }
-        //ValidCell
-
-        else {
-            action.executeAction(modelGame, currentWorker);
-            user.getGod().winEffect(modelGame, currentWorker, lastWorkerPosition);
-
-            //If winner
-            if (user.getOutCome().equals(OutCome.WINNER)) {
-                for (User user1 : playerList) {
-                    if (!user1.equals(user)) {
-                        response = new Ack(user1.getUsername(), Command.LOOSE, new RegisterControllerState());
-                        sendResponse();
-                    }
-                }
-                response = new Ack(user.getUsername(), Command.WIN, new RegisterControllerState());
-            } else {
-                user.getGod().looseEffect(modelGame, currentWorker);
-
-                if (modelGame.getUserList().size() == 1) {
-                    user = modelGame.getUserList().get(0);
-                    for (User user1 : playerList) {
-                        if (!user1.equals(user)) {
-                            response = new Ack(user1.getUsername(), Command.LOOSE, new RegisterControllerState());
-                            sendResponse();
-                        }
-                    }
-                    response = new Ack(user.getUsername(), Command.WIN, new RegisterControllerState());
-                } else if (modelGame.getCurrentState() instanceof EndState) {
-                    modelGame.nextUser();
-                    response = new Ack(modelGame.getCurrentUser().getUsername(), Command.USE_GOD_POWER, new ActivatePowerControllerState());
-                } else if (!modelGame.getUserList().contains(user)) {
-                    String message = "You already lose the game";
-                    response = new Nack(message, user.getUsername(), Command.QUIT);
-                } else {
-                    if (modelGame.getCurrentState() instanceof BuildState) {
-                        response = new Ack(user.getUsername(), Command.BUILD, new ExecutionControllerState());
-                    } else response = new Ack(user.getUsername(), Command.MOVE, new ExecutionControllerState());
-                }
-
-            }
-        }
-
-        sendResponse();
-    }
 
 
 

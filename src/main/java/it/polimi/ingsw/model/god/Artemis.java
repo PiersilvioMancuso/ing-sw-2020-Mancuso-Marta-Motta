@@ -11,6 +11,7 @@ public class Artemis extends God {
     /**Create the God Artemis which use Artemis Power */
     public Artemis(){
         this.power = new ArtemisPower();
+        power.setActiveEffect(false);
     }
 
     @Override

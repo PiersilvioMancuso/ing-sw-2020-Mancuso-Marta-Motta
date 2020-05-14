@@ -26,7 +26,6 @@ abstract public class View implements Serializable {
     protected ModelGame modelGame;
     public Command command;
     protected ModelColor modelColor;
-    protected User user;
 
 
 
@@ -39,29 +38,7 @@ abstract public class View implements Serializable {
         return userData;
     }
 
-    public CliColor userColorAscii(){
-        switch (user.getColor()){
-            case CYAN:
-                return  CliColor.CYAN;
-            case GREEN:
-                return CliColor.GREEN;
-            case RED:
-                return CliColor.RED;
-            case BLUE:
-                return CliColor.BLUE;
-            case PURPLE:
-                return CliColor.PURPLE;
-            case YELLOW:
-                return CliColor.YELLOW;
-            default:
-                return CliColor.RESET;
-        }
 
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     /**
      * @author Veronica Motta
@@ -158,7 +135,7 @@ abstract public class View implements Serializable {
      * @author Veronica Motta
      * @param modelGame
      */
-    public void setModelGame(ModelGame modelGame) {this.modelGame = modelGame; }
+    public void setModelGame(ModelGame modelGame) {this.modelGame = modelGame ; }
 
     /**Use to set the updated list of available Color that will be used by the Cli and GUI methods
      *

@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.RemoteController;
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.model.messages.Message;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,7 +75,9 @@ public class Server implements Receiver<Action>, Broadcast<Message> {
         this.virtualClientList = virtualClientList;
     }
 
-
+    public void setRemoteController(RemoteController remoteController) {
+        this.remoteController = remoteController;
+    }
 
     // ---------------- SERVER ACTION --------------
 
@@ -116,8 +119,19 @@ public class Server implements Receiver<Action>, Broadcast<Message> {
     @Override
     public void broadcast(Message message) {
         for(VirtualClient client : this.virtualClientList){
-            System.out.println(client.getUserName());
+
             client.send(message);
+        }
+        if (remoteController.isGameEnded() && message.getClassName().contains("EndSending")){
+            for (VirtualClient client : virtualClientList){
+                try {
+                    client.getClientSocket().close();
+                    removeClient(client);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            remoteController = new RemoteController(this);
         }
     }
 

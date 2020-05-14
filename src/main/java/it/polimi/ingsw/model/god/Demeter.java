@@ -12,6 +12,7 @@ public class Demeter extends God {
     /**Create the God Demeter which use Demeter Power */
     public Demeter(){
         this.power = new DemeterPower();
+        power.setActiveEffect(false);
     }
 
     @Override

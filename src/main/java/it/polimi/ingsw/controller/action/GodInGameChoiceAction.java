@@ -34,7 +34,7 @@ public class GodInGameChoiceAction extends Action{
         String[] godArray = data.split(";");
         this.username = godArray[0].split("=")[1];
         for (int i = 1; i < godArray.length; i++){
-            godList.add(Integer.parseInt(godArray[i].split("=")[1]) - 1);
+            godList.add(Integer.parseInt(godArray[i].split("=")[1]) );
         }
     }
 
@@ -56,7 +56,6 @@ public class GodInGameChoiceAction extends Action{
      */
     public List<GodEnum> executeAction(List<GodEnum> gods){
         List<GodEnum> copy = new ArrayList<>();
-        System.out.println(godList);
 
         for (int i = 0; i < gods.size(); i++){
             if (godList.contains(i)) copy.add(gods.get(i));
@@ -66,7 +65,8 @@ public class GodInGameChoiceAction extends Action{
 
 
     // --------------- CONTROLLER ACTION --------------
-    public void controlAction(ModelGame modelGame, RemoteController remoteController){
+    public void controlAction(RemoteController remoteController){
+        ModelGame modelGame = remoteController.getModelGame();
         boolean checkIntegrity = true;
         List<GodEnum> godEnumList = remoteController.getGodEnumList();
 
@@ -104,25 +104,19 @@ public class GodInGameChoiceAction extends Action{
 
             remoteController.setGodEnumList(executeAction(godEnumList));
             modelGame.setCurrentUser(remoteController.getPlayerList().indexOf(remoteController.getUserFromUsername(username)));
-
+            modelGame.nextUser();
 
             User user = modelGame.getCurrentUser();
-            System.out.println(user.getUsername());
 
-            if (user.getUsername().equals(remoteController.getYoungerUsername())){
-                remoteController.getModelGame().addUpdate(new ModelColorListUpdate(remoteController.getModelColorList()));
-                user = modelGame.getCurrentUser();
-                System.out.println(user.getUsername());
-                remoteController.setResponse(new Ack(user.getUsername(), Command.COLOR, new ColorChoiceControllerState()));
-            }
-            else {
-                remoteController.getModelGame().addUpdate(new GodListUpdate(remoteController.getGodEnumList()));
 
-                user = modelGame.getCurrentUser();
+            remoteController.getModelGame().addUpdate(new GodListUpdate(remoteController.getGodEnumList()));
 
-                remoteController.setResponse(new Ack(user.getUsername(), Command.GOD, new GodChoiceControllerState()));
 
-            }
+            user = modelGame.getCurrentUser();
+
+            remoteController.setResponse(new Ack(user.getUsername(), Command.GOD, new GodChoiceControllerState()));
+
+
 
         }
     }

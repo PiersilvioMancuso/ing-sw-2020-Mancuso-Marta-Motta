@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.state.MovementState;
 public class HephaestusPower extends Power{
     public HephaestusPower() {
         super();
-        this.textEffect = "Your Worker may build one additional block (not\n" + "\t\t\tdome) on top of your first block.";
+        this.textEffect = "Your Worker may build one additional block (not\n" + "\t\t\t\tdome) on top of your first block.\n";
     }
 
     //Action
@@ -32,6 +32,7 @@ public class HephaestusPower extends Power{
                 if (!modelGame.getValidCells().contains(position)) throw new IllegalArgumentException("Position is Not a Valid Cell");
 
                 modelGame.getCurrentState().executeState(modelGame, worker, position);
+                position = modelGame.getBoard().getCell(position);
                 if (position.getHeight() <3) modelGame.getCurrentState().executeState(modelGame, worker, position);
                 setNextCurrentState(modelGame);
                 setValidCells(modelGame, worker);

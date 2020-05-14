@@ -11,6 +11,7 @@ public class Minotaur extends God {
     /**Create the God Minotaur which use Minotaur Power */
     public Minotaur(){
         this.power = new MinotaurPower();
+        power.setActiveEffect(false);
     }
 
     @Override

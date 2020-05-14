@@ -15,8 +15,8 @@ public class MinotaurPower extends Power{
     public MinotaurPower(){
         super();
         this.textEffect = "Your Worker may move into an opponent Worker’s space, if \n" +
-                "\t\t\ttheir Worker can be forced one space straight backwards \n" +
-                "\t\t\tto an unoccupied space at any level.";
+                "\t\t\t\ttheir Worker can be forced one space straight backwards \n" +
+                "\t\t\t\tto an unoccupied space at any level.\n";
     }
 
     /**Calculate the destination Cell of Minotaur Push Movement

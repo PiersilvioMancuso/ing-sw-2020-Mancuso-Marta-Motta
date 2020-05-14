@@ -12,6 +12,7 @@ public class Prometheus extends God {
     /**Create the God Prometheus which use Prometheus Power */
     public Prometheus(){
         this.power = new PrometheusPower();
+        power.setActiveEffect(false);
     }
 
     @Override

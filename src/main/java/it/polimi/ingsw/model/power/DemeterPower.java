@@ -17,7 +17,7 @@ public class DemeterPower extends Power{
 
     public DemeterPower(){
         super();
-        this.textEffect = "Your Worker may build one additional time, but not\n" + "\t\t\ton the same space.";
+        this.textEffect = "Your Worker may build one additional time, but not\n" + "\t\t\t\ton the same space.\n";
     }
 
     /**Set the turn state of the player */
