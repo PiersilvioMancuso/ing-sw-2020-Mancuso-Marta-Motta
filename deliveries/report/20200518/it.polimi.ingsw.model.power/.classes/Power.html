@@ -1,0 +1,295 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Power</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model.power</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Power (it.polimi.ingsw.model.power)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Power</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,8%
+  </span>
+  <span class="absValue">
+    (15/ 16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91%
+  </span>
+  <span class="absValue">
+    (61/ 67)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model.power;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.state.*;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.io.Serializable;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**Abstract Power Class
+<i>11</i>&nbsp; * @author Piersilvio Mancuso
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp; public abstract class Power implements Serializable {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    private static boolean athenaEffect;
+<i>16</i>&nbsp;    protected List&lt;State&gt; stateList;
+<i>17</i>&nbsp;    protected int currentState;
+<i>18</i>&nbsp;    protected boolean activeEffect;
+<i>19</i>&nbsp;    protected String textEffect;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;
+<b class="fc"><i>22</i>&nbsp;    public Power(){</b>
+<b class="fc"><i>23</i>&nbsp;        athenaEffect = false;</b>
+<b class="fc"><i>24</i>&nbsp;        stateList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>25</i>&nbsp;        currentState = 0;</b>
+<b class="fc"><i>26</i>&nbsp;        activeEffect = true;</b>
+<b class="fc"><i>27</i>&nbsp;    }</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    // ----------- Getter -------------------------
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**Check if Athena Effect is Active
+<i>34</i>&nbsp;     * @return athenaEffect value
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    public static boolean isAthenaEffect() {
+<b class="fc"><i>37</i>&nbsp;        return athenaEffect;</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**Check if Power is Active
+<i>41</i>&nbsp;     * @return the value of activeEffect: true means that&#39;s activated, false not
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public boolean isActiveEffect(){
+<b class="fc"><i>44</i>&nbsp;        return activeEffect;</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /**Get the current state of the player&#39;s turn
+<i>48</i>&nbsp;     * @return the current state of the player turn
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    public State getCurrentState(){
+<b class="fc"><i>51</i>&nbsp;        return stateList.get(currentState);</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**Get the valid Cells for the current Action belonged to the State
+<i>55</i>&nbsp;     * @return an unmodifiable list of the valid cells where to execute the Current State action
+<i>56</i>&nbsp;     * @param modelGame is the model of the game
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    public List&lt;Cell&gt; getValidCells(ModelGame modelGame){
+<b class="fc"><i>59</i>&nbsp;        return modelGame.getValidCells();</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    public List&lt;State&gt; getStateList(){
+<b class="fc"><i>63</i>&nbsp;        return this.stateList;</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    // ------------------ Setter --------------------------
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     *Set the boolean value of the Activation Effect
+<i>71</i>&nbsp;     * @param condition is the value of athenaEffect
+<i>72</i>&nbsp;     */
+<i>73</i>&nbsp;    public void setAthenaEffect(boolean condition){
+<i>74</i>&nbsp;
+<b class="fc"><i>75</i>&nbsp;        athenaEffect = condition;</b>
+<b class="fc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**Set true if power is activated
+<i>79</i>&nbsp;     * @param activeEffect is the value of the Activation Effect condition
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;    public void setActiveEffect(boolean activeEffect) {
+<b class="fc"><i>82</i>&nbsp;        this.activeEffect = activeEffect;</b>
+<b class="fc"><i>83</i>&nbsp;    }</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /**Set the turn state of the player */
+<i>86</i>&nbsp;    public void setStateList(){
+<b class="fc"><i>87</i>&nbsp;        currentState = 0;</b>
+<b class="fc"><i>88</i>&nbsp;        List&lt;State&gt; states = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>89</i>&nbsp;        states.add(new MovementState());</b>
+<b class="fc"><i>90</i>&nbsp;        states.add(new BuildState());</b>
+<b class="fc"><i>91</i>&nbsp;        states.add(new EndState());</b>
+<b class="fc"><i>92</i>&nbsp;        this.stateList = states;</b>
+<b class="fc"><i>93</i>&nbsp;    }</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**Set the valid Cells where a player can take the current State action
+<i>97</i>&nbsp;     * @param modelGame is the model of the game
+<i>98</i>&nbsp;     * @param worker is the worker used by the player
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    public void setValidCells(ModelGame modelGame, Worker worker){
+<b class="fc"><i>101</i>&nbsp;        List&lt;Cell&gt; validPositions = new ArrayList&lt;&gt;();</b>
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;        //If the current State of the Game is a Setup it will set valid position as a list of all free Cell (Don&#39;t occupied by a worker)
+<b class="fc"><i>104</i>&nbsp;        if (modelGame.getCurrentState() instanceof SetupState ){</b>
+<b class="nc"><i>105</i>&nbsp;            for (Cell cell : modelGame.getBoard().getBuildMap()){</b>
+<b class="nc"><i>106</i>&nbsp;                if (!modelGame.getWorkerListPosition().contains(cell)) validPositions.add(cell);</b>
+<b class="nc"><i>107</i>&nbsp;            }</b>
+<b class="nc"><i>108</i>&nbsp;            modelGame.setValidCells(validPositions);</b>
+<i>109</i>&nbsp;        }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;        //If the current State of the game is an End State, it will set valid position as a list of all user&#39;s worker Cells
+<b class="fc"><i>112</i>&nbsp;        else if (modelGame.getCurrentState() instanceof EndState){</b>
+<b class="fc"><i>113</i>&nbsp;            modelGame.nextUser();</b>
+<b class="fc"><i>114</i>&nbsp;            for (Worker workers: modelGame.getWorkerList()){</b>
+<b class="fc"><i>115</i>&nbsp;                if (workers.getUser().equals(modelGame.getCurrentUser())){</b>
+<b class="nc"><i>116</i>&nbsp;                    validPositions.add(workers.getPosition());</b>
+<i>117</i>&nbsp;                }
+<b class="fc"><i>118</i>&nbsp;            }</b>
+<b class="fc"><i>119</i>&nbsp;            modelGame.setValidCells(validPositions);</b>
+<i>120</i>&nbsp;        }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;        //If the Current State of the Game is a Build or Movement State, it will set the valid cells allowed by rules
+<i>124</i>&nbsp;        else {
+<b class="fc"><i>125</i>&nbsp;            Cell workerPosition = modelGame.getWorkerPosition(worker);</b>
+<b class="fc"><i>126</i>&nbsp;            int workerHeight = workerPosition.getHeight();</b>
+<i>127</i>&nbsp;
+<b class="fc"><i>128</i>&nbsp;            for (Cell position: modelGame.getBoard().getNeighbourCell(workerPosition)){</b>
+<b class="fc"><i>129</i>&nbsp;                int positionHeight = position.getHeight();</b>
+<b class="fc"><i>130</i>&nbsp;                if (positionHeight &lt;= workerHeight + 1 &amp;&amp; positionHeight &gt;= 0 &amp;&amp; !modelGame.getWorkerListPosition().contains(position)) validPositions.add(position);</b>
+<b class="fc"><i>131</i>&nbsp;            }</b>
+<i>132</i>&nbsp;
+<b class="fc"><i>133</i>&nbsp;            modelGame.setValidCells(validPositions);</b>
+<b class="fc"><i>134</i>&nbsp;            athenaEffectModification(modelGame, worker);</b>
+<i>135</i>&nbsp;        }
+<i>136</i>&nbsp;
+<i>137</i>&nbsp;
+<b class="fc"><i>138</i>&nbsp;    }</b>
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    /**Remove All Cells that are higher than worker&#39;s height
+<i>142</i>&nbsp;     * @param modelGame is the model of the game
+<i>143</i>&nbsp;     * @param worker is the worker used by the player
+<i>144</i>&nbsp;     */
+<i>145</i>&nbsp;    public void athenaEffectModification(ModelGame modelGame, Worker worker){
+<b class="fc"><i>146</i>&nbsp;        if (isAthenaEffect() &amp;&amp; modelGame.getCurrentState() instanceof MovementState){</b>
+<b class="fc"><i>147</i>&nbsp;            List&lt;Cell&gt; validPosition = new ArrayList&lt;&gt;(modelGame.getValidCells());</b>
+<b class="fc"><i>148</i>&nbsp;            int workerHeight = modelGame.getWorkerPosition(worker).getHeight();</b>
+<b class="fc"><i>149</i>&nbsp;            for (Cell positionCell : validPosition){</b>
+<b class="fc"><i>150</i>&nbsp;                int positionHeight = positionCell.getHeight();</b>
+<b class="fc"><i>151</i>&nbsp;                if (positionHeight &gt; workerHeight) modelGame.getValidCells().remove(positionCell);</b>
+<b class="fc"><i>152</i>&nbsp;            }</b>
+<i>153</i>&nbsp;        }
+<b class="fc"><i>154</i>&nbsp;    }</b>
+<i>155</i>&nbsp;
+<i>156</i>&nbsp;    // ------------ Action -------------------
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;    /**Change the State
+<i>159</i>&nbsp;     *
+<i>160</i>&nbsp;     * @param modelGame is the model of the game
+<i>161</i>&nbsp;     */
+<i>162</i>&nbsp;    public void setNextCurrentState(ModelGame modelGame){
+<b class="fc"><i>163</i>&nbsp;        currentState++;</b>
+<b class="fc"><i>164</i>&nbsp;        modelGame.setCurrentState(stateList.get(currentState));</b>
+<b class="fc"><i>165</i>&nbsp;    }</b>
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;
+<i>168</i>&nbsp;
+<i>169</i>&nbsp;    /**Initialize the Power
+<i>170</i>&nbsp;     * @param modelGame is the model of the Game
+<i>171</i>&nbsp;     * @param worker is the worker that will be used by the player
+<i>172</i>&nbsp;     */
+<i>173</i>&nbsp;    public void startPower(ModelGame modelGame, Worker worker){
+<b class="fc"><i>174</i>&nbsp;        setStateList();</b>
+<b class="fc"><i>175</i>&nbsp;        modelGame.setCurrentState(stateList.get(0));</b>
+<b class="fc"><i>176</i>&nbsp;        setValidCells(modelGame, worker);</b>
+<i>177</i>&nbsp;
+<b class="fc"><i>178</i>&nbsp;    }</b>
+<i>179</i>&nbsp;
+<i>180</i>&nbsp;    /**Execute the state action
+<i>181</i>&nbsp;     * @param modelGame is the model of the game
+<i>182</i>&nbsp;     * @param worker is the worker used by the player
+<i>183</i>&nbsp;     * @param position is the position where the action will take place
+<i>184</i>&nbsp;     * @exception IllegalArgumentException if position is not a valid cell
+<i>185</i>&nbsp;     */
+<i>186</i>&nbsp;    public void runPower(ModelGame modelGame, Worker worker, Cell position){
+<b class="fc"><i>187</i>&nbsp;        if (!modelGame.getValidCells().contains(position)) throw new IllegalArgumentException(&quot;Position is Not in a ValidCell&quot;);</b>
+<i>188</i>&nbsp;
+<b class="fc"><i>189</i>&nbsp;        modelGame.getCurrentState().executeState(modelGame, worker, position);</b>
+<b class="fc"><i>190</i>&nbsp;        setNextCurrentState(modelGame);</b>
+<b class="fc"><i>191</i>&nbsp;        setValidCells(modelGame, worker);</b>
+<i>192</i>&nbsp;
+<i>193</i>&nbsp;
+<b class="fc"><i>194</i>&nbsp;    }</b>
+<i>195</i>&nbsp;
+<i>196</i>&nbsp;    /**Check if the worker used by the player let him win the game
+<i>197</i>&nbsp;     *
+<i>198</i>&nbsp;     * @param modelGame is the game
+<i>199</i>&nbsp;     * @param worker is the worker used by the player
+<i>200</i>&nbsp;     * @param position is the position from where the worker moved up
+<i>201</i>&nbsp;     * @return true if the player win, otherwise false
+<i>202</i>&nbsp;     */
+<i>203</i>&nbsp;    public boolean isWinner(ModelGame modelGame, Worker worker, Cell position){
+<b class="fc"><i>204</i>&nbsp;        int workerHeight = worker.getPosition().getHeight();</b>
+<b class="fc"><i>205</i>&nbsp;        return (workerHeight == 3 &amp;&amp; position.getHeight() &lt; 3);</b>
+<i>206</i>&nbsp;    }
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;    @Override
+<i>209</i>&nbsp;    public String toString() {
+<b class="nc"><i>210</i>&nbsp;        return textEffect;</b>
+<i>211</i>&nbsp;    }
+<i>212</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-18 12:28</div>
+</div>
+</body>
+</html>
