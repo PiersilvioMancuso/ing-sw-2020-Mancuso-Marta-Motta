@@ -1,8 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.model.messages.Message;
-import it.polimi.ingsw.model.messages.controllersMessages.Response;
+import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.network.server.Receiver;
 import it.polimi.ingsw.network.server.Sender;
 
@@ -32,7 +31,6 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
      * @param ipAddress is the address of the Server to connect with
      * @param port is the port of the socket where the server is listening
      * @param client is the Client where to send the Messages received
-     * @throws IOException if any problem occurs during Input or Output Stream Creation
      */
     public NetworkHandler(String ipAddress, int port,  Client client) {
         this.client = client;
@@ -42,9 +40,6 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
             outputStream = new ObjectOutputStream(socket.getOutputStream()) ;
 
             inputStream = new ObjectInputStream(socket.getInputStream()) ;
-
-
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,7 +71,12 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
         try {
             outputStream.writeObject(action);
             outputStream.reset();
-        } catch (IOException e) {
+        }
+        catch (SocketException e){
+            client.getView().printError("Connection interrupted by an other player, so the game is Over");
+            return;
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

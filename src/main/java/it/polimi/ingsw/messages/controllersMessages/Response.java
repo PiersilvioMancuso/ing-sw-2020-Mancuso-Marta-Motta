@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model.messages.controllersMessages;
+package it.polimi.ingsw.messages.controllersMessages;
 
-import it.polimi.ingsw.model.messages.Message;
+import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.view.Command;
 
 /**Abstract Response Class

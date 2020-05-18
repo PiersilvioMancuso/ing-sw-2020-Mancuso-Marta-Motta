@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  * Class that manage all the parameters of a cell element.
- * @author Mattia Marta
+ * @author Mattia Marta and Piersilvio Mancuso
  */
 public class Cell implements Serializable {
     private int x;
@@ -13,24 +13,37 @@ public class Cell implements Serializable {
     private int height;
 
 
+    /**Cell void Constructor*/
     public Cell (){
         this.x = 0;
         this.y = 0;
         this.height = 0;
     }
 
+    /**Cell Constructor with Position
+     * @param x is the Column of the Cell Created
+     * @param y is the Row of the Cell Created
+     */
     public Cell(int x, int y){
         this.x = x;
         this.y = y;
         this.height = 0;
     }
 
+    /**Cell Constructor with Position and Height
+     * @param x is the Column of the Cell Created
+     * @param y is the Row of the Cell Created
+     * @param height  is the height that will be created
+     */
     public Cell(int x, int y, int height){
         this.x = x;
         this.y = y;
         this.height = height;
     }
 
+    /**Cell Copy Constructor
+     * @param cell is the cell that will be copied
+     */
     public Cell (Cell cell){
         this.x = cell.getX();
         this.y = cell.getY();
@@ -102,11 +115,4 @@ public class Cell implements Serializable {
     }
 
 
-    @Override
-    public String toString() {
-        return " [x=" + x +
-                ", y=" + y +
-                ", height=" + height +
-                "]\n";
-    }
 }

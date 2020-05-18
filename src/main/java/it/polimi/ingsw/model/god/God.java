@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model.god;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
+import it.polimi.ingsw.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.model.power.Power;
 import it.polimi.ingsw.model.state.EndState;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**Abstract God Class
  * @author Piersilvio Mancuso
@@ -71,14 +73,18 @@ abstract public class God implements Serializable {
         if (isLoser(modelGame, worker) && !(modelGame.getCurrentState() instanceof EndState)){
 
             worker.getUser().setOutCome(OutCome.LOOSER);
+            List<Worker> workerList = new ArrayList<>(modelGame.getWorkerList());
+            List<User> userList = new ArrayList<>(modelGame.getUserList());
             for (User player: modelGame.getUserList()){
                 if (player.getOutCome().equals(OutCome.LOOSER)){
-                    modelGame.removeUser(player);
+                    userList.remove(player);
                     for (Worker workerPlayer : modelGame.getWorkerList()){
-                        if (workerPlayer.getUser().equals(player)) modelGame.removeWorker(workerPlayer);
+                        if (workerPlayer.getUser().equals(player)) workerList.remove(workerPlayer);
                     }
                 }
             }
+            modelGame.setWorkerList(workerList);
+            modelGame.setUserList(userList);
 
         }
     }

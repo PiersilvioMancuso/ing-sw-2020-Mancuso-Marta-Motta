@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.controller.controllerState.*;
-import it.polimi.ingsw.model.messages.controllersMessages.*;
+import it.polimi.ingsw.messages.controllersMessages.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.view.*;
 

@@ -4,15 +4,14 @@ import it.polimi.ingsw.controller.RemoteController;
 import it.polimi.ingsw.controller.controllerState.GodInGameChoiceControllerState;
 import it.polimi.ingsw.controller.controllerState.PlayersInGameChoiceControllerState;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.messages.controllersMessages.Ack;
-import it.polimi.ingsw.model.messages.controllersMessages.Nack;
-import it.polimi.ingsw.model.messages.controllersMessages.RegistrationAck;
-import it.polimi.ingsw.model.messages.modelViewMessages.GodListUpdate;
-import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
+import it.polimi.ingsw.messages.controllersMessages.Ack;
+import it.polimi.ingsw.messages.controllersMessages.Nack;
+import it.polimi.ingsw.messages.controllersMessages.RegistrationAck;
+import it.polimi.ingsw.messages.modelViewMessages.GodListUpdate;
+import it.polimi.ingsw.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.view.Command;
 
 import java.util.List;
-
 
 /**RegistrationAction Class
  * @author Piersilvio Mancuso
@@ -56,7 +55,6 @@ public class RegistrationAction extends Action{
     // -------------------- ACTION -------------------------
 
     /**Register the Player into the Game Lobby
-     * @return the Response of the model's modifies
      */
     public void executeAction(List<User> userList){
         User user = new User(username);
@@ -78,7 +76,7 @@ public class RegistrationAction extends Action{
         }
 
         // --------- Username Already in use from another user
-        else if (remoteController.checkUserExistenceWithUsername(username)){
+        else if (remoteController.checkUserExistenceWithUsername(username) || username.equals(RemoteController.getENDNAME())){
             String message = "Username already used by another player, please set another username";
             remoteController.setResponse(new Nack(message, username, Command.REGISTER));
         }

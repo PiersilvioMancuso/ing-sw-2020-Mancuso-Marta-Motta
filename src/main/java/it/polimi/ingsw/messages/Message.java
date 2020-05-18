@@ -1,6 +1,4 @@
-package it.polimi.ingsw.model.messages;
-
-import it.polimi.ingsw.view.Command;
+package it.polimi.ingsw.messages;
 
 import java.io.Serializable;
 

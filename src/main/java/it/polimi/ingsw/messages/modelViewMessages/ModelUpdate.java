@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.messages.modelViewMessages;
+package it.polimi.ingsw.messages.modelViewMessages;
 
 import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.view.View;

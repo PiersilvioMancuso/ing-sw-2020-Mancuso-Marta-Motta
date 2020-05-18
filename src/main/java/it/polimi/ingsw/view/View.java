@@ -69,7 +69,7 @@ abstract public class View implements Serializable {
     /**Use to get the updated ModelGame from the Controller
      *
      * @author Veronica Motta
-     * @return ModelGame
+     * @return  the copy of ModelGame
      */
     public ModelGame getModelGame() {
         return modelGame;
@@ -78,7 +78,7 @@ abstract public class View implements Serializable {
     /**Use to get the updated list of available Color from the Controller
      *
      * @author Veronica Motta
-     * @return List<ModelColor>
+     * @return  a list of all available colors
      */
     public List<ModelColor> getAvailableColor() {
         return availableColor;
@@ -87,7 +87,7 @@ abstract public class View implements Serializable {
     /**Use to get the updated list of available Cell from the Controller
      *
      * @author Veronica Motta
-     * @return List<Cell>
+     * @return  a List of all available cells
      */
     public List<Cell> getAvailableCell() {
         return availableCell;
@@ -96,7 +96,7 @@ abstract public class View implements Serializable {
     /**Use to get the updated list of available God from the Controller
      *
      * @author Veronica Motta
-     * @return List<God>
+     * @return  a List of all available gods
      */
     public List<God> getAvailableGod() {
         return availableGod;
@@ -105,7 +105,7 @@ abstract public class View implements Serializable {
     /**Add as observer Client Controller
      *
      * @author Veronica Motta
-     * @param controller
+     * @param controller is the controllerClient thanks which View execute actions
      */
     public void addController(ControllerClient controller){
         this.controllerClient=controller;
@@ -114,7 +114,7 @@ abstract public class View implements Serializable {
     /**Use to set the command sent by the controller that will be used by the Cli and GUI methods
      *
      * @author Veronica Motta
-     * @param command
+     * @param command is the command that has been received by the Server
      */
     public void setCommand(Command command) {
         this.command = command;
@@ -124,7 +124,7 @@ abstract public class View implements Serializable {
      * CliColor that will be used by the Cli and GUI methods
      *
      * @author Veronica Motta
-     * @param modelColor
+     * @param modelColor is the modelColor
      */
     public void setModelColor(ModelColor modelColor) {
         this.modelColor = modelColor;
@@ -133,14 +133,14 @@ abstract public class View implements Serializable {
     /**Use to set the updated ModelGame that have all the infos about the game that will be used by the Cli and GUI methods
      *
      * @author Veronica Motta
-     * @param modelGame
+     * @param modelGame is a copy of the model
      */
     public void setModelGame(ModelGame modelGame) {this.modelGame = modelGame ; }
 
     /**Use to set the updated list of available Color that will be used by the Cli and GUI methods
      *
      * @author Veronica Motta
-     * @param availableColor
+     * @param availableColor is a list of all available colors, obtained by the Server
      */
     public void setAvailableColor(List<ModelColor> availableColor) {
         this.availableColor = availableColor;
@@ -149,7 +149,7 @@ abstract public class View implements Serializable {
     /**Use to set the updated list of available Cell that will be used by the Cli and GUI methods
      *
      * @author Veronica Motta
-     * @param availableCell
+     * @param availableCell is a list of all available cells, obtained by the Server
      */
     public void setAvailableCell(List<Cell> availableCell) {
         this.availableCell = availableCell;
@@ -158,14 +158,19 @@ abstract public class View implements Serializable {
     /**Use to set the updated list of available God that will be used by the Cli and GUI methods
      *
      * @author Veronica Motta
-     * @param availableGod
+     * @param availableGod is a list of available gods, obtained by the server
      */
     public void setAvailableGod(List<God> availableGod) {
         this.availableGod = availableGod;
     }
 
 
+    /**Run the players' turn
+     */
     abstract public void run();
 
+    /**Print the Errors
+     * @param message is the errorMessage that has to be displayed
+     */
     abstract public void printError(String message);
 }

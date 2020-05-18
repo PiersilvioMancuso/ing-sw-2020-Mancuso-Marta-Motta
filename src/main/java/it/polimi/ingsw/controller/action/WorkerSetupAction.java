@@ -4,9 +4,9 @@ import it.polimi.ingsw.controller.RemoteController;
 import it.polimi.ingsw.controller.controllerState.ActivatePowerControllerState;
 import it.polimi.ingsw.controller.controllerState.WorkerSetupControllerState;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.messages.controllersMessages.Ack;
-import it.polimi.ingsw.model.messages.controllersMessages.Nack;
-import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
+import it.polimi.ingsw.messages.controllersMessages.Ack;
+import it.polimi.ingsw.messages.controllersMessages.Nack;
+import it.polimi.ingsw.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.view.Command;
 
 import java.util.ArrayList;
@@ -107,13 +107,29 @@ public class WorkerSetupAction extends Action{
                     remoteController.setResponse( new Ack(user.getUsername(), Command.USE_GOD_POWER, new ActivatePowerControllerState()));
                 }
 
-                else remoteController.setResponse(new Ack(user.getUsername(), Command.SET_WORKER_POSITION, new WorkerSetupControllerState()));
+                else {
+                    List<Cell> cells = new ArrayList<>(modelGame.getBoard().getBuildMap());
+                    for (Worker worker: modelGame.getWorkerList()){
+                        if (cells.contains(worker.getPosition())) cells.remove(worker.getPosition());
+                    }
+                    modelGame.setValidCells(cells);
+                    modelGame.addUpdate(new ModelUpdate(modelGame));
+
+                    remoteController.setResponse(new Ack(user.getUsername(), Command.SET_WORKER_POSITION, new WorkerSetupControllerState()));
+                }
 
 
             }
 
             //If user has not already set all of his workers, it will receive an WorkerSetup Ack
             else {
+                List<Cell> cells = new ArrayList<>(modelGame.getBoard().getBuildMap());
+                for (Worker worker: modelGame.getWorkerList()){
+                    if (cells.contains(worker.getPosition())) cells.remove(worker.getPosition());
+                }
+                modelGame.setValidCells(cells);
+                modelGame.addUpdate(new ModelUpdate(modelGame));
+
                 remoteController.setResponse(new Ack(username, Command.SET_WORKER_POSITION, new WorkerSetupControllerState()));
             }
 

@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.ModelColor;
 import it.polimi.ingsw.model.User;
 import it.polimi.ingsw.model.god.*;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -110,6 +111,9 @@ public class Cli extends View {
      *
      */
     public void printBoard(){
+        printWriter.print("\033[2J");
+
+
         if (modelGame == null) return;
         StringBuilder board = new StringBuilder();
 
@@ -255,8 +259,7 @@ public class Cli extends View {
     }
 
     /**Print message error
-     *
-     * @param message
+     * @param message is the message that will be printed
      */
     @Override
     public void printError(String message) {

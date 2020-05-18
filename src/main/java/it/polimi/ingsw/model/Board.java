@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**Board Class
+ * @author Piersilvio Mancuso and Veronica Motta
+ */
 public class Board implements Serializable {
     private List<Cell> buildMap;
 
+    /**Board Constructor*/
     public Board() {
         buildMap = new ArrayList<>();
         for (int i = 0; i < 5; i++){
@@ -44,10 +48,8 @@ public class Board implements Serializable {
 
 
 
-    /**
-     * get Neighbour Cell
-     * @author Motta
-     * @param cell is a point of the map
+    /**Get the Cells that are next to the cell of input
+     * @param cell is a cell of the board
      * @return a list of cells of the board adjacent to the input cell
      */
     public List <Cell> getNeighbourCell(Cell cell) {
@@ -64,6 +66,10 @@ public class Board implements Serializable {
         return res;
     }
 
+    /**Set the height of a Cell
+     * @param cell is the cell looked for
+     * @param height is the height that the cell will have
+     */
     public void setCellHeight(Cell cell, int height){
         for (Cell buildCell : buildMap) {
             if (buildCell.equals(cell))
@@ -83,15 +89,22 @@ public class Board implements Serializable {
         }
     }
 
-
+    public void setBuildMap(List<Cell> buildMap) {
+        this.buildMap = buildMap;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Board)) return false;
+
         Board board = (Board) o;
-        return Objects.equals(getBuildMap(), board.getBuildMap());
+
+        return getBuildMap().equals(board.getBuildMap());
     }
 
-
+    @Override
+    public int hashCode() {
+        return getBuildMap().hashCode();
+    }
 }

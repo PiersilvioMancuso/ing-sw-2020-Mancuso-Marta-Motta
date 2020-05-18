@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Client Gatherer
+ * ClientGatherer Class
  * @author Mattia
  */
 public class ClientGatherer extends Thread{
@@ -32,7 +32,7 @@ public class ClientGatherer extends Thread{
 
     // ------------------ THREAD EXECUTION --------------------
 
-    /**Accept the connections and assigns a Virtual Client to them*/
+    /**Accept the connections and assigns a Virtual Client to each of them*/
     @Override
     public void run() {
 

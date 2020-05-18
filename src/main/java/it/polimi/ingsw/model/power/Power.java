@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.model.state.*;
 
 import java.io.Serializable;
@@ -139,16 +138,18 @@ import java.util.List;
     }
 
 
-
+    /**Remove All Cells that are higher than worker's height
+     * @param modelGame is the model of the game
+     * @param worker is the worker used by the player
+     */
     public void athenaEffectModification(ModelGame modelGame, Worker worker){
         if (isAthenaEffect() && modelGame.getCurrentState() instanceof MovementState){
             List<Cell> validPosition = new ArrayList<>(modelGame.getValidCells());
             int workerHeight = modelGame.getWorkerPosition(worker).getHeight();
             for (Cell positionCell : validPosition){
                 int positionHeight = positionCell.getHeight();
-                if (positionHeight > workerHeight) validPosition.remove(positionCell);
+                if (positionHeight > workerHeight) modelGame.getValidCells().remove(positionCell);
             }
-            modelGame.setValidCells(validPosition);
         }
     }
 

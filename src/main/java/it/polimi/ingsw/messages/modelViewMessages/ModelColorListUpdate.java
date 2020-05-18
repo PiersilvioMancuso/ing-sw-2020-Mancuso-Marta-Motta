@@ -1,9 +1,8 @@
-package it.polimi.ingsw.model.messages.modelViewMessages;
+package it.polimi.ingsw.messages.modelViewMessages;
 
 import it.polimi.ingsw.model.ModelColor;
 import it.polimi.ingsw.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**ModelColorListUpdate Class

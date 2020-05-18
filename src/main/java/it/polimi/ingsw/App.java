@@ -1,17 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.god.God;
-import it.polimi.ingsw.model.messages.GodEnum;
-import it.polimi.ingsw.view.Cli;
-import it.polimi.ingsw.view.Command;
-
-import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Hello world!

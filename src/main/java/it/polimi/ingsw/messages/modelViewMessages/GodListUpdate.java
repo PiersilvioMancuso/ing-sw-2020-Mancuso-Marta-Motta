@@ -1,7 +1,7 @@
-package it.polimi.ingsw.model.messages.modelViewMessages;
+package it.polimi.ingsw.messages.modelViewMessages;
 
 import it.polimi.ingsw.model.god.God;
-import it.polimi.ingsw.model.messages.GodEnum;
+import it.polimi.ingsw.messages.GodEnum;
 import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;

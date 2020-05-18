@@ -2,10 +2,8 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.RemoteController;
 import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.model.messages.Message;
-import it.polimi.ingsw.model.messages.controllersMessages.EndSending;
-import it.polimi.ingsw.model.messages.controllersMessages.Response;
-import it.polimi.ingsw.view.Command;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.controllersMessages.Response;
 
 import java.io.*;
 import java.net.Socket;

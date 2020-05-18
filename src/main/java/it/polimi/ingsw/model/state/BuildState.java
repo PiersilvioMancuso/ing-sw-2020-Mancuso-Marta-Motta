@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.state.State;
 
+/**BuildState Class
+ * @author Piersilvio Mancuso
+ */
 public class BuildState extends State {
 
     /**The worker chosen by his user will build in a position

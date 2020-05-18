@@ -3,8 +3,11 @@ package it.polimi.ingsw.model.state;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.Worker;
-import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
+import it.polimi.ingsw.messages.modelViewMessages.ModelUpdate;
 
+/**
+ * @author Piers
+ */
 public class SetupState extends State{
 
     /**User choose where to let the worker start the game in the board

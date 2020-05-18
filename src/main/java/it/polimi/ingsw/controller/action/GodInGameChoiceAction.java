@@ -1,15 +1,13 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.controller.RemoteController;
-import it.polimi.ingsw.controller.controllerState.ColorChoiceControllerState;
 import it.polimi.ingsw.controller.controllerState.GodChoiceControllerState;
 import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.User;
-import it.polimi.ingsw.model.messages.GodEnum;
-import it.polimi.ingsw.model.messages.controllersMessages.Ack;
-import it.polimi.ingsw.model.messages.controllersMessages.Nack;
-import it.polimi.ingsw.model.messages.modelViewMessages.GodListUpdate;
-import it.polimi.ingsw.model.messages.modelViewMessages.ModelColorListUpdate;
+import it.polimi.ingsw.messages.GodEnum;
+import it.polimi.ingsw.messages.controllersMessages.Ack;
+import it.polimi.ingsw.messages.controllersMessages.Nack;
+import it.polimi.ingsw.messages.modelViewMessages.GodListUpdate;
 import it.polimi.ingsw.view.Command;
 
 import java.util.ArrayList;

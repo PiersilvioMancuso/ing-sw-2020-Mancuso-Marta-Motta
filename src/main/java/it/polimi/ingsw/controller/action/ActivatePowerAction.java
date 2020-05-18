@@ -1,15 +1,21 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.controller.RemoteController;
+import it.polimi.ingsw.controller.controllerState.ActivatePowerControllerState;
 import it.polimi.ingsw.controller.controllerState.ExecutionControllerState;
 import it.polimi.ingsw.controller.controllerState.RegisterControllerState;
+import it.polimi.ingsw.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.god.*;
-import it.polimi.ingsw.model.messages.controllersMessages.Ack;
-import it.polimi.ingsw.model.messages.controllersMessages.Nack;
+import it.polimi.ingsw.messages.controllersMessages.Ack;
+import it.polimi.ingsw.messages.controllersMessages.Nack;
 import it.polimi.ingsw.model.state.BuildState;
+import it.polimi.ingsw.model.state.EndState;
 import it.polimi.ingsw.model.state.MovementState;
 import it.polimi.ingsw.view.Command;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**Activate Power Action
  * @author Piersilvio Mancuso
@@ -95,11 +101,36 @@ public class ActivatePowerAction extends Action{
             Worker worker = remoteController.getModelGame().getWorkerFromPosition(cell);
             remoteController.setCurrentWorker( worker);
             executeAction(modelGame, worker);
+            modelGame = remoteController.getModelGame();
 
             user.getGod().looseEffect(modelGame, worker);
 
+            modelGame = remoteController.getModelGame();
+
             if (modelGame.getUserList().size() == 1){
-                remoteController.setResponse(new Ack(user.getUsername(),Command.WIN, new RegisterControllerState()));
+                remoteController.setResponse(new Ack(modelGame.getUserList().get(0).getUsername(),Command.WIN, new RegisterControllerState()));
+            }
+            else if (!modelGame.getUserList().contains(user)) {
+                modelGame.nextUser();
+                modelGame.nextUser();
+
+                List<Cell> validCells = new ArrayList<>();
+                for (Worker worker1 : modelGame.getWorkerList()){
+                    if (worker1.getUser().equals(modelGame.getCurrentUser())) validCells.add(worker1.getPosition());
+                }
+                modelGame.setValidCells(validCells);
+
+                modelGame.addUpdate(new ModelUpdate(modelGame));
+
+                String message = "You lose the game";
+                remoteController.setResponse(new Nack(message, user.getUsername(), Command.LOOSE));
+                remoteController.sendResponse();
+
+
+
+                user = modelGame.getCurrentUser();
+                remoteController.setResponse(new Ack(user.getUsername(), Command.USE_GOD_POWER, new ActivatePowerControllerState()));
+
             }
 
             else {

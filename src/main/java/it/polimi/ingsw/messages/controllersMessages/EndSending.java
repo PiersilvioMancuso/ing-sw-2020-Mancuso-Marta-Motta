@@ -1,6 +1,5 @@
-package it.polimi.ingsw.model.messages.controllersMessages;
+package it.polimi.ingsw.messages.controllersMessages;
 
-import it.polimi.ingsw.model.messages.controllersMessages.Response;
 import it.polimi.ingsw.view.Command;
 
 /**EndSending Class

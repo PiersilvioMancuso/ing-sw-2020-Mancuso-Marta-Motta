@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.controller.RemoteController;
-import it.polimi.ingsw.model.messages.controllersMessages.Nack;
+import it.polimi.ingsw.messages.controllersMessages.Nack;
 import it.polimi.ingsw.view.Command;
 
 /**Players In Game Choice Action

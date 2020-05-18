@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
-        import java.awt.Color;
-        import java.io.Serializable;
+import java.io.Serializable;
 
 /**
  * Class to define the worker.

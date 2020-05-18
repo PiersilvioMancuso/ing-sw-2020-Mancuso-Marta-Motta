@@ -15,6 +15,11 @@ public class User implements Serializable {
     private OutCome outCome;
     private int age;
 
+
+    public User(){
+
+    }
+
     /**
      * Constructor of the user.
      * @param username is the nickname assigned to a user.
@@ -105,6 +110,8 @@ public class User implements Serializable {
     }
 
 
+    /**User's toString
+     * @return a String that denote how an User can be printed*/
     @Override
     public String toString() {
         if (godChosen!= null){

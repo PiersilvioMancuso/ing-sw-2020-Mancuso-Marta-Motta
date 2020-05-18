@@ -2,13 +2,13 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.RemoteController;
 import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.model.messages.Message;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.controllersMessages.Nack;
+import it.polimi.ingsw.view.Command;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Server Class
@@ -16,15 +16,12 @@ import java.util.Map;
  */
 public class Server implements Receiver<Action>, Broadcast<Message> {
 
+    // ------------ FIELDS -----------------
     public final static int SOCKET_PORT = 8888;
     private ClientGatherer clientGatherer;
     private List<VirtualClient> virtualClientList;
     private RemoteController remoteController;
 
-
-    public List<VirtualClient> getVirtualClientList(){
-        return virtualClientList;
-    }
 
 
 
@@ -42,27 +39,40 @@ public class Server implements Receiver<Action>, Broadcast<Message> {
 
     // ---------------- GETTER --------------
 
-    /**Getter for the client gatherer
-     * @return the client gatherer
+    /**ClientGatherer Getter
+     * @return the ClientGatherer
      */
     public ClientGatherer getClientGatherer() {
         return clientGatherer;
     }
 
 
-    /**Getter for the remote controller
+    /**RemoteController Getter
      * @return the remote controller
      */
     public RemoteController getRemoteController() {
         return remoteController;
     }
 
+    /**SocketPort Getter
+     * @return the Socket Port thanks which the Socket can be created
+     */
+    public static int getSocketPort() {
+        return SOCKET_PORT;
+    }
+
+    /**VirtualClientList Getter
+     * @return a list of all virtualClient connected
+     */
+    public List<VirtualClient> getVirtualClientList(){
+        return virtualClientList;
+    }
 
 
     // ---------------- SETTER --------------
 
     /**Setter for the client gatherer
-     * @param clientGatherer
+     * @param clientGatherer is the client gatherer who will create the virtualClient
      */
     public void setClientGatherer(ClientGatherer clientGatherer) {
         this.clientGatherer = clientGatherer;
@@ -75,23 +85,23 @@ public class Server implements Receiver<Action>, Broadcast<Message> {
         this.virtualClientList = virtualClientList;
     }
 
+    /**RemoteController Setter
+     * @param remoteController is the RemoteController that will be set to the Server
+     */
     public void setRemoteController(RemoteController remoteController) {
         this.remoteController = remoteController;
     }
 
+
+
     // ---------------- SERVER ACTION --------------
 
-
-
-
-    /**
-     * Add a Virtual Client to the list
+    /**Add a Virtual Client to the list
      * @param client is the Virtual Client
      */
     public void addClient(VirtualClient client){
         this.virtualClientList.add(client);
     }
-
 
 
     /**
@@ -112,6 +122,8 @@ public class Server implements Receiver<Action>, Broadcast<Message> {
         remoteController.executeAction(action);
     }
 
+
+
     /**
      * Send the object to all the clients
      * @param message is the object that will be sent containing the information.
@@ -119,11 +131,14 @@ public class Server implements Receiver<Action>, Broadcast<Message> {
     @Override
     public void broadcast(Message message) {
         for(VirtualClient client : this.virtualClientList){
-
             client.send(message);
+
         }
+
+
         if (remoteController.isGameEnded() && message.getClassName().contains("EndSending")){
-            for (VirtualClient client : virtualClientList){
+            List<VirtualClient> clientList = new ArrayList<>(virtualClientList);
+            for (VirtualClient client : clientList){
                 try {
                     client.getClientSocket().close();
                     removeClient(client);
@@ -139,7 +154,7 @@ public class Server implements Receiver<Action>, Broadcast<Message> {
     // --------------- MAIN -----------------
 
     /**Is the runnable Server's Code
-     * @param args
+     * @param args is not defined
      */
     public static void main(String[] args)
     {

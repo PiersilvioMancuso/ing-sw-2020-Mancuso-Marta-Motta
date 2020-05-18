@@ -3,18 +3,16 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.controller.ControllerClient;
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.RegistrationAction;
-import it.polimi.ingsw.model.messages.Message;
-import it.polimi.ingsw.model.messages.controllersMessages.Response;
-import it.polimi.ingsw.model.messages.modelViewMessages.Update;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.controllersMessages.Response;
+import it.polimi.ingsw.messages.modelViewMessages.Update;
 import it.polimi.ingsw.network.server.Receiver;
 import it.polimi.ingsw.network.server.Sender;
 import it.polimi.ingsw.view.View;
 
-import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import static it.polimi.ingsw.network.server.Server.SOCKET_PORT;
 
@@ -29,6 +27,10 @@ public class Client implements Receiver<Message>, Sender<Action> {
 
     private List<Message> messageList;
 
+
+
+    // -------------- CONSTRUCTOR -------------------
+
     /**Client Constructor
      * @param value is the parameter thanks which it will be created a CLI or a GUI view
      */
@@ -41,11 +43,58 @@ public class Client implements Receiver<Message>, Sender<Action> {
         view.run();
     }
 
+
+    // --------------- GETTER -----------------------
+
     /**MessageList Getter
      * @return the list of all messages received
      */
     public List<Message> getMessageList() {
         return messageList;
+    }
+
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+
+    public ControllerClient getControllerClient() {
+        return controllerClient;
+    }
+
+
+    public View getView() {
+        return view;
+    }
+
+
+    public NetworkHandler getNetworkHandler() {
+        return networkHandler;
+    }
+
+
+
+    // --------------- SETTER ---------------------
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
+
+    public void setControllerClient(ControllerClient controllerClient) {
+        this.controllerClient = controllerClient;
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    public void setNetworkHandler(NetworkHandler networkHandler) {
+        this.networkHandler = networkHandler;
+    }
+
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
     }
 
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.messages;
+package it.polimi.ingsw.messages;
 
 import it.polimi.ingsw.model.god.*;
 
@@ -50,5 +50,7 @@ public enum GodEnum implements Serializable {
         }
         return godList;
     }
+
+
 
 }

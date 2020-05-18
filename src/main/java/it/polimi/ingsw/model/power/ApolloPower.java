@@ -1,12 +1,8 @@
 package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.model.state.BuildState;
 import it.polimi.ingsw.model.state.MovementState;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**Apollo Power Class
  * @author Piersilvio Mancuso

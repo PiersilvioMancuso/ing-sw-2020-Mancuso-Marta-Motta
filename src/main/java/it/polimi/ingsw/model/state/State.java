@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.Worker;
 
 import java.io.Serializable;
 
+/**State Abstract Class
+ * @author Piersilvio Mancuso
+ */
 abstract public class State implements Serializable {
 
     /**Execute the proper action for the State

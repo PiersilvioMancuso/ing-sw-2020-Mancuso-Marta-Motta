@@ -5,7 +5,7 @@ import it.polimi.ingsw.controller.action.Action;
 import java.io.Serializable;
 
 /**
- * Receiver
+ * Receiver Interface
  * @param <T> is the generic type of object
  * @author Mattia
  */

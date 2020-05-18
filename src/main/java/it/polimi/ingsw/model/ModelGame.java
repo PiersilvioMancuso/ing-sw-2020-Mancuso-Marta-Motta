@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.messages.modelViewMessages.ModelUpdate;
-import it.polimi.ingsw.model.messages.modelViewMessages.Update;
+import it.polimi.ingsw.messages.modelViewMessages.ModelUpdate;
+import it.polimi.ingsw.messages.modelViewMessages.Update;
 import it.polimi.ingsw.model.state.SetupState;
 import it.polimi.ingsw.model.state.State;
 import it.polimi.ingsw.network.server.Server;
@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
+/**ModelGame Class
+ * @author Piersilvio Mancuso and Veronica Motta
+ */
 public class ModelGame implements Serializable {
 
     // -------------- FIELDS --------------
@@ -22,7 +24,6 @@ public class ModelGame implements Serializable {
     private State currentState;
     private List<Worker> workerList;
     private List<Cell> validCells;
-
     private Update updateObject;
     private Server server;
 
@@ -43,7 +44,7 @@ public class ModelGame implements Serializable {
     /**ModelGame Copy-Constructor
      * @param modelGame is the modelGame that will be copied
      */
-    public ModelGame( ModelGame modelGame){
+    public ModelGame(ModelGame modelGame){
         this.boardGame = new Board();
         for (Cell cell : modelGame.getBoard().getBuildMap()){
             this.getBoard().setCellBoard(cell);
@@ -131,22 +132,20 @@ public class ModelGame implements Serializable {
     }
 
 
-
-    /**Get all workers belonged to an user
-     * @author Motta
-     * @param user is the user from which we get his workers
-     * @return a list containing all user's workers
+    /**UpdateObject Getter
+     * @return the Update Object
      */
-    public List<Worker> getWorkerFromUser(User user) {
-        List<Worker> res = new ArrayList<>();
-        for (Worker worker : workerList){
-            if (worker.getUser().equals(user)) res.add(worker);
-        }
-        return res ;
-    }
-
     public Update getUpdateObject() {
         return updateObject;
+    }
+
+
+
+    /**BoardGame Getter
+     * @return the Board of the Game
+     */
+    public Board getBoardGame() {
+        return boardGame;
     }
 
     // ------------------ SETTER --------------------------
@@ -190,10 +189,38 @@ public class ModelGame implements Serializable {
         worker.setPosition(position);
     }
 
+    /**WorkerList Setter
+     * @param workerList is a list of Workers
+     */
     public void setWorkerList(List<Worker> workerList) {
         this.workerList = workerList;
     }
 
+    /**UserList Setter
+     * @param userList is a List of User
+     */
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
+    public void setBoardGame(Board boardGame) {
+        this.boardGame = boardGame;
+    }
+
+    /**UpdateObject Setter
+     * @param updateObject is the update object that will be sent to clients
+     */
+    public void setUpdateObject(Update updateObject) {
+        this.updateObject = updateObject;
+    }
+
+
+
+    // --------------- UTILITIES ---------------------
+
+    /**Set the Update Object and, if the server exists, it will be sent to each client
+     * @param update is the Update object for the View
+     */
     public void addUpdate(Update update){
         updateObject = update;
         if (server != null) notifyServer();
@@ -269,6 +296,11 @@ public class ModelGame implements Serializable {
         return null;
     }
 
+
+    /**Get the User who has the input username
+     * @param string is the username of the user looked for
+     * @return the User who has the specific Username
+     */
     public User getUserFromUsername(String string){
         for (User user : userList){
             if (user.getUsername().equals(string)) return user;
@@ -276,11 +308,9 @@ public class ModelGame implements Serializable {
         return null;
     }
 
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
-    }
 
 
+    /**Select randomly the first User, and Create the new Board*/
     public void startGame(){
         Random random = new Random();
         setCurrentUser(Math.abs(random.nextInt()) % userList.size());
@@ -288,6 +318,8 @@ public class ModelGame implements Serializable {
         this.validCells = getBoard().getBuildMap();
     }
 
+    /**If the Server exists, it will send the updateObject
+     */
     public void notifyServer(){
 
         if (server != null){
@@ -295,4 +327,18 @@ public class ModelGame implements Serializable {
         }
 
     }
+
+    /**Get all workers belonged to an user
+     * @author Motta
+     * @param user is the user from which we get his workers
+     * @return a list containing all user's workers
+     */
+    public List<Worker> getWorkerFromUser(User user) {
+        List<Worker> res = new ArrayList<>();
+        for (Worker worker : workerList){
+            if (worker.getUser().equals(user)) res.add(worker);
+        }
+        return res ;
+    }
+
 }

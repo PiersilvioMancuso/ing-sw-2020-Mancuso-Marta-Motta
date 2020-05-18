@@ -1,18 +1,12 @@
 package it.polimi.ingsw.controller;
 
 
-import it.polimi.ingsw.model.state.BuildState;
-import it.polimi.ingsw.model.state.MovementState;
-import it.polimi.ingsw.model.messages.controllersMessages.EndSending;
+import it.polimi.ingsw.messages.controllersMessages.EndSending;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.controller.action.*;
-import it.polimi.ingsw.controller.controllerState.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.messages.GodEnum;
-import it.polimi.ingsw.model.messages.controllersMessages.Ack;
-import it.polimi.ingsw.model.messages.controllersMessages.Nack;
-import it.polimi.ingsw.model.messages.controllersMessages.Response;
-import it.polimi.ingsw.model.state.EndState;
+import it.polimi.ingsw.messages.GodEnum;
+import it.polimi.ingsw.messages.controllersMessages.Response;
 import it.polimi.ingsw.model.state.State;
 import it.polimi.ingsw.view.Command;
 
@@ -37,10 +31,12 @@ public class RemoteController {
     private Server server;
     private boolean gameStarted;
     private boolean gameEnded = false;
+    private static final String ENDNAME = "ENDNAME";
 
     // ------------- CONSTRUCTOR ----------------
 
     /**RemoteController Constructor
+     * @param server is the server
      */
     public RemoteController(Server server){
         this.playerList = new ArrayList<>();
@@ -56,6 +52,13 @@ public class RemoteController {
 
 
     // --------------- GETTER ---------------------
+
+    /**ENDNAME Getter
+     * @return the name that can't be used for playing
+     */
+    public static String getENDNAME() {
+        return ENDNAME;
+    }
 
     /**Server Getter
      * @return the server to which the Remote Controller is on

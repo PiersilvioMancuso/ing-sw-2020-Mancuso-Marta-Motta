@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import java.io.IOException;
 
-/**Sender
+/**Sender Interface
  * @param <T> is the generic type of object
  * @author Mattia Marta
  */

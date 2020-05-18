@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.Worker;
 
+/**MovementState Class
+ * @author Piersilvio Mancuso
+ */
 public class MovementState extends State {
 
     /**Move a worker to a position in a Cell
