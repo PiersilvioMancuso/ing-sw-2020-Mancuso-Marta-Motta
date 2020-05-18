@@ -17,7 +17,7 @@ import java.util.List;
 public class Server implements Receiver<Action>, Broadcast<Message> {
 
     // ------------ FIELDS -----------------
-    public final static int SOCKET_PORT = 8888;
+    public final static int SOCKET_PORT = 1888;
     private ClientGatherer clientGatherer;
     private List<VirtualClient> virtualClientList;
     private RemoteController remoteController;

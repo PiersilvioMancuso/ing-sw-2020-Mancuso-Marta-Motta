@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Virtual client
- * @author Mattia
+ * @author Mattia Marta
  */
 public class VirtualClient implements Sender<Message>, Runnable{
     private Server server;

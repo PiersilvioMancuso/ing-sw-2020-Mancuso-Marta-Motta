@@ -6,7 +6,7 @@ import java.net.Socket;
 
 /**
  * ClientGatherer Class
- * @author Mattia
+ * @author Mattia Marta
  */
 public class ClientGatherer extends Thread{
 

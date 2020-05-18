@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Receiver Interface
  * @param <T> is the generic type of object
- * @author Mattia
+ * @author Mattia Marta
  */
 public interface Receiver<T>{
 
