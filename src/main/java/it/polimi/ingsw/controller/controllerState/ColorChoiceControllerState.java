@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.controllerState;
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.ColorChoiceAction;
 
-/**Color Choice Controller State Class
+/**ColorChoiceControllerState Class
  * @author Piersilvio Mancuso
  */
 public class ColorChoiceControllerState extends ControllerState{
@@ -17,7 +17,7 @@ public class ColorChoiceControllerState extends ControllerState{
     }
 
 
-    // ------------ EFFECT ----------------
+    // --------- ACTION CREATION ----------------
 
     /**Create a Color Choice Action
      * @param string is the string with which an Action will be created

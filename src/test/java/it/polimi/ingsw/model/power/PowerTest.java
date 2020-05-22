@@ -2,9 +2,7 @@ package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
 
-import it.polimi.ingsw.model.state.BuildState;
-import it.polimi.ingsw.model.state.EndState;
-import it.polimi.ingsw.model.state.MovementState;
+import it.polimi.ingsw.model.state.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,8 +36,7 @@ public class PowerTest {
     @Test
     public void isAthenaEffect_hasBeenActivated_shouldReturnTrue() {
         power.setAthenaEffect(true);
-        assertTrue(power.isAthenaEffect());
-        assertTrue(power2.isAthenaEffect());
+        assertTrue(Power.isAthenaEffect());
     }
 
     @Test
@@ -81,9 +78,8 @@ public class PowerTest {
         List<Cell> cells = new ArrayList<>();
         cells.add(cell3);
         cells.add(cell2);
-        assertTrue(!power.getValidCells(modelGame).contains(cell1));
+        assertFalse(power.getValidCells(modelGame).contains(cell1));
         assertTrue(power.getValidCells(modelGame).containsAll(cells));
-        assertTrue(cells.containsAll(cells));
 
     }
 
@@ -107,7 +103,7 @@ public class PowerTest {
         cells.add(cell3);
         cells.add(cell2);
 
-        assertTrue(!power.getValidCells(modelGame).contains(cellTest));
+        assertFalse(power.getValidCells(modelGame).contains(cellTest));
         assertTrue(power.getValidCells(modelGame).containsAll(cells));
         assertTrue(cells.containsAll(power.getValidCells(modelGame)));
     }
@@ -134,8 +130,8 @@ public class PowerTest {
         power.setActiveEffect(false);
         power.startPower(modelGame, worker);
 
-        assertTrue(!power.getValidCells(modelGame).contains(cellTest));
-        assertTrue(!power.getValidCells(modelGame).contains(cell1));
+        assertFalse(power.getValidCells(modelGame).contains(cellTest));
+        assertFalse(power.getValidCells(modelGame).contains(cell1));
         assertTrue(power.getValidCells(modelGame).contains(cell2));
 
     }
@@ -160,8 +156,8 @@ public class PowerTest {
         power.startPower(modelGame, worker);
 
 
-        assertTrue(!power.getValidCells(modelGame).contains(cellTest));
-        assertTrue(!power.getValidCells(modelGame).contains(cell1));
+        assertFalse(power.getValidCells(modelGame).contains(cellTest));
+        assertFalse(power.getValidCells(modelGame).contains(cell1));
         assertTrue(power.getValidCells(modelGame).contains(cell2));
 
     }
@@ -186,7 +182,7 @@ public class PowerTest {
         Cell cell1 = modelGame.getBoard().getCell(new Cell(1,1));
         power.runPower(modelGame, worker, cell1);
 
-        assertTrue(worker.getPosition().equals(cell1));
+        assertEquals(worker.getPosition(), cell1);
 
     }
 
@@ -198,7 +194,7 @@ public class PowerTest {
 
         power.runPower(modelGame, worker, cell);
 
-        assertTrue(modelGame.getBoard().getCell(cell).getHeight() == 2);
+        assertEquals(2, modelGame.getBoard().getCell(cell).getHeight());
     }
 
     @Test
@@ -232,7 +228,46 @@ public class PowerTest {
         power.startPower(modelGame, worker);
         power.runPower(modelGame, worker,cell1);
 
-        assertTrue(!power.isWinner(modelGame,worker,cell));
+        assertFalse(power.isWinner(modelGame, worker, cell));
 
+    }
+
+    @Test
+    public void setTextEffect_TestString_shouldSetTestAsPowerTextEffect() {
+        power.setTextEffect("Test");
+        assertEquals("Test", power.getTextEffect());
+    }
+
+    @Test
+    public void setCurrentState_2_shouldSet2AsCurrentState() {
+        power.startPower(modelGame,worker);
+        power.setCurrentState(2);
+        assertEquals(2, power.getStateList().indexOf(power.getCurrentState()));
+    }
+
+    @Test
+    public void toString_TestString_shouldReturnTest() {
+        power.setTextEffect("Test");
+        assertEquals("Test", power.toString());
+    }
+
+    @Test
+    public void setStateList_onAListContainigTwoMovementStateAndABuildStateAtTheEnd_shouldSetTheStateList() {
+        List<State> states = new ArrayList<>();
+        states.add(new MovementState());
+        states.add(new MovementState());
+        states.add(new BuildState());
+        power.setStateList(states);
+        assertEquals(states, power.getStateList());
+    }
+
+    @Test
+    public void setValidCells_duringSetupStateWithAWorkerOn0_0Cell_shouldReturnAllBoardsCellsExceptThe0_0Cell() {
+        modelGame.setCurrentState(new SetupState());
+        power.setValidCells(modelGame, worker);
+        List<Cell> validCells = modelGame.getBoard().getBuildMap();
+        validCells.remove(0);
+        assertTrue(modelGame.getValidCells().containsAll(validCells));
+        assertTrue(validCells.containsAll(modelGame.getValidCells()));
     }
 }

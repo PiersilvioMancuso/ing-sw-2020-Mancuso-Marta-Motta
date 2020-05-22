@@ -194,7 +194,7 @@ public class ControllerClient {
                 view.printError(((Nack) response).getMessage());
 
                 try {
-                    Thread.sleep(1500l);
+                    Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -204,6 +204,7 @@ public class ControllerClient {
 
     }
 
+    /**Call to the View the method to update or print the Board*/
     public void printView(){
         ((Cli)view).printBoard();
     }
@@ -222,16 +223,5 @@ public class ControllerClient {
         client.send(action);
     }
 
-    @Override
-    public String toString() {
-        return "ControllerClient{" +
-                "view=" + view +
-                ", user='" + user + '\'' +
-                ", controllerState=" + controllerState +
-                ", wait=" + wait +
-                ", registered=" + registered +
-                ", response=" + response +
-                ", client=" + client +
-                '}';
-    }
+
 }

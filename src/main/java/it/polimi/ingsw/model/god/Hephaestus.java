@@ -9,6 +9,8 @@ import it.polimi.ingsw.model.power.*;
 public class Hephaestus extends God {
 
 
+    // -------------------- CONSTRUCTOR -----------------
+
     /**Create the God Hephaestus which use Hephaestus Power */
     public Hephaestus(){
         this.power = new HephaestusPower();

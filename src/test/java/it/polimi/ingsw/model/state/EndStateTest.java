@@ -4,8 +4,6 @@ import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.User;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.god.Apollo;
-import it.polimi.ingsw.model.state.EndState;
-import it.polimi.ingsw.model.state.State;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +21,7 @@ public class EndStateTest {
         modelGame = new ModelGame();
         worker = new Worker(user);
         modelGame.addWorker(worker);
-        user.setGod(new Apollo());
+        user.setGodChosen(new Apollo());
         state = new EndState();
     }
 
@@ -44,7 +42,7 @@ public class EndStateTest {
         modelGame.addUser(user1);
 
         state.executeState(modelGame, worker, null);
-        assertTrue(modelGame.getCurrentUser() == modelGame.getUserList().get(1));
+        assertSame(modelGame.getCurrentUser(), modelGame.getUserList().get(1));
     }
 
 }

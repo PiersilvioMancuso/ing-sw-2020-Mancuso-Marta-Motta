@@ -6,9 +6,7 @@ import it.polimi.ingsw.view.Command;
  */
 public class EndSending extends Response {
 
-    /**
-     * EndSending Constructor
-     *
+    /**EndSending Constructor
      * @param username is the username to which the Response can be used
      * @param command  is the command that Controller Client will set to the View
      */

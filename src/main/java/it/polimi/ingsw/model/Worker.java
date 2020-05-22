@@ -11,6 +11,8 @@ public class Worker implements Serializable {
     private ModelColor color;
     private Cell position;
 
+    // ------------- CONSTRUCTOR ----------
+
     /**
      * Constructor for the worker.
      * @param user is the user who controls the worker
@@ -21,6 +23,9 @@ public class Worker implements Serializable {
         this.position = new Cell(-1,-1);
     }
 
+    // ------------- GETTER ----------------------
+
+
     /**
      * User who controls the worker
      * @return the user object of the worker's owner
@@ -29,13 +34,6 @@ public class Worker implements Serializable {
         return user;
     }
 
-    /**
-     * Set the User to the worker
-     * @param user is the User to set to the worker
-     */
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     /**
      * Color of the worker.
@@ -45,13 +43,6 @@ public class Worker implements Serializable {
         return this.color;
     }
 
-    /**
-     * Set a color to the worker
-     * @param color is the color chosen for the worker
-     */
-    public void setColor(ModelColor color) {
-        this.color = color;
-    }
 
     /**Get the position of the worker
      * @return  the Cell where the worker is
@@ -60,11 +51,34 @@ public class Worker implements Serializable {
         return position;
     }
 
+
+    // ------------- SETTER ---------------------
+
+    /**
+     * Set the User to the worker
+     * @param user is the User to set to the worker
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
+    /**
+     * Set a color to the worker
+     * @param color is the color chosen for the worker
+     */
+    public void setColor(ModelColor color) {
+        this.color = color;
+    }
+
+
     /**Set the positon of the Worker
      * @param position is the Cell where the worker will be
      */
     public void setPosition(Cell position) {
         this.position = position;
     }
+
+
 }
 

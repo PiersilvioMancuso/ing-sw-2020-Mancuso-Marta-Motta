@@ -10,6 +10,10 @@ import java.util.List;
  */
 public class PanPower extends Power{
 
+    // ----------------- CONSTRUCTOR ---------------
+
+    /**PanPower Constructor
+     */
     public PanPower(){
         super();
         this.textEffect = "\tYou also win if your Worker moves down two or\n" +

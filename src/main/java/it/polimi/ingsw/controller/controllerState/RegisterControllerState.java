@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.RegistrationAction;
 
 
-/**Register Controller State
+/**RegisterControllerState Class
  * @author Piersilvio Mancuso
  */
 public class RegisterControllerState extends ControllerState{
@@ -18,6 +18,8 @@ public class RegisterControllerState extends ControllerState{
     }
 
 
+    // --------- ACTION CREATION ----------------
+
     /**Create the Action RegistrationAction, that will be executed by the Remote Controller
      * @param string is the String passed by the Controller Client to create the Action
      * @return a Registration Action Object
@@ -25,7 +27,6 @@ public class RegisterControllerState extends ControllerState{
     @Override
     public Action createAction(String string) {
 
-        Action action = new RegistrationAction(string);
-        return action;
+        return new RegistrationAction(string);
     }
 }

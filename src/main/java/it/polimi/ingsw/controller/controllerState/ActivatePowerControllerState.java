@@ -4,6 +4,9 @@ import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.ActivatePowerAction;
 import it.polimi.ingsw.controller.action.ExecuteControllerAction;
 
+/**ActivatePowerControllerState Class
+ * @author Piersilvio Mancuso
+ */
 public class ActivatePowerControllerState  extends ControllerState{
 
     // --------- CONSTRUCTOR -------------
@@ -13,6 +16,9 @@ public class ActivatePowerControllerState  extends ControllerState{
     public ActivatePowerControllerState() {
         this.className = "ActivatePowerControllerState";
     }
+
+
+    // --------- ACTION CREATION ----------------
 
     /**Create an ExecuteControllerAction
      * @param string is the string with which an ActivatePowerAction object will be created

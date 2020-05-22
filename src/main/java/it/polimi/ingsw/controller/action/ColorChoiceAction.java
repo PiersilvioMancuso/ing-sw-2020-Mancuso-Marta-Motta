@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class ColorChoiceAction extends Action{
 
-    private int colorChosen;
+    private final int colorChosen;
 
     // -------------- CONSTRUCTOR ----------------
 

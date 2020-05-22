@@ -9,12 +9,17 @@ import it.polimi.ingsw.model.state.MovementState;
  */
 public class AtlasPower extends Power{
 
+    // ------------------ CONSTRUCTOR ----------------
+
+    /**AtlasPower Constructor
+     */
     public AtlasPower(){
         super();
         this.textEffect = "\tYour Worker may build a dome at any level.\n";
     }
 
 
+    // ------------------- EFFECT ----------------------
 
     /**Execute the state action and, if the game is in the Build State, the worker will build in the same cell until in position there is a Dome.
      * @param modelGame is the model of the game

@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Message implements Serializable {
     protected String className;
 
-    /**ClassNameGetter
+    /**ClassName Getter
      * @return the name of the class
      */
     public String getClassName() {

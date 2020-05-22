@@ -30,15 +30,15 @@ public class ApolloTest {
         modelGame.setWorkerPosition(worker, new Cell(1,1));
 
         god = new Apollo();
-        user.setGod(god);
+        user.setGodChosen(god);
 
         user.getGod().setUpTurn(modelGame, worker);
 
         user.getGod().executePower(modelGame, worker, new Cell(2,2));
-        assertTrue(worker.getPosition().equals(new Cell(2,2)));
+        assertEquals(worker.getPosition(), new Cell(2, 2));
 
         user.getGod().executePower(modelGame,worker,new Cell(1,1));
-        assertTrue(modelGame.getBoard().getCell(new Cell(1,1)).getHeight() == 1);
+        assertEquals(1, modelGame.getBoard().getCell(new Cell(1, 1)).getHeight());
     }
 
 }

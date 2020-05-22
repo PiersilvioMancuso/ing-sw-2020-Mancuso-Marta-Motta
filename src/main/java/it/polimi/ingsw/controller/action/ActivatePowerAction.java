@@ -17,13 +17,13 @@ import it.polimi.ingsw.view.Command;
 import java.util.ArrayList;
 import java.util.List;
 
-/**Activate Power Action
+/**ActivatePowerAction Class
  * @author Piersilvio Mancuso
  */
 public class ActivatePowerAction extends Action{
 
-    private Cell cell;
-    private boolean powerUp;
+    private final Cell cell;
+    private final boolean powerUp;
 
     // -------------- CONSTRUCTOR -------------------
 
@@ -43,7 +43,6 @@ public class ActivatePowerAction extends Action{
         this.powerUp = messageComponent[2].toLowerCase().split("=")[1].replaceAll(" ", "").charAt(0) == 'y';
 
     }
-
 
 
     // ------------- GETTER ------------------
@@ -84,6 +83,8 @@ public class ActivatePowerAction extends Action{
 
     }
 
+
+    // ----------------- CONTROLLER ACTION -----------------
 
     /**Setup user's turn and, if powerUp == true, activate his power
      * @param remoteController is the remoteController that will execute the action
@@ -129,6 +130,7 @@ public class ActivatePowerAction extends Action{
 
 
                 user = modelGame.getCurrentUser();
+                remoteController.saveData();
                 remoteController.setResponse(new Ack(user.getUsername(), Command.USE_GOD_POWER, new ActivatePowerControllerState()));
 
             }

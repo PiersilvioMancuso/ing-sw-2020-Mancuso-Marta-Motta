@@ -1,13 +1,14 @@
 package it.polimi.ingsw.model.god;
 
-import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.ModelGame;
-import it.polimi.ingsw.model.User;
-import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.power.PanPower;
 import it.polimi.ingsw.model.power.Power;
+import it.polimi.ingsw.model.state.MovementState;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -43,8 +44,8 @@ public class GodTest {
     @Test
     public void setUpTurn_startingTheGame_shouldHaveAValidCellsListAndAStateList() {
         god.setUpTurn(modelGame,worker);
-        assertTrue(god.getPower().getValidCells(modelGame) != null);
-        assertTrue(god.getPower().getStateList().size() == 3);
+        assertNotNull(god.getPower().getValidCells(modelGame));
+        assertEquals(3, god.getPower().getStateList().size());
     }
 
     @Test
@@ -64,7 +65,7 @@ public class GodTest {
         modelGame.getBoard().setCellBoard(new Cell(0,1,4));
         god.setUpTurn(modelGame,worker);
 
-        assertTrue(!god.isLoser(modelGame,worker));
+        assertFalse(god.isLoser(modelGame, worker));
 
     }
 
@@ -78,6 +79,53 @@ public class GodTest {
     public void executePower_positionIsAValidCell_shouldMoveIntoPosition() {
         god.setUpTurn(modelGame,worker);
         god.executePower(modelGame,worker,new Cell(1,1));
+    }
+
+
+    @Test
+    public void winEffect_ifGodWins_shouldSetAllUserOutcomeToLOOSEExceptTheWinnerOneWhoWillBeSetToWINNER() {
+        cell = new Cell(0,0,3);
+        modelGame.getBoard().setCellBoard(cell);
+        User user = new User("Winner");
+        modelGame.addUser(user);
+        worker.setUser(user);
+        User user1 = new User("TestedNotWinner");
+        modelGame.addUser(user1);
+        modelGame.setWorkerPosition(worker,cell);
+        Cell cell1 = new Cell(0,0,2);
+
+        god.winEffect(modelGame, worker, cell1);
+        for (User user2 : modelGame.getUserList()){
+            if (user2.equals(user)) assertEquals(OutCome.WINNER, user2.getOutCome());
+            else assertEquals(OutCome.LOOSER, user2.getOutCome());
+        }
+    }
+
+    @Test
+    public void setPower_PanPower_shouldSetGodPowerAsPanPower() {
+        Power power = new PanPower();
+        god.setPower(power);
+        assertEquals(power, god.getPower());
+    }
+
+    @Test
+    public void looseEffect_userIsLooser_shouldRemoveAllWorkersOfTheLooserPlayer() {
+        User user = new User("Tested");
+        worker = new Worker(user);
+
+        User user1 = new User("TestedLooser");
+        Worker worker1 = new Worker(user1);
+
+        modelGame.addUser(user);
+        modelGame.addUser(user1);
+        modelGame.setValidCells(new ArrayList<Cell>());
+        modelGame.addWorker(worker1);
+        modelGame.addWorker(worker);
+        modelGame.setCurrentState(new MovementState());
+        god.looseEffect(modelGame, worker1);
+
+        //assertFalse(modelGame.getWorkerList().contains(worker1));
+        assertFalse(modelGame.getUserList().contains(user1));
     }
 
     @After

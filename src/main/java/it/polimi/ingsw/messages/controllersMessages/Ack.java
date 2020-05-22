@@ -35,4 +35,29 @@ public class Ack extends Response{
     }
 
 
+    /**Command Setter
+     * @param command is the Command that will be set to the View
+     */
+    @Override
+    public void setCommand(Command command) {
+        super.setCommand(command);
+    }
+
+
+    /**Username Setter
+     * @param username is the username to which the message is valid
+     */
+    @Override
+    public void setUsername(String username) {
+        super.setUsername(username);
+    }
+
+
+    /**ControllerState Setter
+     * @param controllerState is the state that will be sent to the Remote Controller
+     */
+    public void setControllerState(ControllerState controllerState) {
+        this.controllerState = controllerState;
+    }
 }
+

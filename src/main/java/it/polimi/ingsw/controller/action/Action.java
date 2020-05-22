@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.RemoteController;
 
 import java.io.Serializable;
 
-/**Abstract Class Action
+/**Action Abstract Class
  * @author Piersilvio Mancuso
  */
 abstract public class Action implements Serializable {
@@ -38,6 +38,10 @@ abstract public class Action implements Serializable {
     public String getClassName() {
         return className;
     }
+
+
+
+    // ----------------- CONTROLLER ACTION -----------------
 
     /**Execute the ActionControl
      * @param remoteController is the remoteController that will execute the action

@@ -13,13 +13,15 @@ import java.util.List;
  */
 public class PrometheusPower extends Power{
 
+    // -------------- CONSTRUCTOR -------------
+
     public PrometheusPower(){
         super();
         this.textEffect = "If your Worker does not move up, it may build both\n" +
                 "\t\t\t\tbefore and after moving.\n";
     }
 
-    // ------------ Setter -------------
+    // ------------------ SETTER ---------------
 
     /**Set the turn state of the player */
     @Override
@@ -40,7 +42,7 @@ public class PrometheusPower extends Power{
 
         if (isActiveEffect()){
             int workerHeight = worker.getPosition().getHeight();
-            List<Cell> validPositions = (ArrayList) ((ArrayList) modelGame.getValidCells()).clone();
+            ArrayList validPositions = (ArrayList) ((ArrayList) modelGame.getValidCells()).clone();
             if (modelGame.getCurrentState() instanceof MovementState){
 
                 //On Movement State worker cannot move up

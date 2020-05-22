@@ -15,10 +15,17 @@ import java.util.List;
  */
 public class DemeterPower extends Power{
 
+    // ------------------ CONSTRUCTOR ------------------
+
+    /**DemeterPower Constructor
+     */
     public DemeterPower(){
         super();
         this.textEffect = "Your Worker may build one additional time, but not\n" + "\t\t\t\ton the same space.\n";
     }
+
+
+    // ------------------ SETTER -----------------------
 
     /**Set the turn state of the player */
     public void setStateList(){
@@ -27,7 +34,7 @@ public class DemeterPower extends Power{
     }
 
 
-    // ------------------- Action -------------------
+    // ------------------- EFFECT -------------------
 
 
     /**Execute the state action and if it is in the second Build State it will remove the first position built

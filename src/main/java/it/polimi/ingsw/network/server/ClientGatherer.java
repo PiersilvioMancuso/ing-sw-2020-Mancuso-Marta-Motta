@@ -10,7 +10,7 @@ import java.net.Socket;
  */
 public class ClientGatherer extends Thread{
 
-    private Server server;
+    private final Server server;
     private ServerSocket serverSocket;
 
 

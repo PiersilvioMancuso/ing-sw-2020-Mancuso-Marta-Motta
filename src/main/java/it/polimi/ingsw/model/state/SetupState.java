@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.ModelGame;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.messages.modelViewMessages.ModelUpdate;
 
-/**
+/**SetupState Class
  * @author Piers
  */
 public class SetupState extends State{

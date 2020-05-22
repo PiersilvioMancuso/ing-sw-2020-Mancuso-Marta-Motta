@@ -2,8 +2,10 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.controllersMessages.Nack;
 import it.polimi.ingsw.network.server.Receiver;
 import it.polimi.ingsw.network.server.Sender;
+import it.polimi.ingsw.view.Command;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,7 +18,7 @@ import java.net.SocketException;
  * @author Mattia Marta
  */
 public class NetworkHandler implements Sender<Action>, Receiver<Message> {
-    private Client client;
+    private final Client client;
     private Socket socket;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
@@ -41,6 +43,9 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
 
             inputStream = new ObjectInputStream(socket.getInputStream()) ;
 
+        } catch (SocketException e){
+            client.getView().printError("Connection Refused by the Server: check if the Server is On");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,6 +61,10 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
      */
     @Override
     public void receive(Message message) {
+        if (message.getClassName().contains("Nack")){
+            if (((Nack)message).getCommand().equals(Command.REGISTER) && client.getControllerClient().isRegistered()) return;
+        }
+
         client.receive(message);
     }
 
@@ -67,18 +76,22 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
      */
     @Override
     public void send(Action action){
-        this.username = action.getUsername();
-        try {
-            outputStream.writeObject(action);
-            outputStream.reset();
+        if (outputStream != null){
+            this.username = action.getUsername();
+            try {
+                outputStream.writeObject(action);
+                outputStream.reset();
+            }
+            catch (SocketException e){
+                client.getView().printError("Connection interrupted by an other player, so the game is Over");
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        catch (SocketException e){
-            client.getView().printError("Connection interrupted by an other player, so the game is Over");
-            return;
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        else client.getView().printError("Server is not Running");
+
     }
 
 
@@ -86,9 +99,15 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
 
     // ------------------ LISTENER -------------------
 
+    /**NetworkHandler LifeCycle
+     */
     public void start(){
+        //If the connection to the server is not active: Do Nothing
+        if (inputStream == null) return;
 
         while (true){
+
+            //Receive all Messages from the Server and they will be forwarded to the client
             try {
                 Message message = (Message) inputStream.readObject();
                 if (message!= null){

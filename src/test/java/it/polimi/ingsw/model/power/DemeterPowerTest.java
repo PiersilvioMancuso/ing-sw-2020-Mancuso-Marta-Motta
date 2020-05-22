@@ -16,7 +16,6 @@ public class DemeterPowerTest {
     private Worker worker2;
     private ModelGame model;
     private Cell cell;
-    private Cell workerCell;
     private Cell worker2Cell;
 
     @Before
@@ -26,7 +25,7 @@ public class DemeterPowerTest {
         worker = new Worker(userTest);
         model = new ModelGame();
 
-        workerCell = new Cell(3,2,0);
+        Cell workerCell = new Cell(3, 2, 0);
 
         model.addWorker(worker);
         model.setWorkerPosition(worker, workerCell);

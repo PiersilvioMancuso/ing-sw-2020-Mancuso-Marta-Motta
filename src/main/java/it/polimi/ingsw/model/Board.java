@@ -3,13 +3,14 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**Board Class
  * @author Piersilvio Mancuso and Veronica Motta
  */
 public class Board implements Serializable {
     private List<Cell> buildMap;
+
+    // ------------ CONSTRUCTOR -----------
 
     /**Board Constructor*/
     public Board() {
@@ -21,6 +22,9 @@ public class Board implements Serializable {
         }
     }
 
+
+    // ------------- GETTER ----------------
+
     /**Get the current map of the game
      * @author Piersilvio Mancuso
      * @return a List of Cell in the board
@@ -28,6 +32,19 @@ public class Board implements Serializable {
     public List<Cell> getBuildMap() {
         return buildMap;
     }
+
+
+    // ------------- SETTER ----------------
+
+    /**BuildMap Setter
+     * @param buildMap is a list of Cells that represents the Board
+     */
+    public void setBuildMap(List<Cell> buildMap) {
+        this.buildMap = buildMap;
+    }
+
+
+    // ------------- UTILITY ---------------
 
 
     /**Get the cell of the game
@@ -38,14 +55,12 @@ public class Board implements Serializable {
     public Cell getCell(Cell cell){
         Cell res = new Cell();
 
-        for (int i = 0; i < buildMap.size(); i++){
-            if (buildMap.get(i).equals(cell)) res = buildMap.get(i);
+        for (Cell value : buildMap) {
+            if (value.equals(cell)) res = value;
         }
         return res;
 
     }
-
-
 
 
     /**Get the Cells that are next to the cell of input
@@ -56,7 +71,7 @@ public class Board implements Serializable {
         List <Cell> res = new ArrayList<>();
 
         for (Cell position : buildMap){
-            if (Math.abs(cell.getX() - position.getX()) <= 1 && Math.abs(cell.getY() - position.getY()) <= 1){
+            if (Math.abs(cell.getRow() - position.getRow()) <= 1 && Math.abs(cell.getColumn() - position.getColumn()) <= 1){
                 if (!position.equals(cell)){
                     res.add(position);
                 }
@@ -89,10 +104,6 @@ public class Board implements Serializable {
         }
     }
 
-    public void setBuildMap(List<Cell> buildMap) {
-        this.buildMap = buildMap;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -103,8 +114,4 @@ public class Board implements Serializable {
         return getBuildMap().equals(board.getBuildMap());
     }
 
-    @Override
-    public int hashCode() {
-        return getBuildMap().hashCode();
-    }
 }

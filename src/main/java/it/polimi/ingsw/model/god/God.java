@@ -105,6 +105,13 @@ abstract public class God implements Serializable {
     }
 
 
+    /**Power Setter
+     * @param power is the power that will be used by the God
+     */
+    public void setPower(Power power) {
+        this.power = power;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "\t" + power.toString();

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,12 +15,12 @@ public class CellTest {
 
     @Test
     public void getX_cellCreatedWithNoParameter_shouldReturnZero() {
-        assertEquals(0, cell.getX());
+        assertEquals(0, cell.getRow());
     }
 
     @Test
     public void getY_cellCreatedWithNoParameter_shouldReturnZero() {
-        assertEquals(0, cell.getY());
+        assertEquals(0, cell.getColumn());
     }
 
     @Test
@@ -31,14 +30,14 @@ public class CellTest {
 
     @Test
     public void setX_parameterEqualsToFive_shouldSetXFieldToFive() {
-        cell.setX(5);
-        assertEquals(5, cell.getX());
+        cell.setRow(5);
+        assertEquals(5, cell.getRow());
     }
 
     @Test
     public void setY_parameterEqualsToFive_shouldSetYFieldToFive() {
-        cell.setY(5);
-        assertEquals(5,cell.getY());
+        cell.setColumn(5);
+        assertEquals(5,cell.getColumn());
     }
 
     @Test

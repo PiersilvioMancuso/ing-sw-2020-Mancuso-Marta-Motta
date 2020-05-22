@@ -11,5 +11,5 @@ public interface Sender<T> {
     /**Method that's used to send objects
      * @param t is the generic t sent
      */
-    public void send(T t);
+    void send(T t);
 }

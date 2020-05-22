@@ -1,7 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.messages.modelViewMessages.ModelUpdate;
+import it.polimi.ingsw.messages.modelViewMessages.Update;
 import it.polimi.ingsw.model.state.MovementState;
 import it.polimi.ingsw.model.state.SetupState;
+import it.polimi.ingsw.network.server.Server;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,6 +13,10 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+
+/**ModelGame Test Class
+ * @author Piersilvio Mancuso
+ */
 public class ModelGameTest {
 
     ModelGame modelGame;
@@ -18,6 +25,8 @@ public class ModelGameTest {
     public void setUp() throws Exception {
         modelGame = new ModelGame();
     }
+
+    // ----------------- GETTER TEST ------------------
 
     @Test
     public void getBoard_initializedBoard_shouldReturnABoard() {
@@ -47,7 +56,7 @@ public class ModelGameTest {
 
         assertTrue(modelGame.getUserList().containsAll(userList));
         assertTrue(userList.containsAll(modelGame.getUserList()));
-        assertTrue(modelGame.getUserList().size() == 3);
+        assertEquals(3, modelGame.getUserList().size());
 
     }
 
@@ -102,7 +111,7 @@ public class ModelGameTest {
         modelGame.setWorkerPosition(worker1, cell1);
 
         assertTrue(modelGame.getWorkerListPosition().containsAll(workerListPosition));
-        assertTrue(modelGame.getWorkerListPosition().equals(workerListPosition));
+        assertEquals(modelGame.getWorkerListPosition(), workerListPosition);
     }
 
     @Test
@@ -125,21 +134,7 @@ public class ModelGameTest {
         assertEquals(cell1, modelGame.getWorkerPosition(worker1));
     }
 
-    @Test
-    public void getWorkerFromUser_PiersilvioUser_shouldReturnAListOfAllWorkersOfPiersilvio() {
-        User user = new User("Piersilvio");
-        Worker worker = new Worker(user);
-        Worker worker1 = new Worker(user);
-
-        modelGame.addWorker(worker);
-        modelGame.addWorker(worker1);
-
-        List<Worker> workerList= new ArrayList<>();
-        workerList.add(worker);
-        workerList.add(worker1);
-
-        assertEquals(workerList, modelGame.getWorkerFromUser(user));
-    }
+    // ----------------- SETTER TEST ------------------
 
     @Test
     public void setCurrentUser_IntegerTwo_shouldSetCurrentUserToTwo() {
@@ -192,6 +187,48 @@ public class ModelGameTest {
         modelGame.setWorkerPosition(worker,cell);
     }
 
+    @Test
+    public void setUpdateObject_usingAModelUpdateObject_shouldSetTheModelUpdateAsUpdateObject() {
+        Update update = new ModelUpdate(modelGame);
+        modelGame.setUpdateObject(update);
+        assertEquals(update, modelGame.getUpdateObject());
+    }
+
+    @Test
+    public void setServer_onANewServer_shouldSetTheServerAsModelNotifier() {
+        Server server = new Server();
+        modelGame.setServer(server);
+        assertEquals(server, modelGame.getServer());
+    }
+
+    @Test
+    public void setBoardGame_onANewBoard_shouldSetTheNewBoardAsModelsBoard() {
+        Board board = new Board();
+        modelGame.setBoardGame(board);
+        assertEquals(board, modelGame.getBoardGame());
+    }
+
+    // ----------------- OPERATIONS TEST ------------------
+
+
+
+    @Test
+    public void getWorkerFromUser_PiersilvioUser_shouldReturnAListOfAllWorkersOfPiersilvio() {
+        User user = new User("Piersilvio");
+        Worker worker = new Worker(user);
+        Worker worker1 = new Worker(user);
+
+        modelGame.addWorker(worker);
+        modelGame.addWorker(worker1);
+
+        List<Worker> workerList= new ArrayList<>();
+        workerList.add(worker);
+        workerList.add(worker1);
+
+        assertEquals(workerList, modelGame.getWorkerFromUser(user));
+    }
+
+
 
 
     @Test
@@ -216,7 +253,7 @@ public class ModelGameTest {
         modelGame.addUser(user);
 
         modelGame.removeUser(user);
-        assertTrue(!modelGame.getUserList().contains(user));
+        assertFalse(modelGame.getUserList().contains(user));
 
     }
 
@@ -227,7 +264,7 @@ public class ModelGameTest {
         modelGame.addWorker(worker);
 
         modelGame.removeWorker(worker);
-        assertTrue(!modelGame.getWorkerList().contains(worker));
+        assertFalse(modelGame.getWorkerList().contains(worker));
     }
 
     @Test
@@ -241,7 +278,7 @@ public class ModelGameTest {
         modelGame.addUser(user2);
 
         modelGame.nextUser();
-        assertTrue(user1.equals(modelGame.getCurrentUser()));
+        assertEquals(user1, modelGame.getCurrentUser());
     }
 
 
@@ -255,7 +292,7 @@ public class ModelGameTest {
         worker.setPosition(cell);
 
 
-        assertTrue(modelGame.getWorkerFromPosition(cell).equals(worker));
+        assertEquals(modelGame.getWorkerFromPosition(cell), worker);
     }
 
     @Test
@@ -268,10 +305,43 @@ public class ModelGameTest {
         worker.setPosition(cell);
 
 
-
-        assertTrue(modelGame.getWorkerFromPosition(new Cell(2,1)) == null);
+        assertNull(modelGame.getWorkerFromPosition(new Cell(2, 1)));
     }
 
 
+    @Test
+    public void startGame_onAValidSetup_shouldSetTheValidCellsTheSetupStateAndACurrentUser() {
+        modelGame.addUser(new User());
+        modelGame.addUser(new User());
 
+        modelGame.startGame();
+
+        Board board = new Board();
+
+        assertEquals(board, modelGame.getBoard());
+        assertEquals(board.getBuildMap(), modelGame.getValidCells());
+        assertTrue(modelGame.getCurrentUserIndex() >= 0);
+        assertTrue(modelGame.getCurrentUserIndex() <= 1);
+    }
+
+    @Test
+    public void getUserFromUsername_usernameChosenByAnUser_shouldReturnTheUserWhoHasTatUsername() {
+        User user = new User("roix");
+        modelGame.addUser(user);
+        assertEquals(user, modelGame.getUserFromUsername("roix"));
+    }
+
+    @Test
+    public void getUserFromUsername_usernameNotChosenByAnUser_shouldReturnNull() {
+        User user = new User("roix");
+        modelGame.addUser(user);
+        assertNull(modelGame.getUserFromUsername("vero"));
+    }
+
+    @Test
+    public void addUpdate_withoutServerCreatingAModelUpdate_shouldJustSetTheUpdateObject() {
+        Update update = new ModelUpdate(modelGame);
+        modelGame.addUpdate(update);
+        assertEquals(update, modelGame.getUpdateObject());
+    }
 }

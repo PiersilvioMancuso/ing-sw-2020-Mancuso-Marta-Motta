@@ -87,6 +87,7 @@ public class Cli extends View {
 
     // --------------- PRINTER ---------------
 
+
     /**Called by Cli method to print game logo
      *
      */
@@ -111,8 +112,6 @@ public class Cli extends View {
      *
      */
     public void printBoard(){
-        printWriter.print("\033[2J");
-
 
         if (modelGame == null) return;
         StringBuilder board = new StringBuilder();

@@ -9,7 +9,7 @@ import it.polimi.ingsw.view.Command;
  */
 public class PlayersInGameChoiceAction extends Action{
 
-    private int numberOfPlayers;
+    private final int numberOfPlayers;
 
     // ---------------- CONSTRUCTOR ---------------
 
@@ -46,6 +46,9 @@ public class PlayersInGameChoiceAction extends Action{
     public void executeAction(RemoteController remoteController){
         remoteController.setMaxPlayers(numberOfPlayers);
     }
+
+
+    // ----------------- CONTROLLER ACTION -----------------
 
 
     /**Set the Max Number of players of the game

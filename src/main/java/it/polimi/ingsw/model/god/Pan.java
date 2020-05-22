@@ -9,12 +9,16 @@ import it.polimi.ingsw.model.power.*;
  */
 public class Pan extends God {
 
+    // ---------------- CONSTRUCTOR ----------------
+
     /**Create the God Pan which use Pan Power */
     public Pan(){
         this.power = new PanPower();
         power.setActiveEffect(true);
     }
 
+
+    // ----------------- SETTER -------------------
 
     /**SetUp worker's turn with activated effect
      * @param modelGame is the model of the game

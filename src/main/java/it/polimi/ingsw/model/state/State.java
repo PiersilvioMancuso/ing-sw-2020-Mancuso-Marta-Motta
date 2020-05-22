@@ -18,4 +18,9 @@ abstract public class State implements Serializable {
      * @param position is the position where the action will be acted
      */
     public abstract void executeState(ModelGame modelGame, Worker worker, Cell position);
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }

@@ -29,6 +29,9 @@ abstract public class ControllerState implements Serializable {
         return className;
     }
 
+
+    // --------- ACTION CREATION ----------------
+
     /**Abstract Create Action
      * @param string is the string with which an Action will be created
      * @return the Action

@@ -42,6 +42,10 @@ public class ModelUpdate extends Update{
         this.modelGame = modelGame;
     }
 
+
+    /**Set to the View the modelGame and the list of all available Cells for the User's Action
+     * @param view is the view to which changes can be executed
+     */
     @Override
     public void setChanges(View view) {
         view.setModelGame(modelGame);

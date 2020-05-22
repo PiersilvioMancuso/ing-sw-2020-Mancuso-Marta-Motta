@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.controller.RemoteController;
+import it.polimi.ingsw.controller.controllerState.ActivatePowerControllerState;
 import it.polimi.ingsw.controller.controllerState.GodInGameChoiceControllerState;
 import it.polimi.ingsw.controller.controllerState.PlayersInGameChoiceControllerState;
 import it.polimi.ingsw.model.*;
@@ -17,10 +18,8 @@ import java.util.List;
  * @author Piersilvio Mancuso
  */
 public class RegistrationAction extends Action{
-
-
     int age;
-    private String ipAddress;
+    private final String ipAddress;
 
     /**Register Action Constructor
      * @param data is the String that will be analyzed to set Register Action's fields
@@ -63,6 +62,9 @@ public class RegistrationAction extends Action{
     }
 
 
+    // ----------------- CONTROLLER ACTION -----------------
+
+
     /**Execute the action and set remoteController's response to send
      * @param remoteController is the remoteController that will run the actions
      */
@@ -84,12 +86,7 @@ public class RegistrationAction extends Action{
         // --------- Registration can be executed
         else {
 
-            //Operations to User
-            User user = new User(username);
-            user.setAge(age);
-
-            //Add user to the lobby
-            remoteController.getPlayerList().add(user);
+            executeAction(remoteController.getPlayerList());
 
             //Registration Ack Creation
             remoteController.setResponse(new RegistrationAck(username, Command.PLAYERS));
@@ -115,6 +112,17 @@ public class RegistrationAction extends Action{
                 //Set that the game is started
                 remoteController.setGameStarted(true);
 
+                if (remoteController.checkUsersInCopy()){
+                    remoteController.setModelGame(remoteController.getModelCopy());
+                    remoteController.setPlayerList(remoteController.getModelCopy().getUserList());
+                    remoteController.getModelGame().setServer(remoteController.getServer());
+                    remoteController.setResponse(new Ack(remoteController.getModelGame().getCurrentUser().getUsername(), Command.USE_GOD_POWER, new ActivatePowerControllerState()));
+                    remoteController.getModelGame().addUpdate(new ModelUpdate(remoteController.getModelGame()));
+                    remoteController.setGameStarted(true);
+                    return;
+                }
+
+
                 // Initialize the ModelGame with its default properties
                 remoteController.setModelGame(new ModelGame());
                 remoteController.getModelGame().setServer(remoteController.getServer());
@@ -125,7 +133,7 @@ public class RegistrationAction extends Action{
 
 
                 //Set the Ack to send to the youngest user
-                user = remoteController.getYoungestUser();
+                User user = remoteController.getYoungestUser();
                 remoteController.getModelGame().setCurrentUser(remoteController.getPlayerList().indexOf(user));
                 if (remoteController.getPlayerList().size() == 2){
                     remoteController.setResponse( new Ack(user.getUsername(), Command.GOD_LIST_TWO, new GodInGameChoiceControllerState()));

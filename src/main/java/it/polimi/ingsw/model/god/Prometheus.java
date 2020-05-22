@@ -9,6 +9,8 @@ import it.polimi.ingsw.model.power.*;
  */
 public class Prometheus extends God {
 
+    // ------------------ CONSTRUCTOR -----------------
+
     /**Create the God Prometheus which use Prometheus Power */
     public Prometheus(){
         this.power = new PrometheusPower();

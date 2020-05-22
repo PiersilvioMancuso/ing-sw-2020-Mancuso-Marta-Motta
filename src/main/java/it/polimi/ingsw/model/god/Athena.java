@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.power.*;
  */
 public class Athena extends God {
 
+    // ------------------ CONSTRUCTOR ----------------
+
     /**Create the God Athena which use Athena Power */
     public Athena(){
         this.power = new AthenaPower();

@@ -1,11 +1,7 @@
 package it.polimi.ingsw.model.power;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.state.BuildState;
 import it.polimi.ingsw.model.state.MovementState;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**Minotaur Power Class
  * @author Piersilvio Mancuso
@@ -25,8 +21,8 @@ public class MinotaurPower extends Power{
      * @return the position of the other user's worker
      */
     public Cell minotaurCalculator(Cell firstCell, Cell secondCell){
-        int cellX = 2*secondCell.getX() - firstCell.getX();
-        int cellY = 2*secondCell.getY() - firstCell.getY();
+        int cellX = 2*secondCell.getRow() - firstCell.getRow();
+        int cellY = 2*secondCell.getColumn() - firstCell.getColumn();
         return new Cell(cellX,cellY);
     }
 

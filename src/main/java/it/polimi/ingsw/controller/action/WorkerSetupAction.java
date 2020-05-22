@@ -81,7 +81,6 @@ public class WorkerSetupAction extends Action{
         }
 
         else {
-
             //Set worker's position
             executeAction(modelGame, user);
 
@@ -107,33 +106,36 @@ public class WorkerSetupAction extends Action{
                     remoteController.setResponse( new Ack(user.getUsername(), Command.USE_GOD_POWER, new ActivatePowerControllerState()));
                 }
 
+                //If the next user has not inserted all his workers in the board, it will receive a WorkerSetup Ack
                 else {
-                    List<Cell> cells = new ArrayList<>(modelGame.getBoard().getBuildMap());
-                    for (Worker worker: modelGame.getWorkerList()){
-                        if (cells.contains(worker.getPosition())) cells.remove(worker.getPosition());
-                    }
-                    modelGame.setValidCells(cells);
-                    modelGame.addUpdate(new ModelUpdate(modelGame));
-
+                    setUpValidCells(modelGame);
                     remoteController.setResponse(new Ack(user.getUsername(), Command.SET_WORKER_POSITION, new WorkerSetupControllerState()));
                 }
 
 
             }
 
-            //If user has not already set all of his workers, it will receive an WorkerSetup Ack
+            //If user has not already set all of his workers, it will receive a WorkerSetup Ack
             else {
-                List<Cell> cells = new ArrayList<>(modelGame.getBoard().getBuildMap());
-                for (Worker worker: modelGame.getWorkerList()){
-                    if (cells.contains(worker.getPosition())) cells.remove(worker.getPosition());
-                }
-                modelGame.setValidCells(cells);
-                modelGame.addUpdate(new ModelUpdate(modelGame));
-
+                setUpValidCells(modelGame);
                 remoteController.setResponse(new Ack(username, Command.SET_WORKER_POSITION, new WorkerSetupControllerState()));
             }
 
         }
+    }
+
+    // ------------------ UTILITY -------------------
+
+    /**Set the validCells for the Worker Setup
+     * @param modelGame is the model of the game
+     */
+    public void setUpValidCells(ModelGame modelGame){
+        List<Cell> cells = new ArrayList<>(modelGame.getBoard().getBuildMap());
+        for (Worker worker: modelGame.getWorkerList()){
+            cells.remove(worker.getPosition());
+        }
+        modelGame.setValidCells(cells);
+        modelGame.addUpdate(new ModelUpdate(modelGame));
     }
 
 

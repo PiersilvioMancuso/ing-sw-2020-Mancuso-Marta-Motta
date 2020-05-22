@@ -43,12 +43,5 @@ public class Nack extends Response{
         this.message = message;
     }
 
-    @Override
-    public String toString() {
-        return "Nack{" +
-                "message='" + message + '\'' +
-                ", username='" + username + '\'' +
-                ", command=" + command +
-                '}';
-    }
+
 }

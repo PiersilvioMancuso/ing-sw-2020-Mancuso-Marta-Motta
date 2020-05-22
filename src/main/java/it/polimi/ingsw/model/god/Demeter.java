@@ -9,6 +9,8 @@ import it.polimi.ingsw.model.power.*;
  */
 public class Demeter extends God {
 
+    // ------------------ CONSTRUCTOR ------------------
+
     /**Create the God Demeter which use Demeter Power */
     public Demeter(){
         this.power = new DemeterPower();

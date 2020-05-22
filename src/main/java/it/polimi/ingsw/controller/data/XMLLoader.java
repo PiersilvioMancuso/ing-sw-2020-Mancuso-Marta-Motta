@@ -1,10 +1,9 @@
-package it.polimi.ingsw.model.data;
+package it.polimi.ingsw.controller.data;
 
 import it.polimi.ingsw.messages.GodEnum;
 import it.polimi.ingsw.model.*;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -45,11 +44,8 @@ public class XMLLoader {
             if (string.contains(headTag)) headTagIndex = strings.indexOf(string);
             if (string.contains(endTag)) endTagIndex = strings.indexOf(string);
         }
-
-        if (headTagIndex != endTagIndex)
-            res = strings.subList(headTagIndex, endTagIndex + 1);
-        else
-            res.add(strings.get(headTagIndex));
+        if (headTagIndex != endTagIndex ) res = strings.subList(headTagIndex, endTagIndex + 1);
+        else res.add(strings.get(headTagIndex));
         return res;
     }
 
@@ -61,8 +57,8 @@ public class XMLLoader {
             string =XMLTagRemover(string);
             if (!string.equals("")) removedTagCellStringList.add(string);
         }
-        cell.setX(Integer.parseInt(removedTagCellStringList.get(0)));
-        cell.setY(Integer.parseInt(removedTagCellStringList.get(1)));
+        cell.setRow(Integer.parseInt(removedTagCellStringList.get(0)));
+        cell.setColumn(Integer.parseInt(removedTagCellStringList.get(1)));
         cell.setHeight(Integer.parseInt(removedTagCellStringList.get(2)));
 
         return cell;
@@ -105,7 +101,7 @@ public class XMLLoader {
         }
         user.setUsername(userFieldsStringList.get(0));
         user.setAge(Integer.parseInt(userFieldsStringList.get(1)));
-        user.setGod(GodEnum.valueOf(userFieldsStringList.get(2).toUpperCase()).getGod());
+        user.setGodChosen(GodEnum.valueOf(userFieldsStringList.get(2).toUpperCase()).getGod());
         user.setOutCome(OutCome.valueOf(userFieldsStringList.get(3)));
         user.setColor(ModelColor.valueOf(userFieldsStringList.get(4)));
 
@@ -126,7 +122,7 @@ public class XMLLoader {
 
     public static Worker workerCreator(List<String> stringList, List<User> userList){
         List<String> workerStringList = getXMLTagDefinition(stringList, "worker");
-        String username = workerStringList.get(1);
+        String username = XMLTagRemover(workerStringList.get(1)) ;
         int i = 0;
 
         for (User user : userList){
@@ -165,21 +161,9 @@ public class XMLLoader {
         modelGame.setCurrentUser(currentUserCreator(stringList));
         modelGame.setWorkerList(workerListCreator(stringList, modelGame.getUserList()));
 
+
         return modelGame;
     }
 
-
-    public static void main(String[] args) {
-        String path = System.getProperty("user.dir");
-
-        System.out.println(GodEnum.valueOf("Apollo".toUpperCase()).getGod());
-
-
-        String contextPath = "/src/main/java/it/polimi/ingsw/model/data/";
-        String fileName = "model.xml";
-        File file = new File(path+contextPath+fileName);
-
-        System.out.println(getXMLTagDefinition(XMLtoStringList(file), "validCells"));
-    }
 
 }

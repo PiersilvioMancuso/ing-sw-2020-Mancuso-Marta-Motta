@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 
 /**
  * Hello world!
@@ -9,6 +10,8 @@ import java.io.PrintWriter;
  */
 public class App
 {
+    public final static String path = Paths.get("").toAbsolutePath().toString();
+
     public void printHelo(){
         System.out.println("Helo");
     }

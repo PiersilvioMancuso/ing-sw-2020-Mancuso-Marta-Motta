@@ -61,9 +61,16 @@ public class ExecuteControllerAction extends Action{
     }
 
 
+
+    // ----------------- CONTROLLER ACTION -----------------
+
+    /**Execute the Action
+     * @param remoteController is the remoteController that will execute the action
+     */
     @Override
     public void controlAction(RemoteController remoteController) {
 
+        //Setup the objects needed
         ModelGame modelGame = remoteController.getModelGame();
         Worker currentWorker = remoteController.getCurrentWorker();
         Cell lastWorkerPosition = modelGame.getWorkerPosition(currentWorker);
@@ -71,7 +78,7 @@ public class ExecuteControllerAction extends Action{
         cell = modelGame.getBoard().getCell(cell);
 
 
-        //Invalid Cell
+        //If the cell selected is not a valid Cell, it will send a Nack to the Client
         if (!modelGame.getValidCells().contains(cell)){
             String message = "Invalid Cell selected";
 
@@ -84,14 +91,13 @@ public class ExecuteControllerAction extends Action{
 
         }
 
-        //ValidCell
-
+        //If the cell is a valid Cell the action will be executed
         else {
             executeAction(modelGame, currentWorker);
             user.getGod().winEffect(modelGame, currentWorker, lastWorkerPosition);
             List<User> playerList = remoteController.getPlayerList();
 
-            //If winner
+            //If after the execution, the player is winner, all the players will receive an Ack telling them what's their Outcome and another game will be created
             if (user.getOutCome().equals(OutCome.WINNER)) {
                 for (User user1 : playerList) {
                     if (!user1.equals(user)) {
@@ -101,25 +107,35 @@ public class ExecuteControllerAction extends Action{
                 }
                 remoteController.setResponse(new Ack(user.getUsername(), Command.WIN, new RegisterControllerState()));
                 remoteController.setGameEnded(true);
-            } else {
+            }
+
+            //If after the execution the game is not ended
+            else {
                 user.getGod().looseEffect(modelGame, currentWorker);
 
+                //If the current user lose the game, and there is just one player in the game, the other player win,
+                //so each player will receive his Outcome and a new game will be created
                 if (modelGame.getUserList().size() == 1) {
+                    remoteController.setResponse(new Ack(username, Command.LOOSE, new RegisterControllerState()));
+                    remoteController.sendResponse();
+
                     user = modelGame.getUserList().get(0);
-                    for (User user1 : playerList) {
-                        if (!user1.equals(user)) {
-                            remoteController.setResponse(new Ack(user1.getUsername(), Command.LOOSE, new RegisterControllerState()));
-                            remoteController.sendResponse();
-                        }
-                    }
+
 
                     remoteController.setResponse(new Ack(user.getUsername(), Command.WIN, new RegisterControllerState()));
                     remoteController.setGameEnded(true);
                 }
 
+                //Else if the user ended his turn, the game will be saved into the file "model.xml" and the next user will be notice that he
+                //has to select his worker and if he wants to activate his God's Power
                 else if (modelGame.getCurrentState() instanceof EndState) {
+                    remoteController.setModelCopy(remoteController.getModelGame());
+                    remoteController.saveData();
                     remoteController.setResponse(new Ack(modelGame.getCurrentUser().getUsername(), Command.USE_GOD_POWER, new ActivatePowerControllerState()));
-                } else if (!modelGame.getUserList().contains(user)) {
+                }
+
+                //If the user lose the game he will receive a message telling him
+                else if (!modelGame.getUserList().contains(user)) {
                     String message = "You already lose the game";
                     remoteController.setResponse(new Nack(message, user.getUsername(), Command.QUIT));
                 } else {

@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.controllerState;
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.WorkerSetupAction;
 
-/**Worker Setup State
+/**WorkerSetupState Class
  * @author Piersilvio Mancuso
  */
 public class WorkerSetupControllerState extends ControllerState{
@@ -16,6 +16,9 @@ public class WorkerSetupControllerState extends ControllerState{
     public WorkerSetupControllerState() {
         this.className = "WorkerSetupControllerState";
     }
+
+
+    // --------- ACTION CREATION ----------------
 
     /**Create a Worker Setup Action
      * @param string is the string with which the action will be created

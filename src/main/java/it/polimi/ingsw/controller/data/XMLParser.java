@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.data;
+package it.polimi.ingsw.controller.data;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.god.Apollo;
@@ -20,8 +20,8 @@ public class XMLParser {
         String head = "<cell>\n";
         String tail = "</cell>\n";
         cellString.add(head);
-        cellString.add("<posX>" + cell.getX() + "</posX>\n");
-        cellString.add("<posY>" + cell.getY() + "</posY>\n");
+        cellString.add("<posX>" + cell.getRow() + "</posX>\n");
+        cellString.add("<posY>" + cell.getColumn() + "</posY>\n");
         cellString.add("<height>" + cell.getHeight() + "</height>\n");
         cellString.add(tail);
         return cellString;
@@ -127,7 +127,7 @@ public class XMLParser {
         return workerListString;
     }
 
-    public static List<String> modelToStringList(ModelGame modelGame){
+    public static List<String> modelToString(ModelGame modelGame){
         List<String> modelToStringList = new ArrayList<>();
         String head = "<model>\n";
         String tail = "</model>\n";
@@ -147,7 +147,7 @@ public class XMLParser {
     public static void saveModel(ModelGame modelGame, File file){
         try {
             PrintWriter printWriter = new PrintWriter(new FileWriter(file));
-            List<String> modelString = modelToStringList(modelGame);
+            List<String> modelString = modelToString(modelGame);
 
             for (String string : modelString){
                 printWriter.print(string);
@@ -167,7 +167,7 @@ public class XMLParser {
 
 
         String contextPath = "/src/main/java/it/polimi/ingsw/model/data/";
-        String fileName = "model.xml";
+        String fileName = "it/polimi/ingsw/controller/data/model.xml";
         File file = new File(path+contextPath+fileName);
 
         ModelGame modelGame = new ModelGame();
@@ -175,17 +175,17 @@ public class XMLParser {
         User user1 = new User("Tia");
         User user2 = new User("Vero");
 
-        user.setGod(new Apollo());
+        user.setGodChosen(new Apollo());
         user.setAge(23);
         user.setOutCome(OutCome.DRAW);
         user.setColor(ModelColor.GREEN);
 
-        user1.setGod(new Apollo());
+        user1.setGodChosen(new Apollo());
         user1.setAge(23);
         user1.setOutCome(OutCome.DRAW);
         user1.setColor(ModelColor.GREEN);
 
-        user2.setGod(new Apollo());
+        user2.setGodChosen(new Apollo());
         user2.setAge(23);
         user2.setOutCome(OutCome.DRAW);
         user2.setColor(ModelColor.GREEN);
@@ -213,6 +213,11 @@ public class XMLParser {
         modelGame.setValidCells(cellList);
 
         XMLParser.saveModel(modelGame, file);
+
+        ModelGame newModelGame = XMLLoader.modelGameCreator(file);
+
+
+        System.out.println(newModelGame);
     }
 
 }

@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.messages.controllersMessages.EndSending;
+import it.polimi.ingsw.controller.data.XMLLoader;
+import it.polimi.ingsw.controller.data.XMLParser;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.*;
@@ -10,6 +12,7 @@ import it.polimi.ingsw.messages.controllersMessages.Response;
 import it.polimi.ingsw.model.state.State;
 import it.polimi.ingsw.view.Command;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +35,8 @@ public class RemoteController {
     private boolean gameStarted;
     private boolean gameEnded = false;
     private static final String ENDNAME = "ENDNAME";
+    private final File file = new File(  "src/main/java/it/polimi/ingsw/controller/data/model.xml");
+    private ModelGame modelCopy;
 
     // ------------- CONSTRUCTOR ----------------
 
@@ -45,6 +50,7 @@ public class RemoteController {
         this.maxPlayers = 1;
         this.server = server;
         this.gameStarted = false;
+        this.modelCopy = new ModelGame(XMLLoader.modelGameCreator(file)) ;
     }
 
 
@@ -52,6 +58,13 @@ public class RemoteController {
 
 
     // --------------- GETTER ---------------------
+
+    /**ModelCopy Getter
+     * @return a copy of the ModelGame
+     */
+    public ModelGame getModelCopy() {
+        return modelCopy;
+    }
 
     /**ENDNAME Getter
      * @return the name that can't be used for playing
@@ -110,7 +123,7 @@ public class RemoteController {
      * @return the boolean value that says if the game is started
      */
     public boolean isGameStarted() {
-        return gameStarted;
+        return this.gameStarted;
     }
 
     /**Cell Getter
@@ -238,8 +251,16 @@ public class RemoteController {
      */
     public void setGameEnded(boolean gameEnded) {
         this.gameEnded = gameEnded;
+        if (gameEnded) resetData();
     }
 
+
+    /**ModelCopy Setter
+     * @param modelCopy is the modelCopy that will be set to the Remote Controller for the Undo Action and for the Saving Data
+     */
+    public void setModelCopy(ModelGame modelCopy) {
+        this.modelCopy = modelCopy;
+    }
 
     // ------------- CONTROLLER ACTION ----------------
 
@@ -261,6 +282,34 @@ public class RemoteController {
 
 
     // ---------------- UTILITIES -----------------
+
+    /**Save the modelCopy into the model.xml file
+     */
+    public void saveData(){
+        XMLParser.saveModel(modelCopy, file);
+    }
+
+    /**Reset the model.xml file
+     */
+    public void resetData(){
+        modelCopy = new ModelGame();
+        saveData();
+    }
+
+    /**Check if the users that are registered into the lobby and the users on the Save Data are the same
+     * @return a boolean that says if the users registered and the users on the Save Data are the same
+     */
+    public boolean checkUsersInCopy(){
+        if (modelCopy.getUserList().size() == 0) return false;
+        if (modelCopy.getUserList().size() != playerList.size()) return false;
+        for (User user : modelCopy.getUserList()){
+            String username = user.getUsername();
+            int age = user.getAge();
+
+            if (getUserFromUsername(username) == null || getUserFromUsername(username).getAge() != age) return false;
+        }
+        return true;
+    }
 
     /**Get the user that has the input username
      * @param username is the username thanks which it will be returned the user
@@ -321,10 +370,5 @@ public class RemoteController {
 
         return  count == 2;
     }
-
-
-
-
-
 
 }

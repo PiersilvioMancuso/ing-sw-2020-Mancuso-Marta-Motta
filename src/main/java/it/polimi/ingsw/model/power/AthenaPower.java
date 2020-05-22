@@ -9,12 +9,16 @@ import it.polimi.ingsw.model.state.MovementState;
  */
 public class AthenaPower extends Power {
 
+    // ----------------- CONSTRUCTOR -----------------
+
+    /**AthenaPower Constructor
+     */
     public AthenaPower(){
         super();
         this.textEffect = "\tIf one of your Workers moved up on your last\n" + "\t\t\t\tturn, opponent Workers cannot move up this turn.\n";
     }
 
-    // ------------- Action ------------------------
+    // ------------- EFFECT ------------------------
 
     /**Execute the state action and (during movement state) Athena's worker moves up, activate his effect
      * @param modelGame is the model of the game

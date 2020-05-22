@@ -8,12 +8,19 @@ import it.polimi.ingsw.model.state.MovementState;
  * @author Piersilvio Mancuso
  */
 public class HephaestusPower extends Power{
+
+    // ----------------- CONSTRUCTOR --------------
+
+    /**HephaestusPower Constructor
+     */
     public HephaestusPower() {
         super();
         this.textEffect = "Your Worker may build one additional block (not\n" + "\t\t\t\tdome) on top of your first block.\n";
     }
 
-    //Action
+
+
+    // ----------------- EFFECT --------------
 
     /**Execute the state action and if Hephaestus Power is ON, during Build State he can build another level in the same position, but not a Dome
      * @param modelGame is the model of the game

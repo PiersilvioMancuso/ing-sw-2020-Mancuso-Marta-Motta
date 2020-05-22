@@ -5,10 +5,10 @@ package it.polimi.ingsw.view;
 import javax.swing.*;
 
 public class Gui{
-    private JFrame frame;
+    private final JFrame frame;
     private JPanel panel;
 
-    private JLabel infoUser;
+    private final JLabel infoUser;
     private ImageIcon background;
     private Command command;
 

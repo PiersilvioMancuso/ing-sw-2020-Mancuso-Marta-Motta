@@ -148,11 +148,13 @@ public class ModelGame implements Serializable {
         return boardGame;
     }
 
+
+
     // ------------------ SETTER --------------------------
 
     /**Current User Setter
-     * @author Motta
-     * @param userIndex
+     * @author Veronica Motta
+     * @param userIndex is the index in userList of the Current User
      */
     public void setCurrentUser(int userIndex) {
         currentUser = userIndex;
@@ -162,7 +164,7 @@ public class ModelGame implements Serializable {
      * @param validCells is a list of all valid Cells
      */
     public void setValidCells(List<Cell> validCells) {
-        this.validCells = new ArrayList<>(validCells);
+        this.validCells = validCells;
     }
 
     /**Current State Setter
@@ -175,8 +177,8 @@ public class ModelGame implements Serializable {
     /**
      * set worker position after a move
      * @author Motta
-     * @param worker
-     * @param position
+     * @param worker is the worker that will be set to the position in the Board
+     * @param position is position where the worker will be set
      */
     public void setWorkerPosition(Worker worker, Cell position) {
         if (worker == null) throw new NullPointerException("worker is null");
@@ -229,7 +231,7 @@ public class ModelGame implements Serializable {
     /**
      * add new user to play
      * @author Motta
-     * @param user
+     * @param user is the user that will be added into the game
      */
     public void addUser(User user) {
         userList.add(user);
@@ -238,7 +240,7 @@ public class ModelGame implements Serializable {
     /**
      * add worker
      * @author Motta
-     * @param worker
+     * @param worker is the worker that will be added into the game
      */
     public void addWorker(Worker worker){
         workerList.add(worker);
@@ -247,7 +249,7 @@ public class ModelGame implements Serializable {
     /**
      * remove a user from a game
      * @author Motta
-     * @param user
+     * @param user is the user that will be removed from the game
      */
     public void removeUser(User user) {
         userList.remove(user);
@@ -257,7 +259,7 @@ public class ModelGame implements Serializable {
     /**
      * remove worker from a game
      * @author Motta
-     * @param worker
+     * @param worker is the worker that will be removed by the game
      */
     public void removeWorker(Worker worker){
         workerList.remove(worker);
@@ -321,7 +323,6 @@ public class ModelGame implements Serializable {
     /**If the Server exists, it will send the updateObject
      */
     public void notifyServer(){
-
         if (server != null){
             server.broadcast(updateObject);
         }

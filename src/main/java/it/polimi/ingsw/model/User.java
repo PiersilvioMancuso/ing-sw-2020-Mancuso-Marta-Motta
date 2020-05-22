@@ -16,8 +16,13 @@ public class User implements Serializable {
     private int age;
 
 
-    public User(){
 
+    // ---------------- CONSTRUCTOR --------------
+
+    /**User void Constructor
+     */
+    public User(){
+        this.outCome = OutCome.DRAW;
     }
 
     /**
@@ -29,36 +34,23 @@ public class User implements Serializable {
         this.username = username;
     }
 
+
+
+    // ----------------- GETTER --------------------
+
+    /**GodChosen Setter
+     * @return the god chosen by the User
+     */
+    public God getGodChosen() {
+        return godChosen;
+    }
+
     /**
      * Username of the player.
      * @return current username of the player.
      */
     public String getUsername() {
         return this.username;
-    }
-
-    /**
-     * Username of the player.
-     * @param username is the new value for this player's usenrname.
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * Color chosen by the player.
-     * @return the color chosen.
-     */
-    public ModelColor getColor() {
-        return this.color;
-    }
-
-    /**
-     * Color chosen by the player.
-     * @param color is the color chosen by the player.
-     */
-    public void setColor(ModelColor color) {
-        this.color = color;
     }
 
     /**
@@ -69,13 +61,6 @@ public class User implements Serializable {
         return this.godChosen;
     }
 
-    /**
-     * God chosen by the player.
-     * @param god is the name of the chosen God.
-     */
-    public void setGod(God god) {
-        this.godChosen = god;
-    }
 
     /**
      * Get the outCome parameter
@@ -86,23 +71,51 @@ public class User implements Serializable {
     }
 
     /**
-     * Set the outCome parameter
+     * Color chosen by the player.
+     * @return the color chosen.
+     */
+    public ModelColor getColor() {
+        return this.color;
+    }
+
+
+
+    // ----------------- SETTER --------------------
+
+    /**Color Setter
+     * @param color is the color chosen by the player.
+     */
+    public void setColor(ModelColor color) {
+        this.color = color;
+    }
+
+
+    /**GodSetter
+     * @param god is the name of the chosen God.
+     */
+    public void setGodChosen(God god) {
+        this.godChosen = god;
+    }
+
+
+
+    /**Set the outCome parameter
      * @param outCome is the result of the game for the user
      */
     public void setOutCome(OutCome outCome) {
         this.outCome = outCome;
     }
 
-    /**
-     * Get the age of the person
+
+    /**Get the age of the person
      * @return the age of the user
      */
     public int getAge() {
         return age;
     }
 
-    /**
-     * Set the age of the player
+
+    /** Set the age of the player
      * @param age is the age of the user
      */
     public void setAge(int age) {
@@ -110,19 +123,35 @@ public class User implements Serializable {
     }
 
 
+
+    /**
+     * Username of the player.
+     * @param username is the new value for this player's usenrname.
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
+
+    // ---------------- STRING ------------------
+
+
     /**User's toString
      * @return a String that denote how an User can be printed*/
     @Override
     public String toString() {
+        String printed ;
         if (godChosen!= null){
-            return username + ":\t" + godChosen.getClass().getSimpleName() + " - " + outCome;
+            printed = username + ":\t" + godChosen.getClass().getSimpleName() + " - " + outCome;
         }
         else if(color != null) {
-            return username + ":\t" +  godChosen.getClass().getSimpleName() + " - " + color +  " - " + outCome;
+            printed = username + ":\t" +  godChosen.getClass().getSimpleName() + " - " + color +  " - " + outCome;
         }
         else {
-            return username + ":\t" + outCome;
+            printed = username + ":\t" + outCome;
         }
 
+        return printed;
     }
 }

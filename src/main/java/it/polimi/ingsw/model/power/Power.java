@@ -19,6 +19,10 @@ import java.util.List;
     protected String textEffect;
 
 
+    // ------------ CONSTRUCTOR ---------------
+
+    /**Power Constructor
+     */
     public Power(){
         athenaEffect = false;
         stateList = new ArrayList<>();
@@ -59,6 +63,9 @@ import java.util.List;
         return modelGame.getValidCells();
     }
 
+    /**StateList Getter
+     * @return power's list of state
+     */
     public List<State> getStateList(){
         return this.stateList;
     }
@@ -203,6 +210,34 @@ import java.util.List;
     public boolean isWinner(ModelGame modelGame, Worker worker, Cell position){
         int workerHeight = worker.getPosition().getHeight();
         return (workerHeight == 3 && position.getHeight() < 3);
+    }
+
+    /**TextEffect Getter
+     * @return a string containing the effect of the Power
+     */
+    public String getTextEffect() {
+        return textEffect;
+    }
+
+    /**CurrentState Setter
+     * @param currentState is an Integer that denote the index of the Current State
+     */
+    public void setCurrentState(int currentState) {
+        this.currentState = currentState;
+    }
+
+    /**StateList Setter
+     * @param stateList is a list containing all the states of the power
+     */
+    public void setStateList(List<State> stateList) {
+        this.stateList = stateList;
+    }
+
+    /**TextEffect Setter
+     * @param textEffect is a String containing the Effect of the Power
+     */
+    public void setTextEffect(String textEffect) {
+        this.textEffect = textEffect;
     }
 
     @Override

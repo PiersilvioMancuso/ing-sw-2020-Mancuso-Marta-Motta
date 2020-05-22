@@ -14,13 +14,17 @@ import java.util.List;
  */
 public class ArtemisPower extends Power {
 
+    // ------------------- CONSTRUCTOR -----------------
+
+    /**ArtemisPower Constructor
+     */
     public ArtemisPower(){
         super();
         this.textEffect = "Your Worker may move one additional time, but not\n" + "\t\t\t\tback to its initial space.\n";
     }
 
 
-    // ------------- Setter ---------------------
+    // ------------- SETTER ---------------------
 
     /**Set the turn state of the player */
     @Override
@@ -30,7 +34,7 @@ public class ArtemisPower extends Power {
     }
 
 
-    // ------------ Action -------------------
+    // ------------ EFFECT -------------------
 
     /**Execute the state action and remove in the second movement the first worker position
      *

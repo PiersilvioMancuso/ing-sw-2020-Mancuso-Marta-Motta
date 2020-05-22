@@ -17,7 +17,7 @@ import java.util.List;
  * @author Piersilvio Mancuso
  */
 public class GodInGameChoiceAction extends Action{
-    private List<Integer> godList;
+    private final List<Integer> godList;
 
 
     // -------------- CONSTRUCTOR ----------------
@@ -63,6 +63,10 @@ public class GodInGameChoiceAction extends Action{
 
 
     // --------------- CONTROLLER ACTION --------------
+
+    /**Set the Gods that players in game can choose as their god
+     * @param remoteController is the remoteController that will execute the action
+     */
     public void controlAction(RemoteController remoteController){
         ModelGame modelGame = remoteController.getModelGame();
         boolean checkIntegrity = true;
@@ -73,13 +77,18 @@ public class GodInGameChoiceAction extends Action{
             for (int j = i + 1; j < godList.size(); j++){
                 if (godList.get(j).equals(godList.get(i))) {
                     checkIntegrity = false;
+                    break;
                 }
             }
+            if (!checkIntegrity) break;
         }
 
         // ------------- Check if there is any value that's not in godEnumList range
         for (int godIndex : godList){
-            if (godIndex < 0 || godIndex >= godEnumList.size()) checkIntegrity = false;
+            if (godIndex < 0 || godIndex >= godEnumList.size()) {
+                checkIntegrity = false;
+                break;
+            }
         }
 
         // ------------ If there is any problem send a Nack thanks which the action will be repeated
@@ -104,13 +113,12 @@ public class GodInGameChoiceAction extends Action{
             modelGame.setCurrentUser(remoteController.getPlayerList().indexOf(remoteController.getUserFromUsername(username)));
             modelGame.nextUser();
 
-            User user = modelGame.getCurrentUser();
 
 
             remoteController.getModelGame().addUpdate(new GodListUpdate(remoteController.getGodEnumList()));
 
 
-            user = modelGame.getCurrentUser();
+            User user = modelGame.getCurrentUser();
 
             remoteController.setResponse(new Ack(user.getUsername(), Command.GOD, new GodChoiceControllerState()));
 

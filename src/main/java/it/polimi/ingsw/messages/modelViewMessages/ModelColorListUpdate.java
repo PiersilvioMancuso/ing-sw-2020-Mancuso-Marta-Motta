@@ -43,6 +43,9 @@ public class ModelColorListUpdate extends Update{
     }
 
 
+    /**Set the list of all available colors to the view
+     * @param view is the view to which changes can be executed
+     */
     @Override
     public void setChanges(View view) {
         view.setAvailableColor(modelColorList);

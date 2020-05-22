@@ -18,7 +18,7 @@ import java.util.List;
  * @author Piersilvio Mancuso
  */
 public class GodChoiceAction extends Action{
-    private int godChosen;
+    private final int godChosen;
 
 
     // --------------- CONSTRUCTOR ------------------
@@ -56,7 +56,7 @@ public class GodChoiceAction extends Action{
 
         for (User user: userList){
             if (user.getUsername().equals(username)) {
-                user.setGod(godEnum.get(godChosen).getGod());
+                user.setGodChosen(godEnum.get(godChosen).getGod());
             }
         }
         godEnum.remove(godChosen);

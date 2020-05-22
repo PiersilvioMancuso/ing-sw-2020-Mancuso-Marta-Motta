@@ -9,13 +9,18 @@ import it.polimi.ingsw.model.state.MovementState;
  */
 public class ApolloPower extends Power{
 
+
+    // ---------------- CONSTRUCTOR ------------------
+
+    /**ApolloPower Constructor
+     */
     public ApolloPower(){
         super();
         this.textEffect = "\tYour Worker may move into an opponent Worker’s\n\t" +
                 "\t\t\tspace by forcing their Worker to the space yours just vacated.\n";
     }
 
-    // --------------- Setter ------------------------
+    // --------------- SETTER ------------------------
 
 
     /**Set the valid Cells where a player can take the current State action
@@ -49,7 +54,7 @@ public class ApolloPower extends Power{
     }
 
 
-    // ------------ Action -------------------
+    // --------------- EFFECT ----------------------
 
     /**Execute the state action
      * @param modelGame is the model of the game
@@ -79,9 +84,6 @@ public class ApolloPower extends Power{
 
             }
 
-
-
-
             //Execute the State Action
             modelGame.getCurrentState().executeState(modelGame, worker, position);
 
@@ -90,7 +92,6 @@ public class ApolloPower extends Power{
 
             //Set the valid Cells
             setValidCells(modelGame, worker);
-
 
         }
     }

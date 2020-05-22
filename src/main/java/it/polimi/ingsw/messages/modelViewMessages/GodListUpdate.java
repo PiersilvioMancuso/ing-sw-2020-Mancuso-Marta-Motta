@@ -17,7 +17,7 @@ public class GodListUpdate extends Update{
     // ---------------- CONSTRUCTOR --------------
 
     /**GodListUpdate Constructor
-     * @param godEnumList
+     * @param godEnumList is the list of GodEnum Chosen
      */
     public GodListUpdate(List<GodEnum> godEnumList) {
         super();
@@ -54,6 +54,9 @@ public class GodListUpdate extends Update{
         }
     }
 
+    /**Set the list of all available gods to the View
+     * @param view is the view to which changes can be executed
+     */
     @Override
     public void setChanges(View view) {
         view.setAvailableGod(gods);
