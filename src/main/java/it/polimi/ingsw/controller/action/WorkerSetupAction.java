@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.action;
 import it.polimi.ingsw.controller.RemoteController;
 import it.polimi.ingsw.controller.controllerState.ActivatePowerControllerState;
 import it.polimi.ingsw.controller.controllerState.WorkerSetupControllerState;
+import it.polimi.ingsw.controller.utility.Converter;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.messages.controllersMessages.Ack;
 import it.polimi.ingsw.messages.controllersMessages.Nack;
@@ -31,11 +32,8 @@ public class WorkerSetupAction extends Action{
         this.className = "WorkerSetupAction";
         String[] message = string.split(";");
         username = message[0].split("=")[1];
-        String cellString = message[1].split("=")[1];
-        String regex = "[+-,;'*.^-]*";
-        cellString = cellString.replaceAll(regex, "");
 
-        this.cell = new Cell(Integer.parseInt(cellString.substring(1)) % 10, cellString.charAt(0) - 'A' );
+        this.cell = Converter.convertCell(message[1]);
     }
 
 

@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.RemoteController;
 import it.polimi.ingsw.controller.controllerState.ActivatePowerControllerState;
 import it.polimi.ingsw.controller.controllerState.ExecutionControllerState;
 import it.polimi.ingsw.controller.controllerState.RegisterControllerState;
+import it.polimi.ingsw.controller.utility.Converter;
 import it.polimi.ingsw.messages.modelViewMessages.ModelUpdate;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.god.*;
@@ -35,11 +36,8 @@ public class ActivatePowerAction extends Action{
         this.className = "ActivatePowerAction";
         String[] messageComponent = message.split(";");
         this.username = messageComponent[0].split("=")[1];
-        String cellString = messageComponent[1].split("=")[1];
-        String regex = "[+-,;'*.^-]*";
-        cellString = cellString.replaceAll(regex, "");
 
-        this.cell = new Cell(Integer.parseInt(cellString.substring(1))%10, cellString.charAt(0) - 'A' );
+        this.cell = Converter.convertCell(messageComponent[1]);
         this.powerUp = messageComponent[2].toLowerCase().split("=")[1].replaceAll(" ", "").charAt(0) == 'y';
 
     }

@@ -1,0 +1,223 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: WorkerSetupAction</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.controller.action</a> ]
+</div>
+
+<h1>Coverage Summary for Class: WorkerSetupAction (it.polimi.ingsw.controller.action)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WorkerSetupAction</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.controller.action;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.controller.RemoteController;
+<i>4</i>&nbsp;import it.polimi.ingsw.controller.controllerState.ActivatePowerControllerState;
+<i>5</i>&nbsp;import it.polimi.ingsw.controller.controllerState.WorkerSetupControllerState;
+<i>6</i>&nbsp;import it.polimi.ingsw.controller.utility.Converter;
+<i>7</i>&nbsp;import it.polimi.ingsw.model.*;
+<i>8</i>&nbsp;import it.polimi.ingsw.messages.controllersMessages.Ack;
+<i>9</i>&nbsp;import it.polimi.ingsw.messages.controllersMessages.Nack;
+<i>10</i>&nbsp;import it.polimi.ingsw.messages.modelViewMessages.ModelUpdate;
+<i>11</i>&nbsp;import it.polimi.ingsw.view.Command;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import java.util.ArrayList;
+<i>14</i>&nbsp;import java.util.List;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;/**Worker Setup Action
+<i>18</i>&nbsp; * @author Piersilvio Mancuso
+<i>19</i>&nbsp; */
+<i>20</i>&nbsp;public class WorkerSetupAction extends Action{
+<i>21</i>&nbsp;    private Cell cell;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    //-------------- CONSTRUCTOR ---------------------
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**Set the Cell of the Worker
+<i>28</i>&nbsp;     * @param string is the String which contains worker&#39;s destination cell
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    public WorkerSetupAction(String string) {
+<b class="nc"><i>31</i>&nbsp;        super();</b>
+<b class="nc"><i>32</i>&nbsp;        this.className = &quot;WorkerSetupAction&quot;;</b>
+<b class="nc"><i>33</i>&nbsp;        String[] message = string.split(&quot;;&quot;);</b>
+<b class="nc"><i>34</i>&nbsp;        username = message[0].split(&quot;=&quot;)[1];</b>
+<i>35</i>&nbsp;
+<b class="nc"><i>36</i>&nbsp;        this.cell = Converter.convertCell(message[1]);</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    //---------------- GETTER ------------------
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**Getter Cell
+<i>43</i>&nbsp;     * @return the Cell where to put the worker
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    public Cell getCell() {
+<b class="nc"><i>46</i>&nbsp;        return cell;</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    // ---------------- ACTION ---------------
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**Execute the Worker Setup Action
+<i>54</i>&nbsp;     * @param modelGame is the model of the game
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;    public void executeAction(ModelGame modelGame, User user){
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        Worker worker = new Worker(user);</b>
+<b class="nc"><i>59</i>&nbsp;        modelGame.addWorker(worker);</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;
+<b class="nc"><i>62</i>&nbsp;        cell = modelGame.getBoard().getCell(cell);</b>
+<b class="nc"><i>63</i>&nbsp;        modelGame.getCurrentState().executeState(modelGame, worker, cell);</b>
+<b class="nc"><i>64</i>&nbsp;        user.getGod().getPower().setValidCells(modelGame, worker);</b>
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**Set worker&#39;s start position
+<i>69</i>&nbsp;     * @param remoteController is the Remote Controller that will execute the action
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;    public void controlAction(RemoteController remoteController){
+<b class="nc"><i>72</i>&nbsp;        ModelGame modelGame = remoteController.getModelGame();</b>
+<b class="nc"><i>73</i>&nbsp;        User user =  modelGame.getUserFromUsername(username);</b>
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;        //If cell is not a free cell, or it is not in the Board, remoteController will send a Nack saying that an Invalid Cell was selected
+<b class="nc"><i>76</i>&nbsp;        if (modelGame.getWorkerListPosition().contains(cell) || !modelGame.getBoard().getBuildMap().contains(cell)){</b>
+<b class="nc"><i>77</i>&nbsp;            String errorMessage = &quot;Invalid Cell selected&quot;;</b>
+<b class="nc"><i>78</i>&nbsp;            remoteController.setResponse( new Nack(errorMessage, username, Command.SET_WORKER_POSITION));</b>
+<b class="nc"><i>79</i>&nbsp;        }</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;        else {
+<i>82</i>&nbsp;            //Set worker&#39;s position
+<b class="nc"><i>83</i>&nbsp;            executeAction(modelGame, user);</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;            //If user has already set all of his workers
+<b class="nc"><i>86</i>&nbsp;            if (remoteController.userCompleteSetup(user)) {</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;                //Set the next user
+<b class="nc"><i>89</i>&nbsp;                modelGame.nextUser();</b>
+<b class="nc"><i>90</i>&nbsp;                user = modelGame.getCurrentUser();</b>
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;                //If the next user has already set all of his workers too
+<b class="nc"><i>93</i>&nbsp;                if (remoteController.userCompleteSetup(user)) {</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;                    //Set the valid cells for the Activation Power
+<b class="nc"><i>96</i>&nbsp;                    List&lt;Cell&gt; validCells = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>97</i>&nbsp;                    for (Worker worker : modelGame.getWorkerList()){</b>
+<b class="nc"><i>98</i>&nbsp;                        if (worker.getUser().equals(user)) validCells.add(worker.getPosition());</b>
+<b class="nc"><i>99</i>&nbsp;                    }</b>
+<i>100</i>&nbsp;
+<b class="nc"><i>101</i>&nbsp;                    modelGame.setValidCells(validCells);</b>
+<b class="nc"><i>102</i>&nbsp;                    modelGame.addUpdate(new ModelUpdate(modelGame));</b>
+<i>103</i>&nbsp;
+<b class="nc"><i>104</i>&nbsp;                    remoteController.setResponse( new Ack(user.getUsername(), Command.USE_GOD_POWER, new ActivatePowerControllerState()));</b>
+<b class="nc"><i>105</i>&nbsp;                }</b>
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;                //If the next user has not inserted all his workers in the board, it will receive a WorkerSetup Ack
+<i>108</i>&nbsp;                else {
+<b class="nc"><i>109</i>&nbsp;                    setUpValidCells(modelGame);</b>
+<b class="nc"><i>110</i>&nbsp;                    remoteController.setResponse(new Ack(user.getUsername(), Command.SET_WORKER_POSITION, new WorkerSetupControllerState()));</b>
+<i>111</i>&nbsp;                }
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;            }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;            //If user has not already set all of his workers, it will receive a WorkerSetup Ack
+<i>117</i>&nbsp;            else {
+<b class="nc"><i>118</i>&nbsp;                setUpValidCells(modelGame);</b>
+<b class="nc"><i>119</i>&nbsp;                remoteController.setResponse(new Ack(username, Command.SET_WORKER_POSITION, new WorkerSetupControllerState()));</b>
+<i>120</i>&nbsp;            }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;        }
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    // ------------------ UTILITY -------------------
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    /**Set the validCells for the Worker Setup
+<i>128</i>&nbsp;     * @param modelGame is the model of the game
+<i>129</i>&nbsp;     */
+<i>130</i>&nbsp;    public void setUpValidCells(ModelGame modelGame){
+<b class="nc"><i>131</i>&nbsp;        List&lt;Cell&gt; cells = new ArrayList&lt;&gt;(modelGame.getBoard().getBuildMap());</b>
+<b class="nc"><i>132</i>&nbsp;        for (Worker worker: modelGame.getWorkerList()){</b>
+<b class="nc"><i>133</i>&nbsp;            cells.remove(worker.getPosition());</b>
+<b class="nc"><i>134</i>&nbsp;        }</b>
+<b class="nc"><i>135</i>&nbsp;        modelGame.setValidCells(cells);</b>
+<b class="nc"><i>136</i>&nbsp;        modelGame.addUpdate(new ModelUpdate(modelGame));</b>
+<i>137</i>&nbsp;    }
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-25 18:30</div>
+</div>
+</body>
+</html>

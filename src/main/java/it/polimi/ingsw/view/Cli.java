@@ -270,16 +270,32 @@ public class Cli extends View {
      */
     public void register(){
         printWriter.println(CliColor.CYAN + "Insert Username and Press Enter:");
+        boolean match = true;
         scan = scanner.nextLine();
+
+
+        if(!scan.matches("[a-zA-Z]+")){
+            match = false;
+
+        }
         this.userData = "username=" + scan + ";";
 
         printWriter.println("Insert IpAddress and Press Enter:");
         scan = scanner.nextLine();
+
+        if (!scan.equals("localhost") || !scan.matches("[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+")) match = false;
+
         userData += "address=" + scan + ";";
 
         printWriter.println("Insert age and Press Enter:" + CliColor.RESET);
         scan = scanner.nextLine();
+
+        if (!scan.matches("[0-9]+")) match = false;
+
         userData += "age=" + scan + ";";
+
+        if (!match) register();
+
     }
 
     /**Print the error that the name already exist
@@ -293,7 +309,8 @@ public class Cli extends View {
      *
      */
     public void color(){
-        printWriter.println(CliColor.CYAN + "Choose a color from the fallowing list:" + CliColor.RESET);
+
+        printWriter.println(CliColor.CYAN + "Choose a color from the following list:" + CliColor.RESET);
         for(ModelColor color : availableColor ){
             String print = "";
             switch (color){
@@ -322,12 +339,15 @@ public class Cli extends View {
         }
         scan = scanner.nextLine();
         this.userData= "color=" + scan + ";";
+
+        if (!scan.matches("[0-9]+")) color();
     }
 
     /**Called by run method to let the user choose 3 gods in the available list god that can be choose from the other players
      *
      */
     public void godListThree(){
+        boolean match = true;
         for(God god : availableGod ){
             printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
         }
@@ -335,14 +355,19 @@ public class Cli extends View {
         for(int i=0; i<3; i++){
             printWriter.println(CliColor.CYAN + "\n" + "! Choose a god from the previous list:" + CliColor.RESET);
             scan = scanner.nextLine();
+
+            if(!scan.matches("[0-9]+")) match = false;
+
             userData += "god=" + scan + ";";
         }
+        match: godListThree();
     }
 
     /**Called by run method to let the user choose 2 gods in the available list god that can be choose from the other players
      *
      */
     public void godListTwo(){
+        boolean match = true;
         for(God god : availableGod ){
             printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
         }
@@ -350,8 +375,12 @@ public class Cli extends View {
         for(int i=0; i<2; i++){
             printWriter.println(CliColor.CYAN  + "! Choose a god from the previous list:" + CliColor.RESET);
             scan = scanner.nextLine();
+
+            if(!scan.matches("[0-9]+")) match = false;
+
             userData += "god=" + scan + ";";
         }
+        match: godListTwo();
     }
 
     /**Called by run method to let the user choose personal god in the available list god
@@ -359,15 +388,16 @@ public class Cli extends View {
      */
     public void god(){
         this.userData="";
-        printWriter.println(CliColor.CYAN +  "! Choose a god from the fallowing list:" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN +  "! Choose a god from the following list:" + CliColor.RESET);
         for(God god : availableGod ){
             printWriter.print(CliColor.CYAN);
             printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
         }
         scan = scanner.nextLine();
-        userData="god="+ scan + ";";
-    }
 
+        userData="god="+ scan + ";";
+        if(!scan.matches("[0-9]+")) god();
+    }
 
 
     /**Called by run method to let the user set the initial worker's position.
@@ -377,7 +407,11 @@ public class Cli extends View {
     public void setWorkerPosition(){
         printWriter.println(CliColor.CYAN +  "! Where do you want to put your worker?" + CliColor.RESET);
         scan = scanner.nextLine();
+
         this.userData="workerPosition=" + scan + ";";
+
+        if(!(scan.matches("[0-9][,-.:]*[a-zA-Z]") || scan.matches("[a-zA-Z][,-.:]*[0-9]")))
+            setWorkerPosition();
     }
 
     /**Called by run method to let the user choose where to put the worker.
@@ -386,19 +420,35 @@ public class Cli extends View {
     public void moveWorker(){
         printWriter.println(CliColor.CYAN  + "! Where do you want to move your worker?" + CliColor.RESET);
         scan = scanner.nextLine();
+
         this.userData="moveWorker=" + scan + ";";
+
+        if(!(scan.matches("[0-9][,-.:]*[a-zA-Z]") || scan.matches("[a-zA-Z][,-.:]*[0-9]")))
+        moveWorker();
     }
 
     /**Called by run method to let the user choose if he wants to activate the power of the god on a determinate worker.
      * It is called first and is here where the worker is chosen
      */
     public void usePower(){
+        boolean match = true;
         printWriter.println(CliColor.CYAN + "Which worker?");
         scan = scanner.nextLine();
+
+        if(!(scan.matches("[0-9][,-.:]*[a-zA-Z]") || scan.matches("[a-zA-Z][,-.:]*[0-9]")))
+            match = false;
+
         this.userData= "worker="+ scan + ";";
+
+
         printWriter.println("! Do you want to use your power?" + CliColor.RESET);
         scan = scanner.nextLine();
+
+        if(!scan.matches("[a-zA-Z]+")) match = false;
+
         userData+= "power=" + scan + ";";
+
+        match : usePower();
     }
 
     /**Called by run method to let the user choose where he wants build
@@ -408,6 +458,8 @@ public class Cli extends View {
         printWriter.println(CliColor.CYAN + "! Where do you want to build?" + CliColor.RESET);
         scan = scanner.nextLine();
         userData= "build=" + scan + ";";
+        if(!(scan.matches("[0-9][,-.:]*[a-zA-Z]") || scan.matches("[a-zA-Z][,-.:]*[0-9]")))
+            build();
     }
 
     /**Called by run method if the user loose and print loose message
@@ -430,7 +482,10 @@ public class Cli extends View {
     public void players(){
         printWriter.println(CliColor.CYAN + "How many players " +  "?" + CliColor.RESET);
         scan = scanner.nextLine();
+
         this.userData="players=" + scan + ";";
+        if(!scan.matches("[0-9]")) players();
+
     }
 
     /**Called by run method if the user quit the game and print quit message

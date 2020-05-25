@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.RemoteController;
 import it.polimi.ingsw.controller.controllerState.ActivatePowerControllerState;
 import it.polimi.ingsw.controller.controllerState.ExecutionControllerState;
 import it.polimi.ingsw.controller.controllerState.RegisterControllerState;
+import it.polimi.ingsw.controller.utility.Converter;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.god.*;
 import it.polimi.ingsw.messages.controllersMessages.Ack;
@@ -31,10 +32,8 @@ public class ExecuteControllerAction extends Action{
         this.className = "ExecuteControllerAction";
         String[] message = string.split(";");
         this.username = message[0].split("=")[1];
-        String cellString = message[1].split("=")[1];
-        String regex = "[+-,;'*.^-]*";
-        cellString = cellString.replaceAll(regex, "");
-        this.cell = new Cell(Integer.parseInt(cellString.substring(1))%10, cellString.charAt(0) - 'A' );
+
+        this.cell = Converter.convertCell(message[1]);
     }
 
 

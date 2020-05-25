@@ -10,13 +10,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * XML Loader Class
+ * @author Mattia Marta
+ */
 public class XMLLoader {
 
+    /**
+     * Remove the XML Tags
+     * @param string is the string received
+     * @return a clean string
+     */
     public static String XMLTagRemover(String string){
         string = string.replaceAll("[<][/]?[a-zA-Z]+[>]", "");
         return string;
     }
 
+    /**
+     * Remove XML Tags.
+     * @param file is the XML file taken as input.
+     * @return a string of the whole file without tags
+     */
     public static List<String> XMLtoStringList(File file){
         List<String> XMLStringList = new ArrayList<>();
         try {
@@ -34,6 +48,12 @@ public class XMLLoader {
         return XMLStringList;
     }
 
+    /**
+     * Get the single tag content.
+     * @param strings is the string passed.
+     * @param tag is the tag searched.
+     * @return the tag definition.
+     */
     public static List<String> getXMLTagDefinition(List<String> strings, String tag){
         List<String> res = new ArrayList<>();
         String headTag = "<" + tag + ">";
@@ -49,6 +69,11 @@ public class XMLLoader {
         return res;
     }
 
+    /**
+     * Create the cell from the string list.
+     * @param stringList is the loaded XML file.
+     * @return a Cell object.
+     */
     public static Cell cellCreator(List<String> stringList){
         List<String> cellStringList = getXMLTagDefinition(stringList, "cell");
         Cell cell = new Cell();
@@ -64,6 +89,11 @@ public class XMLLoader {
         return cell;
     }
 
+    /**
+     * Create a list of cells.
+     * @param stringList is the loaded XML file.
+     * @return a list of Cells.
+     */
     public static List<Cell> cellListCreator(List<String> stringList){
         List<String> cellListStringList = getXMLTagDefinition(stringList, "cellList");
         List<Cell> cellList = new ArrayList<>();
@@ -77,11 +107,21 @@ public class XMLLoader {
         return cellList;
     }
 
+    /**
+     * Create a list of valid cells.
+     * @param stringList is the loaded XML file.
+     * @return the list of valid cells.
+     */
     public static List<Cell> validCellsCreator(List<String> stringList){
         List<String> validCellsStringList = getXMLTagDefinition(stringList, "validCells");
         return cellListCreator(validCellsStringList);
     }
 
+    /**
+     * Create the board from the Loaded XML.
+     * @param stringList is the loaded XML file.
+     * @return a board object.
+     */
     public static Board boardCreator(List<String> stringList){
         List<String> boardStringList = getXMLTagDefinition(stringList, "board");
         Board board = new Board();
@@ -90,6 +130,11 @@ public class XMLLoader {
         return board;
     }
 
+    /**
+     * Create the user from the Loaded XML.
+     * @param stringList is the loaded XML file.
+     * @return a user object.
+     */
     public static User userCreator(List<String> stringList){
         List<String> userStringList = getXMLTagDefinition(stringList, "user");
         List<String> userFieldsStringList = new ArrayList<>();
@@ -108,6 +153,11 @@ public class XMLLoader {
         return user;
     }
 
+    /**
+     * Create the user list from the loaded XML.
+     * @param stringList is the loaded XML file.
+     * @return a userList object.
+     */
     public static List<User> userListCreator(List<String> stringList){
         List<User> userList = new ArrayList<>();
         List<String> userStringList = getXMLTagDefinition(stringList, "userList");
@@ -120,6 +170,12 @@ public class XMLLoader {
         return userList;
     }
 
+    /**
+     * Create a worker from the loaded XML.
+     * @param stringList is the loaded XML file.
+     * @param userList is the list of users.
+     * @return a worker object.
+     */
     public static Worker workerCreator(List<String> stringList, List<User> userList){
         List<String> workerStringList = getXMLTagDefinition(stringList, "worker");
         String username = XMLTagRemover(workerStringList.get(1)) ;
@@ -133,7 +189,12 @@ public class XMLLoader {
         return worker;
     }
 
-
+    /**
+     * Create a worker list from te loaded XML.
+     * @param stringList is the loaded XML file.
+     * @param userList is the user List.
+     * @return a workerList object.
+     */
     public static List<Worker> workerListCreator(List<String> stringList, List<User> userList){
         List<String> workerListStringList = getXMLTagDefinition(stringList, "workerList");
         List<Worker> workerList = new ArrayList<>();
@@ -145,13 +206,22 @@ public class XMLLoader {
         return workerList;
     }
 
-
+    /**
+     * Create the current user from the loaded XML.
+     * @param stringList is the loaded XML file.
+     * @return the int of the current user.
+     */
     public static int currentUserCreator(List<String> stringList){
         String currentUserString = getXMLTagDefinition(stringList, "currentUser").get(0);
         currentUserString = XMLTagRemover(currentUserString);
         return Integer.parseInt(currentUserString);
     }
 
+    /**
+     * Create the model of the game.
+     * @param file is the XML file to load.
+     * @return the modelGame object.
+     */
     public static ModelGame modelGameCreator(File file){
         ModelGame modelGame = new ModelGame();
         List<String> stringList = XMLtoStringList(file);
