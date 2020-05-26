@@ -441,7 +441,7 @@ public class Cli extends View {
         this.userData= "worker="+ scan + ";";
 
 
-        printWriter.println("! Do you want to use your power?" + CliColor.RESET);
+        printWriter.println("Do you want to use your power?" + CliColor.RESET);
         scan = scanner.nextLine();
 
         if(!scan.matches("[a-zA-Z]+")) match = false;
@@ -455,7 +455,7 @@ public class Cli extends View {
      *
      */
     public void build(){
-        printWriter.println(CliColor.CYAN + "! Where do you want to build?" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN + "Where do you want to build?" + CliColor.RESET);
         scan = scanner.nextLine();
         userData= "build=" + scan + ";";
         if(!(scan.matches("[0-9][,-.:]*[a-zA-Z]") || scan.matches("[a-zA-Z][,-.:]*[0-9]")))
@@ -466,21 +466,21 @@ public class Cli extends View {
      *
      */
     public void loose(){
-        printWriter.println(CliColor.CYAN +  "! Sorry, you lose" +CliColor.RESET);
+        printWriter.println(CliColor.CYAN +  "Sorry, you lose" +CliColor.RESET);
     }
 
     /**Called by run method if the user win and print win message
      *
      */
     public void win(){
-        printWriter.println(CliColor.CYAN +  "! OH MAN, YOU WIN!" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN +  "OH MAN, YOU WIN!" + CliColor.RESET);
     }
 
     /**Called by run method to let the user choose how many players can play in the game
      *
      */
     public void players(){
-        printWriter.println(CliColor.CYAN + "How many players " +  "?" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN + "How many players?" + CliColor.RESET);
         scan = scanner.nextLine();
 
         this.userData="players=" + scan + ";";
@@ -492,7 +492,7 @@ public class Cli extends View {
      *
      */
     public void quit(){
-        printWriter.println(CliColor.CYAN  + "! You're quitting, you have done" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN  + "You're quitting, you have done" + CliColor.RESET);
     }
 
 
