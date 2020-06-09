@@ -22,6 +22,7 @@ public class Athena extends God {
      */
     @Override
     public void setUpTurn(ModelGame modelGame, Worker worker) {
+        power.setActiveEffect(false);
         power.setActiveEffect(true);
         super.setUpTurn(modelGame, worker);
     }

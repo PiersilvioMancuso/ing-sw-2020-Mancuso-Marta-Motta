@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.state.State;
 import it.polimi.ingsw.view.Command;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +36,8 @@ public class RemoteController {
     private boolean gameStarted;
     private boolean gameEnded = false;
     private static final String ENDNAME = "ENDNAME";
-    private final File file = new File(  "src/main/java/it/polimi/ingsw/controller/data/model.xml");
+    private static final String path = "model.xml";
+    private final File file = new File(path);
     private ModelGame modelCopy;
 
     // ------------- CONSTRUCTOR ----------------
@@ -50,7 +52,19 @@ public class RemoteController {
         this.maxPlayers = 1;
         this.server = server;
         this.gameStarted = false;
-        this.modelCopy = new ModelGame(XMLLoader.modelGameCreator(file)) ;
+        if (file.exists()){
+            this.modelCopy = new ModelGame(XMLLoader.modelGameCreator(file)) ;
+        }
+        else {
+            try {
+                file.createNewFile();
+                modelCopy = new ModelGame();
+                XMLParser.saveModel(modelCopy, file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 

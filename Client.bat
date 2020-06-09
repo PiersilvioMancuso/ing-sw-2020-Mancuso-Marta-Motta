@@ -1,1 +1,0 @@
-java -jar out/artifacts/Client/Client.jar

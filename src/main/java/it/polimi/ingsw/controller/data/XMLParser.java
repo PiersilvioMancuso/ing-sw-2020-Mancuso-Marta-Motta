@@ -220,62 +220,6 @@ public class XMLParser {
         }
     }
 
-    public static void main(String[] args) {
-        String path = System.getProperty("user.dir");
 
-
-        String contextPath = "/src/main/java/it/polimi/ingsw/model/data/";
-        String fileName = "it/polimi/ingsw/controller/data/model.xml";
-        File file = new File(path+contextPath+fileName);
-
-        ModelGame modelGame = new ModelGame();
-        User user = new User("Piersilvio");
-        User user1 = new User("Tia");
-        User user2 = new User("Vero");
-
-        user.setGodChosen(new Apollo());
-        user.setAge(23);
-        user.setOutCome(OutCome.DRAW);
-        user.setColor(ModelColor.GREEN);
-
-        user1.setGodChosen(new Apollo());
-        user1.setAge(23);
-        user1.setOutCome(OutCome.DRAW);
-        user1.setColor(ModelColor.GREEN);
-
-        user2.setGodChosen(new Apollo());
-        user2.setAge(23);
-        user2.setOutCome(OutCome.DRAW);
-        user2.setColor(ModelColor.GREEN);
-
-        modelGame.addUser(user);
-        modelGame.addUser(user1);
-        modelGame.addUser(user2);
-
-        Random random = new Random();
-        for (User users : modelGame.getUserList()){
-            for (int i = 0; i< 2; i++){
-                Worker worker = new Worker(users);
-                worker.setPosition(new Cell(random.nextInt() % 4, random.nextInt()%4));
-                modelGame.addWorker(worker);
-            }
-        }
-
-        modelGame.startGame();
-
-        List<Cell> cellList = new ArrayList<>();
-        for (int i = 0; i < 6; i++){
-            cellList.add(new Cell(random.nextInt()%4, random.nextInt()%4));
-        }
-
-        modelGame.setValidCells(cellList);
-
-        XMLParser.saveModel(modelGame, file);
-
-        ModelGame newModelGame = XMLLoader.modelGameCreator(file);
-
-
-        System.out.println(newModelGame);
-    }
 
 }

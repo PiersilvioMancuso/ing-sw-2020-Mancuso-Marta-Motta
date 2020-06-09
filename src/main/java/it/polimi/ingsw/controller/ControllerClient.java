@@ -27,6 +27,8 @@ public class ControllerClient {
      * @param client is the client from which Controller Client will be notified
      */
     public ControllerClient(Client client) {
+
+
         this.view = new Cli();
         view.addController(this);
         this.registered = false;
@@ -206,7 +208,7 @@ public class ControllerClient {
 
     /**Call to the View the method to update or print the Board*/
     public void printView(){
-        ((Cli)view).printBoard();
+        view.printBoard();
     }
 
     /**Execute the view phase*/

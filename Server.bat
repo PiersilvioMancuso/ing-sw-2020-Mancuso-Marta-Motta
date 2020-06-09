@@ -1,1 +1,0 @@
-java -jar out/artifacts/Server/Server.jar

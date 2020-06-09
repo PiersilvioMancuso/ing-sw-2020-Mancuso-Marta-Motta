@@ -121,7 +121,7 @@ public class Client implements Receiver<Message>, Sender<Action> {
     public void send(Action action) {
 
 
-        if (action.getClassName().contains("RegistrationAction") ){
+        if (action.getClassName().contains("Registration") ){
 
             networkHandler = new NetworkHandler(((RegistrationAction) action).getIpAddress(), SOCKET_PORT, this);
             networkHandler.send(action);
@@ -174,10 +174,8 @@ public class Client implements Receiver<Message>, Sender<Action> {
 
     // ------------ MAIN --------------------
 
-    /**Run the Cli Client*/
+
     public static void main(String[] args) {
-
-
         Client client = new Client(0);
 
     }

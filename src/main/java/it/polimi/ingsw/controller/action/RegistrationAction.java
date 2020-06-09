@@ -54,6 +54,7 @@ public class RegistrationAction extends Action{
     // -------------------- ACTION -------------------------
 
     /**Register the Player into the Game Lobby
+     * @param userList is the list of players that's in RemoteController
      */
     public void executeAction(List<User> userList){
         User user = new User(username);

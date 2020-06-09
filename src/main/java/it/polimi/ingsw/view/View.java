@@ -169,6 +169,10 @@ abstract public class View implements Serializable {
      */
     abstract public void run();
 
+    /**Print the board
+     */
+    abstract public void printBoard();
+
     /**Print the Errors
      * @param message is the errorMessage that has to be displayed
      */

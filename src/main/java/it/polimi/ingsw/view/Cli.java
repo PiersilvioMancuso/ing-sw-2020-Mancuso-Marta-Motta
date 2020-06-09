@@ -252,7 +252,7 @@ public class Cli extends View {
                 quit();
                 return;
         }
-        printWriter.println(userData);
+
 
         controllerClient.notifyControllerAction();
     }
@@ -274,16 +274,16 @@ public class Cli extends View {
         scan = scanner.nextLine();
 
 
+
         if(!scan.matches("[a-zA-Z]+")){
             match = false;
-
         }
         this.userData = "username=" + scan + ";";
 
         printWriter.println("Insert IpAddress and Press Enter:");
         scan = scanner.nextLine();
 
-        if (!scan.equals("localhost") || !scan.matches("[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+")) match = false;
+        if (!scan.equals("localhost") && !scan.matches("[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+")) match = false;
 
         userData += "address=" + scan + ";";
 
@@ -353,14 +353,14 @@ public class Cli extends View {
         }
         this.userData="";
         for(int i=0; i<3; i++){
-            printWriter.println(CliColor.CYAN + "\n" + "! Choose a god from the previous list:" + CliColor.RESET);
+            printWriter.println(CliColor.CYAN + "\n" + "Choose a god from the previous list:" + CliColor.RESET);
             scan = scanner.nextLine();
 
             if(!scan.matches("[0-9]+")) match = false;
 
             userData += "god=" + scan + ";";
         }
-        match: godListThree();
+        if (!match) godListThree();
     }
 
     /**Called by run method to let the user choose 2 gods in the available list god that can be choose from the other players
@@ -373,14 +373,14 @@ public class Cli extends View {
         }
         this.userData="";
         for(int i=0; i<2; i++){
-            printWriter.println(CliColor.CYAN  + "! Choose a god from the previous list:" + CliColor.RESET);
+            printWriter.println(CliColor.CYAN  + "Choose a god from the previous list:" + CliColor.RESET);
             scan = scanner.nextLine();
 
             if(!scan.matches("[0-9]+")) match = false;
 
             userData += "god=" + scan + ";";
         }
-        match: godListTwo();
+        if (!match) godListTwo();
     }
 
     /**Called by run method to let the user choose personal god in the available list god
@@ -388,7 +388,7 @@ public class Cli extends View {
      */
     public void god(){
         this.userData="";
-        printWriter.println(CliColor.CYAN +  "! Choose a god from the following list:" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN +  "Choose a god from the following list:" + CliColor.RESET);
         for(God god : availableGod ){
             printWriter.print(CliColor.CYAN);
             printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
@@ -405,7 +405,7 @@ public class Cli extends View {
      *
      */
     public void setWorkerPosition(){
-        printWriter.println(CliColor.CYAN +  "! Where do you want to put your worker?" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN +  "Where do you want to put your worker?" + CliColor.RESET);
         scan = scanner.nextLine();
 
         this.userData="workerPosition=" + scan + ";";
@@ -418,7 +418,7 @@ public class Cli extends View {
      * The worker is already selected at the beginning of the turn (usePower)and not here
      */
     public void moveWorker(){
-        printWriter.println(CliColor.CYAN  + "! Where do you want to move your worker?" + CliColor.RESET);
+        printWriter.println(CliColor.CYAN  + "Where do you want to move your worker?" + CliColor.RESET);
         scan = scanner.nextLine();
 
         this.userData="moveWorker=" + scan + ";";
@@ -448,7 +448,7 @@ public class Cli extends View {
 
         userData+= "power=" + scan + ";";
 
-        match : usePower();
+        if (!match) usePower();
     }
 
     /**Called by run method to let the user choose where he wants build

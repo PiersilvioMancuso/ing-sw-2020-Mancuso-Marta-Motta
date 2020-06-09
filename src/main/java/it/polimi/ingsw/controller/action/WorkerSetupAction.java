@@ -52,6 +52,7 @@ public class WorkerSetupAction extends Action{
 
     /**Execute the Worker Setup Action
      * @param modelGame is the model of the game
+     * @param user is the user that will set his worker's setup position
      */
     public void executeAction(ModelGame modelGame, User user){
 
