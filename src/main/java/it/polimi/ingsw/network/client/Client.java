@@ -33,9 +33,8 @@ public class Client implements Receiver<Message>, Sender<Action> {
     // -------------- CONSTRUCTOR -------------------
 
     /**Client Constructor
-     * @param value is the parameter thanks which it will be created a CLI or a GUI view
      */
-    public Client(int value){
+    public Client(){
         messageList = new ArrayList<>();
 
         controllerClient = new ControllerClient(this);
@@ -55,21 +54,31 @@ public class Client implements Receiver<Message>, Sender<Action> {
     }
 
 
+    /**Socket Getter
+     * @return the Socket
+     */
     public Socket getSocket() {
         return socket;
     }
 
-
+    /**ControllerClient Getter
+     * @return the ControllerClient
+     */
     public ControllerClient getControllerClient() {
         return controllerClient;
     }
 
-
+    /**View Getter
+     * @return the View, that can be CLI or GUI
+     */
     public View getView() {
         return view;
     }
 
 
+    /**NetworkHandler Getter
+     * @return the NetworkHandler
+     */
     public NetworkHandler getNetworkHandler() {
         return networkHandler;
     }
@@ -78,25 +87,34 @@ public class Client implements Receiver<Message>, Sender<Action> {
 
     // --------------- SETTER ---------------------
 
+    /**Socket Setter
+     * @param socket is the Socket that will thanks which there will be a connection to the Server
+     */
     public void setSocket(Socket socket) {
         this.socket = socket;
     }
 
+    /**ControllerClient Setter
+     * @param controllerClient is the controllerClient that will manage the action between View and RemoteController
+     */
     public void setControllerClient(ControllerClient controllerClient) {
         this.controllerClient = controllerClient;
     }
 
+    /**View Setter
+     * @param view is the User Interface
+     */
     public void setView(View view) {
         this.view = view;
     }
 
+    /**NetworkHandler Setter
+     * @param networkHandler is the Connection handler
+     */
     public void setNetworkHandler(NetworkHandler networkHandler) {
         this.networkHandler = networkHandler;
     }
 
-    public void setMessageList(List<Message> messageList) {
-        this.messageList = messageList;
-    }
 
 
     // ----------- RECEIVER ----------------
@@ -176,7 +194,7 @@ public class Client implements Receiver<Message>, Sender<Action> {
 
 
     public static void main(String[] args) {
-        Client client = new Client(0);
+        new Client();
 
     }
 }

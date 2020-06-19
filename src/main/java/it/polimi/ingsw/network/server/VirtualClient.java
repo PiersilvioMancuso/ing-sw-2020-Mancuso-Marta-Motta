@@ -41,7 +41,7 @@ public class VirtualClient implements Sender<Message>, Runnable{
 
             this.inputStream = new ObjectInputStream(clientSocket.getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("An error occured while creating the stream");
         }
 
 
@@ -168,12 +168,13 @@ public class VirtualClient implements Sender<Message>, Runnable{
                 clientSocket.close();
                 server.setVirtualClientList(new ArrayList<VirtualClient>());
             } catch (IOException ioException) {
-                ioException.printStackTrace();
+                System.out.println("Connection Closed");
+
             }
 
 
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("An error occured");
         }
 
         closeConnection();
@@ -195,14 +196,14 @@ public class VirtualClient implements Sender<Message>, Runnable{
                     client.clientSocket.close();
 
                 } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                    return;
                 }
             }
         }
         try {
             clientSocket.close();
         } catch (IOException ioException) {
-            ioException.printStackTrace();
+            return;
         }
 
 
@@ -230,7 +231,7 @@ public class VirtualClient implements Sender<Message>, Runnable{
             clientSocket.close();
             server.removeClient(this);
         } catch (IOException ioException) {
-            ioException.printStackTrace();
+            System.out.println("Connection already closed");
         }
     }
 
@@ -250,7 +251,7 @@ public class VirtualClient implements Sender<Message>, Runnable{
             }
 
             else if (message.getClassName().contains("Ack")  && !((Response) message).getUsername().equals(userName)){
-                ;
+                return;
             }
 
             else {
@@ -264,10 +265,9 @@ public class VirtualClient implements Sender<Message>, Runnable{
             }
 
         } catch (SocketException e){
-            ;
+            System.out.println("Client Disconnected");
         } catch (IOException e) {
-            e.printStackTrace();
-
+            System.out.println("Client Disconnected");
         }
     }
 

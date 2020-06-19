@@ -118,23 +118,23 @@ public class Cli extends View {
 
         for(int i=0; i<ROW; i++){
             if (i==0) {
-                board.append(CliColor.CYAN + "      A \t\tB \t\t\tC \t\t\tD \t\t\tE\n" + CliColor.RESET );
+                board.append(CliColor.CYAN + "\t|--A--|\t\t|--B--|\t\t|--C--|\t\t|--D--|\t\t|--E--|\n" + CliColor.RESET );
                 //board.append(CliColor.CYAN + "  -------------------------------------------------------\n" + CliColor.RESET);
             }
             for(int j=0; j<COLUMN; j++){
                 //board.append(CliColor.WHITE_BACKGROUND);
                 if(j==0 && i==0)
-                    board.append(CliColor.CYAN + "" + i + " " + CliColor.RESET);
+                    board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
                 if(j==0 && i==1)
-                    board.append(CliColor.CYAN + "" + i + " " + CliColor.RESET);
+                    board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
                 if(j==0 && i==2)
-                    board.append(CliColor.CYAN + "" + i + " " + CliColor.RESET);
+                    board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
                 if(j==0 && i==3)
-                    board.append(CliColor.CYAN + "" + i + " " + CliColor.RESET);
+                    board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
                 if(j==0 && i==4)
-                    board.append(CliColor.CYAN + "" + i + " " + CliColor.RESET);
+                    board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
 
-                board.append(" ");
+                board.append("\t");
 
                 // If is there any worker
                 if (modelGame.getWorkerListPosition().contains(new Cell(i, j))){
@@ -194,7 +194,7 @@ public class Cli extends View {
     }
 
 
-
+    /**Print all the players*/
     public void printUser(){
         if (modelGame!= null){
             for(User user : modelGame.getUserList()){
@@ -204,8 +204,23 @@ public class Cli extends View {
 
     }
 
+    /**Print message error and wait 1.5 seconds to continue
+     * @param message is the message that will be printed
+     */
+    @Override
+    public void printError(String message) {
+        printWriter.println(message);
+
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // --------------- LOGIC -----------------
+
 
     /**It check the command sent from the controller and then call the method, after notifyAll to the controller
      *
@@ -215,39 +230,51 @@ public class Cli extends View {
             case REGISTER:
                 register();
                 break;
-            case COLOR:
-                color();
-                break;
+
             case GOD_LIST_THREE:
                 godListThree();
                 break;
+
             case GOD_LIST_TWO:
                 godListTwo();
                 break;
+
             case GOD:
                 god();
                 break;
-            case SET_WORKER_POSITION:
-                setWorkerPosition();
-                break;
-            case MOVE:
-                moveWorker();
-                break;
-            case USE_GOD_POWER:
-                usePower();
-                break;
-            case BUILD:
-                build();
-                break;
-            case LOOSE:
-                loose();
-                return;
-            case WIN:
-                win();
-                return;
+
             case PLAYERS:
                 players();
                 break;
+
+            case COLOR:
+                color();
+                break;
+
+            case SET_WORKER_POSITION:
+                setWorkerPosition();
+                break;
+
+            case USE_GOD_POWER:
+                usePower();
+                break;
+
+            case MOVE:
+                moveWorker();
+                break;
+
+            case BUILD:
+                build();
+                break;
+
+            case LOOSE:
+                loose();
+                return;
+
+            case WIN:
+                win();
+                return;
+
             case QUIT:
                 quit();
                 return;
@@ -257,16 +284,9 @@ public class Cli extends View {
         controllerClient.notifyControllerAction();
     }
 
-    /**Print message error
-     * @param message is the message that will be printed
-     */
-    @Override
-    public void printError(String message) {
-        printWriter.println(message);
-    }
 
-    /**Called by run method it register data user
-     *
+
+    /**Ask player's username, age and the ipAddress where to connect
      */
     public void register(){
         printWriter.println(CliColor.CYAN + "Insert Username and Press Enter:");
@@ -298,15 +318,74 @@ public class Cli extends View {
 
     }
 
-    /**Print the error that the name already exist
-     *
+    /**Ask the player how many players can be in the lobby
      */
-    public void usernameExist() {
-        printWriter.println("Username already exist");
+    public void players(){
+        printWriter.println(CliColor.CYAN + "How many players?" + CliColor.RESET);
+        scan = scanner.nextLine();
+
+        this.userData="players=" + scan + ";";
+        if(!scan.matches("[0-9]")) players();
+
     }
 
-    /**Called by run method to let the user choose the color in the available list color
-     *
+    /**Ask the three gods that will be in game
+     */
+    public void godListThree(){
+        boolean match = true;
+        for(God god : availableGod ){
+            printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
+        }
+        this.userData="";
+        for(int i=0; i<3; i++){
+            printWriter.println(CliColor.CYAN + "\n" + "Choose a god from the previous list:" + CliColor.RESET);
+            scan = scanner.nextLine();
+
+            if(!scan.matches("[0-9]+")) match = false;
+
+            userData += "god=" + scan + ";";
+        }
+        if (!match) godListThree();
+    }
+
+    /**Ask the two gods that will be in game
+     */
+    public void godListTwo(){
+        boolean match = true;
+        for(God god : availableGod ){
+            printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
+        }
+        this.userData="";
+        for(int i=0; i<2; i++){
+            printWriter.println(CliColor.CYAN  + "Choose a god from the previous list:" + CliColor.RESET);
+            scan = scanner.nextLine();
+
+            if(!scan.matches("[0-9]+")) match = false;
+
+            userData += "god=" + scan + ";";
+        }
+        if (!match) godListTwo();
+    }
+
+    /**Ask the player which god have to be
+     */
+    public void god(){
+        this.userData="";
+        printWriter.println(CliColor.CYAN +  "Choose a god from the following list:" + CliColor.RESET);
+        for(God god : availableGod ){
+            printWriter.print(CliColor.CYAN);
+            printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
+        }
+        scan = scanner.nextLine();
+
+        userData="god="+ scan + ";";
+        if(!scan.matches("[0-9]+")) god();
+    }
+
+
+
+
+    /**Ask the color that will be set to the player
      */
     public void color(){
 
@@ -343,66 +422,9 @@ public class Cli extends View {
         if (!scan.matches("[0-9]+")) color();
     }
 
-    /**Called by run method to let the user choose 3 gods in the available list god that can be choose from the other players
-     *
-     */
-    public void godListThree(){
-        boolean match = true;
-        for(God god : availableGod ){
-            printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
-        }
-        this.userData="";
-        for(int i=0; i<3; i++){
-            printWriter.println(CliColor.CYAN + "\n" + "Choose a god from the previous list:" + CliColor.RESET);
-            scan = scanner.nextLine();
-
-            if(!scan.matches("[0-9]+")) match = false;
-
-            userData += "god=" + scan + ";";
-        }
-        if (!match) godListThree();
-    }
-
-    /**Called by run method to let the user choose 2 gods in the available list god that can be choose from the other players
-     *
-     */
-    public void godListTwo(){
-        boolean match = true;
-        for(God god : availableGod ){
-            printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
-        }
-        this.userData="";
-        for(int i=0; i<2; i++){
-            printWriter.println(CliColor.CYAN  + "Choose a god from the previous list:" + CliColor.RESET);
-            scan = scanner.nextLine();
-
-            if(!scan.matches("[0-9]+")) match = false;
-
-            userData += "god=" + scan + ";";
-        }
-        if (!match) godListTwo();
-    }
-
-    /**Called by run method to let the user choose personal god in the available list god
-     *
-     */
-    public void god(){
-        this.userData="";
-        printWriter.println(CliColor.CYAN +  "Choose a god from the following list:" + CliColor.RESET);
-        for(God god : availableGod ){
-            printWriter.print(CliColor.CYAN);
-            printWriter.println(availableGod.indexOf(god) + " - " + god + CliColor.RESET);
-        }
-        scan = scanner.nextLine();
-
-        userData="god="+ scan + ";";
-        if(!scan.matches("[0-9]+")) god();
-    }
 
 
-    /**Called by run method to let the user set the initial worker's position.
-     * The worker is already selected at the beginning of the turn (usePower)and not here
-     *
+    /**Ask the player where to set the starting position of one of his worker
      */
     public void setWorkerPosition(){
         printWriter.println(CliColor.CYAN +  "Where do you want to put your worker?" + CliColor.RESET);
@@ -414,21 +436,8 @@ public class Cli extends View {
             setWorkerPosition();
     }
 
-    /**Called by run method to let the user choose where to put the worker.
-     * The worker is already selected at the beginning of the turn (usePower)and not here
-     */
-    public void moveWorker(){
-        printWriter.println(CliColor.CYAN  + "Where do you want to move your worker?" + CliColor.RESET);
-        scan = scanner.nextLine();
 
-        this.userData="moveWorker=" + scan + ";";
-
-        if(!(scan.matches("[0-9][,-.:]*[a-zA-Z]") || scan.matches("[a-zA-Z][,-.:]*[0-9]")))
-        moveWorker();
-    }
-
-    /**Called by run method to let the user choose if he wants to activate the power of the god on a determinate worker.
-     * It is called first and is here where the worker is chosen
+    /**Ask the player to select one of his worker and if he would use his god's power
      */
     public void usePower(){
         boolean match = true;
@@ -451,8 +460,21 @@ public class Cli extends View {
         if (!match) usePower();
     }
 
-    /**Called by run method to let the user choose where he wants build
-     *
+
+    /**Ask the player to select a Cell where to move the worker
+     * The worker is already selected at the beginning of the turn (usePower)and not here
+     */
+    public void moveWorker(){
+        printWriter.println(CliColor.CYAN  + "Where do you want to move your worker?" + CliColor.RESET);
+        scan = scanner.nextLine();
+
+        this.userData="moveWorker=" + scan + ";";
+
+        if(!(scan.matches("[0-9][,-.:]*[a-zA-Z]") || scan.matches("[a-zA-Z][,-.:]*[0-9]")))
+        moveWorker();
+    }
+
+    /**Ask the player to select the cell where to build
      */
     public void build(){
         printWriter.println(CliColor.CYAN + "Where do you want to build?" + CliColor.RESET);
@@ -462,35 +484,18 @@ public class Cli extends View {
             build();
     }
 
-    /**Called by run method if the user loose and print loose message
-     *
-     */
+    /**Print the Standard Loose Message*/
     public void loose(){
         printWriter.println(CliColor.CYAN +  "Sorry, you lose" +CliColor.RESET);
     }
 
-    /**Called by run method if the user win and print win message
-     *
-     */
+    /**Print the Standard Win Message*/
     public void win(){
         printWriter.println(CliColor.CYAN +  "OH MAN, YOU WIN!" + CliColor.RESET);
     }
 
-    /**Called by run method to let the user choose how many players can play in the game
-     *
-     */
-    public void players(){
-        printWriter.println(CliColor.CYAN + "How many players?" + CliColor.RESET);
-        scan = scanner.nextLine();
 
-        this.userData="players=" + scan + ";";
-        if(!scan.matches("[0-9]")) players();
-
-    }
-
-    /**Called by run method if the user quit the game and print quit message
-     *
-     */
+    /**Print the Standard Quit Message*/
     public void quit(){
         printWriter.println(CliColor.CYAN  + "You're quitting, you have done" + CliColor.RESET);
     }

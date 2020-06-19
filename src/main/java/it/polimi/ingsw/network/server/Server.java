@@ -143,7 +143,7 @@ public class Server implements Receiver<Action>, Broadcast<Message> {
                     client.getClientSocket().close();
                     removeClient(client);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("There was an Error while removing a Client");
                 }
             }
             remoteController = new RemoteController(this);

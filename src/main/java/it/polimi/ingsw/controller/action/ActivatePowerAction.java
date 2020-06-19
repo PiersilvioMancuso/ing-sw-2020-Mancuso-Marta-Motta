@@ -28,8 +28,8 @@ public class ActivatePowerAction extends Action{
 
     // -------------- CONSTRUCTOR -------------------
 
-    /**String string = "cell=";
-     * @param message is a String with the following pattern: 'username=%userName,cell=2-4,powerUp='
+    /**Activate Power Action
+     * @param message is the message that will be used for the Action
      */
     public ActivatePowerAction(String message){
         super();
@@ -64,7 +64,7 @@ public class ActivatePowerAction extends Action{
 
     // --------------- ACTION -------------------
 
-    /**Execute The Activate Power Effect
+    /**Setup the player's round
      * @param modelGame is the model of the game
      * @param worker is the worker that will be used
      */

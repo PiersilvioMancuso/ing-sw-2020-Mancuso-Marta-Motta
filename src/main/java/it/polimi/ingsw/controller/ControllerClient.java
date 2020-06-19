@@ -163,10 +163,33 @@ public class ControllerClient {
     }
 
 
+    /**Call to the View the method to update or print the Board*/
+    public void printView(){
+        view.printBoard();
+    }
+
+
+    /**Execute the view phase*/
+    public void viewRunner(){
+        if (!wait)
+            view.run();
+    }
+
+
+    /**Send to the Client the action created
+     * @param action is the action that will be sent into the server
+     */
+    public void send(Action action){
+        client.send(action);
+    }
+
+
+
+
 
     /**If the response is related to the user:
-     *  - 1)If the response is an Ack, ControllerClient will set his ControllerState, will set View Command and will run it
-     *  - 2)If the response is a Nack, ControllerClient will set the Command to the View and will run View after Error Message Printing
+     *  - 1) If the response is an Ack, ControllerClient will set his ControllerState, will set View Command and will run it
+     *  - 2) If the response is a Nack, ControllerClient will set the Command to the View and will run View after Error Message Printing
      */
     public void notifyResponse()  {
 
@@ -195,34 +218,10 @@ public class ControllerClient {
                 view.setCommand(response.getCommand());
                 view.printError(((Nack) response).getMessage());
 
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
             }
         }
 
-    }
-
-    /**Call to the View the method to update or print the Board*/
-    public void printView(){
-        view.printBoard();
-    }
-
-    /**Execute the view phase*/
-    public void viewRunner(){
-        if (!wait)
-        view.run();
-    }
-
-
-    /**Send to the Client the action created
-     * @param action is the action that will be sent into the server
-     */
-    public void send(Action action){
-        client.send(action);
     }
 
 

@@ -23,7 +23,7 @@ public class GodInGameChoiceAction extends Action{
     // -------------- CONSTRUCTOR ----------------
 
     /**GodInGameChooseAction Constructor
-     * @param data is a string in the following pattern: god=n1god=n2..
+     * @param data is a string that will be parsed taking the god's index
      */
     public GodInGameChoiceAction(String data){
         super();
@@ -48,7 +48,7 @@ public class GodInGameChoiceAction extends Action{
 
 
     // ---------------- ACTION ----------------
-    /**Execute the Action of GodInGameChoose
+    /**Set the list of Gods
      * @param gods is a list of GodEnum
      * @return a list containing just the gods selected
      */

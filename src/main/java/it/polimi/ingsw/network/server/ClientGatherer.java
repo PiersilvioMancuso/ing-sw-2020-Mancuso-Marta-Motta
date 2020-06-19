@@ -26,7 +26,7 @@ public class ClientGatherer extends Thread{
         try {
             this.serverSocket = new ServerSocket(port);
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Cannot Create the Server Socket: please check if Network Connection is On");
         }
     }
 
@@ -46,7 +46,7 @@ public class ClientGatherer extends Thread{
                 server.addClient(client);
 
             }catch (IOException e){
-                e.printStackTrace();
+                System.out.println("There was a problem during a client Connection");
             }
         }
     }
