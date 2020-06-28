@@ -116,54 +116,57 @@ public class Cli extends View {
         if (modelGame == null) return;
         StringBuilder board = new StringBuilder();
 
-        for(int i=0; i<ROW; i++){
-            if (i==0) {
-                board.append(CliColor.CYAN + "\t|--A--|\t\t|--B--|\t\t|--C--|\t\t|--D--|\t\t|--E--|\n" + CliColor.RESET );
-                //board.append(CliColor.CYAN + "  -------------------------------------------------------\n" + CliColor.RESET);
+        if (command.equals(Command.USE_GOD_POWER) || command.equals(Command.MOVE) || command.equals(Command.BUILD) || command.equals(Command.SET_WORKER_POSITION)){
+            for(int i=0; i<ROW; i++){
+                if (i==0) {
+                    board.append(CliColor.CYAN + "\t|--A--|\t\t|--B--|\t\t|--C--|\t\t|--D--|\t\t|--E--|\n" + CliColor.RESET );
+                    //board.append(CliColor.CYAN + "  -------------------------------------------------------\n" + CliColor.RESET);
+                }
+                for(int j=0; j<COLUMN; j++){
+                    //board.append(CliColor.WHITE_BACKGROUND);
+                    if(j==0 && i==0)
+                        board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
+                    if(j==0 && i==1)
+                        board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
+                    if(j==0 && i==2)
+                        board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
+                    if(j==0 && i==3)
+                        board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
+                    if(j==0 && i==4)
+                        board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
+
+                    board.append("\t");
+
+                    // If is there any worker
+                    if (modelGame.getWorkerListPosition().contains(new Cell(i, j))){
+                        board.append(printWorker(modelGame.getWorkerFromPosition(new Cell(i, j)).getColor()));
+
+                    }
+                    else {
+                        board.append("[ ");
+                    }
+
+                    board.append("|");
+
+                    if (availableCell.contains(new Cell(i, j))){
+                        board.append("\u001B[1m" + "A");
+                    }
+                    else {
+                        board.append(" ");
+                    }
+                    board.append("|") ;
+
+                    board.append(modelGame.getBoard().getCell(new Cell(i, j)).getHeight());
+                    board.append("]");
+                    board.append(CliColor.RESET);
+                    board.append("\t");
+                }
+                board.append("\n");
             }
-            for(int j=0; j<COLUMN; j++){
-                //board.append(CliColor.WHITE_BACKGROUND);
-                if(j==0 && i==0)
-                    board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
-                if(j==0 && i==1)
-                    board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
-                if(j==0 && i==2)
-                    board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
-                if(j==0 && i==3)
-                    board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
-                if(j==0 && i==4)
-                    board.append(CliColor.CYAN + "" + i + "" + CliColor.RESET);
-
-                board.append("\t");
-
-                // If is there any worker
-                if (modelGame.getWorkerListPosition().contains(new Cell(i, j))){
-                    board.append(printWorker(modelGame.getWorkerFromPosition(new Cell(i, j)).getColor()));
-
-                }
-                else {
-                    board.append("[ ");
-                }
-
-                board.append("|");
-
-                if (availableCell.contains(new Cell(i, j))){
-                    board.append("\u001B[1m" + "A");
-                }
-                else {
-                    board.append(" ");
-                }
-                board.append("|") ;
-
-                board.append(modelGame.getBoard().getCell(new Cell(i, j)).getHeight());
-                board.append("]");
-                board.append(CliColor.RESET);
-                board.append("\t");
-            }
-            board.append("\n");
+            printWriter.println("\n" + board);
+            printUser();
         }
-        printWriter.println("\n" + board);
-        printUser();
+
     }
 
     /**Called by printBoard methods to compare the modelColor with the CliColor and return the same color
@@ -269,15 +272,16 @@ public class Cli extends View {
 
             case LOOSE:
                 loose();
-                return;
+                System.exit(0);
 
             case WIN:
                 win();
-                return;
+                System.exit(0);
 
             case QUIT:
                 quit();
-                return;
+                System.exit(0);
+
         }
 
 
@@ -295,7 +299,7 @@ public class Cli extends View {
 
 
 
-        if(!scan.matches("[a-zA-Z]+")){
+        if(!scan.matches("[a-zA-Z]+[ ]*")){
             match = false;
         }
         this.userData = "username=" + scan + ";";
@@ -314,7 +318,10 @@ public class Cli extends View {
 
         userData += "age=" + scan + ";";
 
-        if (!match) register();
+        if (!match){
+            printError("Invalid Data Inserted");
+            register();
+        }
 
     }
 
@@ -325,7 +332,10 @@ public class Cli extends View {
         scan = scanner.nextLine();
 
         this.userData="players=" + scan + ";";
-        if(!scan.matches("[0-9]")) players();
+        if(!scan.matches("[0-9]")) {
+            printError("Number of players must be a number between 2 and 3");
+            players();
+        }
 
     }
 
@@ -345,7 +355,10 @@ public class Cli extends View {
 
             userData += "god=" + scan + ";";
         }
-        if (!match) godListThree();
+        if (!match) {
+            printError("God chosen must be a number");
+            godListThree();
+        }
     }
 
     /**Ask the two gods that will be in game
@@ -364,7 +377,11 @@ public class Cli extends View {
 
             userData += "god=" + scan + ";";
         }
-        if (!match) godListTwo();
+        if (!match) {
+
+            printError("God chosen must be a number");
+            godListTwo();
+        }
     }
 
     /**Ask the player which god have to be
@@ -379,7 +396,10 @@ public class Cli extends View {
         scan = scanner.nextLine();
 
         userData="god="+ scan + ";";
-        if(!scan.matches("[0-9]+")) god();
+        if(!scan.matches("[0-9]+")) {
+            printError("God chosen must be a number");
+            god();
+        }
     }
 
 
@@ -419,7 +439,11 @@ public class Cli extends View {
         scan = scanner.nextLine();
         this.userData= "color=" + scan + ";";
 
-        if (!scan.matches("[0-9]+")) color();
+        if (!scan.matches("[0-9]+")) {
+
+            printError("Color chosen must be selected with a number");
+            color();
+        }
     }
 
 
@@ -432,8 +456,11 @@ public class Cli extends View {
 
         this.userData="workerPosition=" + scan + ";";
 
-        if(!(scan.matches("[0-9][,-.:]*[a-zA-Z]") || scan.matches("[a-zA-Z][,-.:]*[0-9]")))
+        if(!(scan.matches("[0-9][,-.:]*[a-zA-Z]") || scan.matches("[a-zA-Z][,-.:]*[0-9]"))){
+
+            printError("Position must be selected as Ln or nL, where L is a letter and n is a number");
             setWorkerPosition();
+        }
     }
 
 
@@ -457,7 +484,11 @@ public class Cli extends View {
 
         userData+= "power=" + scan + ";";
 
-        if (!match) usePower();
+        if (!match) {
+            printError("Position must be selected as Ln or nL, where L is a letter and n is a number\nUse Power must be 'yes' or 'no'");
+
+            usePower();
+        }
     }
 
 
@@ -471,7 +502,11 @@ public class Cli extends View {
         this.userData="moveWorker=" + scan + ";";
 
         if(!(scan.matches("[0-9][,-.:]*[a-zA-Z]") || scan.matches("[a-zA-Z][,-.:]*[0-9]")))
-        moveWorker();
+        {
+            printError("Position must be selected as Ln or nL, where L is a letter and n is a number");
+            moveWorker();
+        }
+
     }
 
     /**Ask the player to select the cell where to build
@@ -481,7 +516,10 @@ public class Cli extends View {
         scan = scanner.nextLine();
         userData= "build=" + scan + ";";
         if(!(scan.matches("[0-9][,-.:]*[a-zA-Z]") || scan.matches("[a-zA-Z][,-.:]*[0-9]")))
+        {
+            printError("Position must be selected as Ln or nL, where L is a letter and n is a number");
             build();
+        }
     }
 
     /**Print the Standard Loose Message*/

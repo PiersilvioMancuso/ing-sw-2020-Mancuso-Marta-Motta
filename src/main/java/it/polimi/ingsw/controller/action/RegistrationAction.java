@@ -73,9 +73,9 @@ public class RegistrationAction extends Action{
 
 
         // ---------- Lobby Full
-        if (remoteController.getPlayerList().size() + 1 > remoteController.getMaxPlayers()){
+        if (remoteController.getPlayerList().size() + 1 > remoteController.getMaxPlayers() || remoteController.isGameStarted()){
             String message = "Lobby is full, please try again in some minutes";
-            remoteController.setResponse(new Nack(message, username, Command.QUIT));
+            remoteController.setResponse(new Nack(message, username, Command.REGISTER));
         }
 
         // --------- Username Already in use from another user

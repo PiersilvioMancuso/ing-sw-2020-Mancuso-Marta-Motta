@@ -83,9 +83,6 @@ public class ModelGame implements Serializable {
         return server;
     }
 
-    public void setServer(Server server) {
-        this.server = server;
-    }
 
     /**UserList Getter
      * @return a list containing all the users in game
@@ -174,6 +171,14 @@ public class ModelGame implements Serializable {
         currentState = state;
     }
 
+    /**Server Setter
+     * @param server is the server where the game is On
+     */
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
+
     /**
      * set worker position after a move
      * @author Motta
@@ -224,8 +229,10 @@ public class ModelGame implements Serializable {
      * @param update is the Update object for the View
      */
     public void addUpdate(Update update){
-        updateObject = update;
-        if (server != null) notifyServer();
+        if (!update.equals(updateObject) ){
+            updateObject = update;
+            if (server != null ) notifyServer();
+        }
     }
 
     /**

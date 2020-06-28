@@ -174,9 +174,6 @@ public class Client implements Receiver<Message>, Sender<Action> {
             controllerClient.printView();
             controllerClient.viewRunner();
         }
-        else {
-            controllerClient.printView();
-        }
 
 
     }

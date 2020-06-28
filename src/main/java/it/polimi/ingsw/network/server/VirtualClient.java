@@ -24,6 +24,7 @@ public class VirtualClient implements Sender<Message>, Runnable{
     private String userName = null;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
+    private boolean registered = false;
 
 
     // ------------------- CONSTRUCTOR ----------------------
@@ -155,18 +156,24 @@ public class VirtualClient implements Sender<Message>, Runnable{
 
             //Else if the game is Already Started
             else {
+                if (!server.getRemoteController().checkUserExistenceWithUsername(this.getUserName()))
+                {
+                    return;
+                }
+                else {
+                    //The file will be replaced by a new Data File
+                    server.setRemoteController(new RemoteController(server));
+                    server.getRemoteController().resetData();
 
-                //The file will be replaced by a new Data File
-                server.setRemoteController(new RemoteController(server));
-                server.getRemoteController().resetData();
+                    resetServerClients();
+                }
 
-                resetServerClients();
+
             }
 
 
             try {
                 clientSocket.close();
-                server.setVirtualClientList(new ArrayList<VirtualClient>());
             } catch (IOException ioException) {
                 System.out.println("Connection Closed");
 
@@ -244,8 +251,10 @@ public class VirtualClient implements Sender<Message>, Runnable{
      */
     @Override
     public synchronized void send(Message message) {
+
         try {
             if (message.getClassName().contains("End")){
+
                 this.outputStream.writeObject(message);
                 notify();
             }
@@ -255,12 +264,21 @@ public class VirtualClient implements Sender<Message>, Runnable{
             }
 
             else {
+                if (message.getClassName().contains("RegistrationAck")){
+                    registered = true;
+                }
 
-                if (message.getClassName().contains("Nack") && ((Nack)message).getCommand().equals(Command.REGISTER)){
-                    this.userName = RemoteController.getENDNAME();}
+                if (message.getClassName().contains("Nack")){
+                    if (((Nack)message).getCommand().equals(Command.REGISTER)) {
+                        if (!registered){
+                            userName = RemoteController.getENDNAME();
+                        }
+                    }
+                }
 
                 this.outputStream.writeObject(message);
                 this.outputStream.reset();
+                notify();
 
             }
 

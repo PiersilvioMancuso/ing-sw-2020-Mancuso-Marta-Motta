@@ -50,9 +50,7 @@ public class PrometheusPower extends Power{
 
                     int positionHeight = position.getHeight();
 
-                    if (modelGame.getCurrentState() instanceof MovementState){
-                        if (positionHeight > workerHeight) validPositions.remove(position);
-                    }
+                    if (positionHeight > workerHeight) validPositions.remove(position);
 
                 }
             }

@@ -205,7 +205,7 @@ public class ControllerClient {
             }
 
             //If the response is an Ack, ControllerClient will set his ControllerState, will set View Command and will run it
-            else if (response.getClassName().contains("Ack")) {
+            else if (response.getClassName().contains("Ack") && registered) {
                 wait = false;
                 this.controllerState = ((Ack) response).getControllerState();
                 view.setCommand((response).getCommand());

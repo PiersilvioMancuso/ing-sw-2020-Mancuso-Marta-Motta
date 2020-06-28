@@ -42,7 +42,7 @@ public class PrometheusTest {
     @Test
     public void isLoser_true_shouldLose() {
         for (Cell cell : model.getBoard().getNeighbourCell(workerCell)){
-            model.getBoard().setCellHeight(cell, 3);
+            cell.setHeight(4);
         }
         god.setUpTurn(model, worker);
         assertTrue(god.isLoser(model, worker));

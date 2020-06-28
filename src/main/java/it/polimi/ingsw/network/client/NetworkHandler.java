@@ -62,7 +62,7 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
     @Override
     public void receive(Message message) {
         if (message.getClassName().contains("Nack")){
-            if (((Nack)message).getCommand().equals(Command.REGISTER) && client.getControllerClient().isRegistered()) return;
+            if (((Nack)message).getCommand().equals(Command.REGISTER)  && client.getControllerClient().isRegistered()) return;
         }
 
         client.receive(message);
@@ -76,6 +76,7 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
      */
     @Override
     public void send(Action action){
+        client.clearMessageList();
         if (outputStream != null){
             this.username = action.getUsername();
             try {

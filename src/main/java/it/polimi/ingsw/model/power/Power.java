@@ -134,7 +134,11 @@ import java.util.List;
 
             for (Cell position: modelGame.getBoard().getNeighbourCell(workerPosition)){
                 int positionHeight = position.getHeight();
-                if (positionHeight <= workerHeight + 1 && positionHeight >= 0 && !modelGame.getWorkerListPosition().contains(position)) validPositions.add(position);
+                if (!modelGame.getWorkerListPosition().contains(position)) {
+                    if ((modelGame.getCurrentState() instanceof BuildState || positionHeight  <= workerHeight + 1 && positionHeight >= 0) && positionHeight < 4){
+                        validPositions.add(position);
+                    }
+                }
             }
 
             modelGame.setValidCells(validPositions);
