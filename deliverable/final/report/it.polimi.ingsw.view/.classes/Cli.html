@@ -1,0 +1,653 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Cli</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.view</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Cli (it.polimi.ingsw.view)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Cli</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 217)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Cli$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 219)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.view;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.Cell;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.ModelColor;
+<i>5</i>&nbsp;import it.polimi.ingsw.model.User;
+<i>6</i>&nbsp;import it.polimi.ingsw.model.god.*;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.io.IOException;
+<i>9</i>&nbsp;import java.io.PrintWriter;
+<i>10</i>&nbsp;import java.util.Scanner;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import static it.polimi.ingsw.model.ModelColor.*;
+<i>13</i>&nbsp;import static it.polimi.ingsw.model.ModelColor.YELLOW;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**Command Line Interface Class
+<i>16</i>&nbsp; *
+<i>17</i>&nbsp; * @author Veronica Motta
+<i>18</i>&nbsp; */
+<i>19</i>&nbsp;public class Cli extends View {
+<i>20</i>&nbsp;    private static final int ROW = 5;
+<i>21</i>&nbsp;    private static final int COLUMN = 5;
+<b class="nc"><i>22</i>&nbsp;    private final PrintWriter printWriter = new PrintWriter(System.out, true);</b>
+<b class="nc"><i>23</i>&nbsp;    private final Scanner scanner = new Scanner(System.in);</b>
+<i>24</i>&nbsp;    private String scan;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    // --------------- CONSTRUCTOR ---------------
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**It start the game
+<i>29</i>&nbsp;     *
+<i>30</i>&nbsp;     */
+<b class="nc"><i>31</i>&nbsp;    public Cli(){</b>
+<b class="nc"><i>32</i>&nbsp;        printLogo();</b>
+<b class="nc"><i>33</i>&nbsp;        this.command=Command.REGISTER;</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    // --------------- GETTER ----------------
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public static int getROW() {
+<b class="nc"><i>40</i>&nbsp;        return ROW;</b>
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    public static int getCOLUMN() {
+<b class="nc"><i>44</i>&nbsp;        return COLUMN;</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    public PrintWriter getPrintWriter() {
+<b class="nc"><i>48</i>&nbsp;        return printWriter;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    public Scanner getScanner() {
+<b class="nc"><i>52</i>&nbsp;        return scanner;</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public String getScan() {
+<b class="nc"><i>56</i>&nbsp;        return scan;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    public CliColor getUserCliColor(User user){
+<b class="nc"><i>60</i>&nbsp;        if (user.getColor() == null) return CliColor.RESET;</b>
+<b class="nc"><i>61</i>&nbsp;        switch (user.getColor()){</b>
+<i>62</i>&nbsp;            case CYAN:
+<b class="nc"><i>63</i>&nbsp;                return  CliColor.CYAN;</b>
+<i>64</i>&nbsp;            case GREEN:
+<b class="nc"><i>65</i>&nbsp;                return CliColor.GREEN;</b>
+<i>66</i>&nbsp;            case RED:
+<b class="nc"><i>67</i>&nbsp;                return CliColor.RED;</b>
+<i>68</i>&nbsp;            case BLUE:
+<b class="nc"><i>69</i>&nbsp;                return CliColor.BLUE;</b>
+<i>70</i>&nbsp;            case PURPLE:
+<b class="nc"><i>71</i>&nbsp;                return CliColor.PURPLE;</b>
+<i>72</i>&nbsp;            case YELLOW:
+<b class="nc"><i>73</i>&nbsp;                return CliColor.YELLOW;</b>
+<i>74</i>&nbsp;            default:
+<b class="nc"><i>75</i>&nbsp;                return CliColor.RESET;</b>
+<i>76</i>&nbsp;        }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    // --------------- SETTER ----------------
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    public void setScan(String scan) {
+<b class="nc"><i>83</i>&nbsp;        this.scan = scan;</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    // --------------- PRINTER ---------------
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    /**Called by Cli method to print game logo
+<i>92</i>&nbsp;     *
+<i>93</i>&nbsp;     */
+<i>94</i>&nbsp;    private void printLogo() {
+<b class="nc"><i>95</i>&nbsp;        String Title = CliColor.TITLE + &quot;\n&quot; +</b>
+<i>96</i>&nbsp;                &quot;                .d88888b   .d888888  888888ba  d888888P  .88888.   888888ba  dP 888888ba  dP &quot; +&quot;\n&quot; +
+<i>97</i>&nbsp;                &quot;                88.       d8&#39;    88  88    `8b    88    d8&#39;   `8b  88    `8b 88 88    `8b 88 &quot; +&quot;\n&quot; +
+<i>98</i>&nbsp;                &quot;                `Y88888b. 88aaaaa88  88     88    88    88     88  a88aaaa8P&#39;88 88     88 88 &quot; +&quot;\n&quot; +
+<i>99</i>&nbsp;                &quot;                      `8b 88     88  88     88    88    88     88  88   `8b. 88 88     88 88 &quot; +&quot;\n&quot; +
+<i>100</i>&nbsp;                &quot;                d8&#39;   .8P 88     88  88     88    88    Y8.   .8P  88     88 88 88     88 88 &quot; +&quot;\n&quot; +
+<i>101</i>&nbsp;                &quot;                 Y88888P  88     88  dP     dP    dP     `8888P&#39;   dP     dP dP dP     dP dP &quot; +&quot;\n&quot; +
+<i>102</i>&nbsp;                &quot;                ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo&quot; +&quot;\n&quot; +
+<i>103</i>&nbsp;                &quot;                                                                                             &quot; +&quot;\n\n&quot; +
+<i>104</i>&nbsp;                &quot;                                    Welcome to Santorini Board Game\n&quot; +
+<i>105</i>&nbsp;                &quot;                        Before starting playing you need to setup some things:\n&quot; + CliColor.RESET;
+<i>106</i>&nbsp;
+<b class="nc"><i>107</i>&nbsp;        printWriter.println(Title);</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    /**Called by controller to print the board and compare the current cell with workerPosition and print the color of the user with the symbol
+<i>111</i>&nbsp;     * moreover compare the availableCells and print A if it&#39;s available and if the cell have height, print the level
+<i>112</i>&nbsp;     *
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    public void printBoard(){
+<i>115</i>&nbsp;
+<b class="nc"><i>116</i>&nbsp;        if (modelGame == null) return;</b>
+<b class="nc"><i>117</i>&nbsp;        StringBuilder board = new StringBuilder();</b>
+<i>118</i>&nbsp;
+<b class="nc"><i>119</i>&nbsp;        if (command.equals(Command.USE_GOD_POWER) || command.equals(Command.MOVE) || command.equals(Command.BUILD) || command.equals(Command.SET_WORKER_POSITION)){</b>
+<b class="nc"><i>120</i>&nbsp;            for(int i=0; i&lt;ROW; i++){</b>
+<b class="nc"><i>121</i>&nbsp;                if (i==0) {</b>
+<b class="nc"><i>122</i>&nbsp;                    board.append(CliColor.CYAN + &quot;\t|--A--|\t\t|--B--|\t\t|--C--|\t\t|--D--|\t\t|--E--|\n&quot; + CliColor.RESET );</b>
+<i>123</i>&nbsp;                    //board.append(CliColor.CYAN + &quot;  -------------------------------------------------------\n&quot; + CliColor.RESET);
+<i>124</i>&nbsp;                }
+<b class="nc"><i>125</i>&nbsp;                for(int j=0; j&lt;COLUMN; j++){</b>
+<i>126</i>&nbsp;                    //board.append(CliColor.WHITE_BACKGROUND);
+<b class="nc"><i>127</i>&nbsp;                    if(j==0 &amp;&amp; i==0)</b>
+<b class="nc"><i>128</i>&nbsp;                        board.append(CliColor.CYAN + &quot;&quot; + i + &quot;&quot; + CliColor.RESET);</b>
+<b class="nc"><i>129</i>&nbsp;                    if(j==0 &amp;&amp; i==1)</b>
+<b class="nc"><i>130</i>&nbsp;                        board.append(CliColor.CYAN + &quot;&quot; + i + &quot;&quot; + CliColor.RESET);</b>
+<b class="nc"><i>131</i>&nbsp;                    if(j==0 &amp;&amp; i==2)</b>
+<b class="nc"><i>132</i>&nbsp;                        board.append(CliColor.CYAN + &quot;&quot; + i + &quot;&quot; + CliColor.RESET);</b>
+<b class="nc"><i>133</i>&nbsp;                    if(j==0 &amp;&amp; i==3)</b>
+<b class="nc"><i>134</i>&nbsp;                        board.append(CliColor.CYAN + &quot;&quot; + i + &quot;&quot; + CliColor.RESET);</b>
+<b class="nc"><i>135</i>&nbsp;                    if(j==0 &amp;&amp; i==4)</b>
+<b class="nc"><i>136</i>&nbsp;                        board.append(CliColor.CYAN + &quot;&quot; + i + &quot;&quot; + CliColor.RESET);</b>
+<i>137</i>&nbsp;
+<b class="nc"><i>138</i>&nbsp;                    board.append(&quot;\t&quot;);</b>
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;                    // If is there any worker
+<b class="nc"><i>141</i>&nbsp;                    if (modelGame.getWorkerListPosition().contains(new Cell(i, j))){</b>
+<b class="nc"><i>142</i>&nbsp;                        board.append(printWorker(modelGame.getWorkerFromPosition(new Cell(i, j)).getColor()));</b>
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;                    }
+<i>145</i>&nbsp;                    else {
+<b class="nc"><i>146</i>&nbsp;                        board.append(&quot;[ &quot;);</b>
+<i>147</i>&nbsp;                    }
+<i>148</i>&nbsp;
+<b class="nc"><i>149</i>&nbsp;                    board.append(&quot;|&quot;);</b>
+<i>150</i>&nbsp;
+<b class="nc"><i>151</i>&nbsp;                    if (availableCell.contains(new Cell(i, j))){</b>
+<b class="nc"><i>152</i>&nbsp;                        board.append(&quot;\u001B[1m&quot; + &quot;A&quot;);</b>
+<i>153</i>&nbsp;                    }
+<i>154</i>&nbsp;                    else {
+<b class="nc"><i>155</i>&nbsp;                        board.append(&quot; &quot;);</b>
+<i>156</i>&nbsp;                    }
+<b class="nc"><i>157</i>&nbsp;                    board.append(&quot;|&quot;) ;</b>
+<i>158</i>&nbsp;
+<b class="nc"><i>159</i>&nbsp;                    board.append(modelGame.getBoard().getCell(new Cell(i, j)).getHeight());</b>
+<b class="nc"><i>160</i>&nbsp;                    board.append(&quot;]&quot;);</b>
+<b class="nc"><i>161</i>&nbsp;                    board.append(CliColor.RESET);</b>
+<b class="nc"><i>162</i>&nbsp;                    board.append(&quot;\t&quot;);</b>
+<i>163</i>&nbsp;                }
+<b class="nc"><i>164</i>&nbsp;                board.append(&quot;\n&quot;);</b>
+<i>165</i>&nbsp;            }
+<b class="nc"><i>166</i>&nbsp;            printWriter.println(&quot;\n&quot; + board);</b>
+<b class="nc"><i>167</i>&nbsp;            printUser();</b>
+<i>168</i>&nbsp;        }
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;    }
+<i>171</i>&nbsp;
+<i>172</i>&nbsp;    /**Called by printBoard methods to compare the modelColor with the CliColor and return the same color
+<i>173</i>&nbsp;     *
+<i>174</i>&nbsp;     * @param modelColor receives the worker color from modelColor
+<i>175</i>&nbsp;     * @return String that contains CliColor
+<i>176</i>&nbsp;     */
+<i>177</i>&nbsp;    public String printWorker(ModelColor modelColor) {
+<b class="nc"><i>178</i>&nbsp;        if (modelGame!=null){</b>
+<b class="nc"><i>179</i>&nbsp;            switch (modelColor){</b>
+<i>180</i>&nbsp;                case RED:
+<b class="nc"><i>181</i>&nbsp;                    return &quot;&quot; + CliColor.RED_BACKGROUND + &quot;[&quot; + &quot;\u2691&quot;;</b>
+<i>182</i>&nbsp;                case GREEN:
+<b class="nc"><i>183</i>&nbsp;                    return &quot;&quot; + CliColor.GREEN_BACKGROUND + &quot;[&quot; + &quot;\u2691&quot;;</b>
+<i>184</i>&nbsp;                case YELLOW:
+<b class="nc"><i>185</i>&nbsp;                    return &quot;&quot; + CliColor.YELLOW_BACKGROUND + &quot;[&quot; + &quot;\u2691&quot;;</b>
+<i>186</i>&nbsp;                case BLUE:
+<b class="nc"><i>187</i>&nbsp;                    return &quot;&quot; + CliColor.BLUE_BACKGROUND + &quot;[&quot; + &quot;\u2691&quot;;</b>
+<i>188</i>&nbsp;                case PURPLE:
+<b class="nc"><i>189</i>&nbsp;                    return &quot;&quot; + CliColor.PURPLE_BACKGROUND + &quot;[&quot; + &quot;\u2691&quot;;</b>
+<i>190</i>&nbsp;                case CYAN:
+<b class="nc"><i>191</i>&nbsp;                    return &quot;&quot; + CliColor.CYAN_BACKGROUND + &quot;[&quot; + &quot;\u2691&quot;;</b>
+<i>192</i>&nbsp;                default:
+<b class="nc"><i>193</i>&nbsp;                    return &quot;&quot;;</b>
+<i>194</i>&nbsp;            }
+<b class="nc"><i>195</i>&nbsp;        } else return &quot;&quot;;</b>
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;    }
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;
+<i>200</i>&nbsp;    /**Print all the players*/
+<i>201</i>&nbsp;    public void printUser(){
+<b class="nc"><i>202</i>&nbsp;        if (modelGame!= null){</b>
+<b class="nc"><i>203</i>&nbsp;            for(User user : modelGame.getUserList()){</b>
+<b class="nc"><i>204</i>&nbsp;                printWriter.println(getUserCliColor(user) + &quot;&quot; + user + CliColor.RESET);</b>
+<b class="nc"><i>205</i>&nbsp;            }</b>
+<i>206</i>&nbsp;        }
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;    }
+<i>209</i>&nbsp;
+<i>210</i>&nbsp;    /**Print message error and wait 1.5 seconds to continue
+<i>211</i>&nbsp;     * @param message is the message that will be printed
+<i>212</i>&nbsp;     */
+<i>213</i>&nbsp;    @Override
+<i>214</i>&nbsp;    public void printError(String message) {
+<b class="nc"><i>215</i>&nbsp;        printWriter.println(message);</b>
+<i>216</i>&nbsp;
+<i>217</i>&nbsp;        try {
+<b class="nc"><i>218</i>&nbsp;            Thread.sleep(1500);</b>
+<b class="nc"><i>219</i>&nbsp;        } catch (InterruptedException e) {</b>
+<i>220</i>&nbsp;            return;
+<b class="nc"><i>221</i>&nbsp;        }</b>
+<i>222</i>&nbsp;    }
+<i>223</i>&nbsp;
+<i>224</i>&nbsp;
+<i>225</i>&nbsp;    // --------------- LOGIC -----------------
+<i>226</i>&nbsp;
+<i>227</i>&nbsp;
+<i>228</i>&nbsp;    /**It check the command sent from the controller and then call the method, after notifyAll to the controller
+<i>229</i>&nbsp;     *
+<i>230</i>&nbsp;     */
+<i>231</i>&nbsp;    public void run(){
+<b class="nc"><i>232</i>&nbsp;        switch (command) {</b>
+<i>233</i>&nbsp;            case REGISTER:
+<b class="nc"><i>234</i>&nbsp;                register();</b>
+<b class="nc"><i>235</i>&nbsp;                break;</b>
+<i>236</i>&nbsp;
+<i>237</i>&nbsp;            case GOD_LIST_THREE:
+<b class="nc"><i>238</i>&nbsp;                godListThree();</b>
+<b class="nc"><i>239</i>&nbsp;                break;</b>
+<i>240</i>&nbsp;
+<i>241</i>&nbsp;            case GOD_LIST_TWO:
+<b class="nc"><i>242</i>&nbsp;                godListTwo();</b>
+<b class="nc"><i>243</i>&nbsp;                break;</b>
+<i>244</i>&nbsp;
+<i>245</i>&nbsp;            case GOD:
+<b class="nc"><i>246</i>&nbsp;                god();</b>
+<b class="nc"><i>247</i>&nbsp;                break;</b>
+<i>248</i>&nbsp;
+<i>249</i>&nbsp;            case PLAYERS:
+<b class="nc"><i>250</i>&nbsp;                players();</b>
+<b class="nc"><i>251</i>&nbsp;                break;</b>
+<i>252</i>&nbsp;
+<i>253</i>&nbsp;            case COLOR:
+<b class="nc"><i>254</i>&nbsp;                color();</b>
+<b class="nc"><i>255</i>&nbsp;                break;</b>
+<i>256</i>&nbsp;
+<i>257</i>&nbsp;            case SET_WORKER_POSITION:
+<b class="nc"><i>258</i>&nbsp;                setWorkerPosition();</b>
+<b class="nc"><i>259</i>&nbsp;                break;</b>
+<i>260</i>&nbsp;
+<i>261</i>&nbsp;            case USE_GOD_POWER:
+<b class="nc"><i>262</i>&nbsp;                usePower();</b>
+<b class="nc"><i>263</i>&nbsp;                break;</b>
+<i>264</i>&nbsp;
+<i>265</i>&nbsp;            case MOVE:
+<b class="nc"><i>266</i>&nbsp;                moveWorker();</b>
+<b class="nc"><i>267</i>&nbsp;                break;</b>
+<i>268</i>&nbsp;
+<i>269</i>&nbsp;            case BUILD:
+<b class="nc"><i>270</i>&nbsp;                build();</b>
+<b class="nc"><i>271</i>&nbsp;                break;</b>
+<i>272</i>&nbsp;
+<i>273</i>&nbsp;            case LOOSE:
+<b class="nc"><i>274</i>&nbsp;                loose();</b>
+<b class="nc"><i>275</i>&nbsp;                System.exit(0);</b>
+<i>276</i>&nbsp;
+<i>277</i>&nbsp;            case WIN:
+<b class="nc"><i>278</i>&nbsp;                win();</b>
+<b class="nc"><i>279</i>&nbsp;                System.exit(0);</b>
+<i>280</i>&nbsp;
+<i>281</i>&nbsp;            case QUIT:
+<b class="nc"><i>282</i>&nbsp;                quit();</b>
+<b class="nc"><i>283</i>&nbsp;                System.exit(0);</b>
+<i>284</i>&nbsp;
+<i>285</i>&nbsp;        }
+<i>286</i>&nbsp;
+<i>287</i>&nbsp;
+<b class="nc"><i>288</i>&nbsp;        controllerClient.notifyControllerAction();</b>
+<i>289</i>&nbsp;    }
+<i>290</i>&nbsp;
+<i>291</i>&nbsp;
+<i>292</i>&nbsp;
+<i>293</i>&nbsp;    /**Ask player&#39;s username, age and the ipAddress where to connect
+<i>294</i>&nbsp;     */
+<i>295</i>&nbsp;    public void register(){
+<b class="nc"><i>296</i>&nbsp;        printWriter.println(CliColor.CYAN + &quot;Insert Username and Press Enter:&quot;);</b>
+<b class="nc"><i>297</i>&nbsp;        boolean match = true;</b>
+<b class="nc"><i>298</i>&nbsp;        scan = scanner.nextLine();</b>
+<i>299</i>&nbsp;
+<i>300</i>&nbsp;
+<i>301</i>&nbsp;
+<b class="nc"><i>302</i>&nbsp;        if(!scan.matches(&quot;[a-zA-Z]+[ ]*&quot;)){</b>
+<b class="nc"><i>303</i>&nbsp;            match = false;</b>
+<i>304</i>&nbsp;        }
+<b class="nc"><i>305</i>&nbsp;        this.userData = &quot;username=&quot; + scan + &quot;;&quot;;</b>
+<i>306</i>&nbsp;
+<b class="nc"><i>307</i>&nbsp;        printWriter.println(&quot;Insert IpAddress and Press Enter:&quot;);</b>
+<b class="nc"><i>308</i>&nbsp;        scan = scanner.nextLine();</b>
+<i>309</i>&nbsp;
+<b class="nc"><i>310</i>&nbsp;        if (!scan.equals(&quot;localhost&quot;) &amp;&amp; !scan.matches(&quot;[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+&quot;)) match = false;</b>
+<i>311</i>&nbsp;
+<b class="nc"><i>312</i>&nbsp;        userData += &quot;address=&quot; + scan + &quot;;&quot;;</b>
+<i>313</i>&nbsp;
+<b class="nc"><i>314</i>&nbsp;        printWriter.println(&quot;Insert age and Press Enter:&quot; + CliColor.RESET);</b>
+<b class="nc"><i>315</i>&nbsp;        scan = scanner.nextLine();</b>
+<i>316</i>&nbsp;
+<b class="nc"><i>317</i>&nbsp;        if (!scan.matches(&quot;[0-9]+&quot;)) match = false;</b>
+<i>318</i>&nbsp;
+<b class="nc"><i>319</i>&nbsp;        userData += &quot;age=&quot; + scan + &quot;;&quot;;</b>
+<i>320</i>&nbsp;
+<b class="nc"><i>321</i>&nbsp;        if (!match){</b>
+<b class="nc"><i>322</i>&nbsp;            printError(&quot;Invalid Data Inserted&quot;);</b>
+<b class="nc"><i>323</i>&nbsp;            register();</b>
+<i>324</i>&nbsp;        }
+<i>325</i>&nbsp;
+<i>326</i>&nbsp;    }
+<i>327</i>&nbsp;
+<i>328</i>&nbsp;    /**Ask the player how many players can be in the lobby
+<i>329</i>&nbsp;     */
+<i>330</i>&nbsp;    public void players(){
+<b class="nc"><i>331</i>&nbsp;        printWriter.println(CliColor.CYAN + &quot;How many players?&quot; + CliColor.RESET);</b>
+<b class="nc"><i>332</i>&nbsp;        scan = scanner.nextLine();</b>
+<i>333</i>&nbsp;
+<b class="nc"><i>334</i>&nbsp;        this.userData=&quot;players=&quot; + scan + &quot;;&quot;;</b>
+<b class="nc"><i>335</i>&nbsp;        if(!scan.matches(&quot;[0-9]&quot;)) {</b>
+<b class="nc"><i>336</i>&nbsp;            printError(&quot;Number of players must be a number between 2 and 3&quot;);</b>
+<b class="nc"><i>337</i>&nbsp;            players();</b>
+<i>338</i>&nbsp;        }
+<i>339</i>&nbsp;
+<i>340</i>&nbsp;    }
+<i>341</i>&nbsp;
+<i>342</i>&nbsp;    /**Ask the three gods that will be in game
+<i>343</i>&nbsp;     */
+<i>344</i>&nbsp;    public void godListThree(){
+<b class="nc"><i>345</i>&nbsp;        boolean match = true;</b>
+<b class="nc"><i>346</i>&nbsp;        for(God god : availableGod ){</b>
+<b class="nc"><i>347</i>&nbsp;            printWriter.println(availableGod.indexOf(god) + &quot; - &quot; + god + CliColor.RESET);</b>
+<b class="nc"><i>348</i>&nbsp;        }</b>
+<b class="nc"><i>349</i>&nbsp;        this.userData=&quot;&quot;;</b>
+<b class="nc"><i>350</i>&nbsp;        for(int i=0; i&lt;3; i++){</b>
+<b class="nc"><i>351</i>&nbsp;            printWriter.println(CliColor.CYAN + &quot;\n&quot; + &quot;Choose a god from the previous list:&quot; + CliColor.RESET);</b>
+<b class="nc"><i>352</i>&nbsp;            scan = scanner.nextLine();</b>
+<i>353</i>&nbsp;
+<b class="nc"><i>354</i>&nbsp;            if(!scan.matches(&quot;[0-9]+&quot;)) match = false;</b>
+<i>355</i>&nbsp;
+<b class="nc"><i>356</i>&nbsp;            userData += &quot;god=&quot; + scan + &quot;;&quot;;</b>
+<i>357</i>&nbsp;        }
+<b class="nc"><i>358</i>&nbsp;        if (!match) {</b>
+<b class="nc"><i>359</i>&nbsp;            printError(&quot;God chosen must be a number&quot;);</b>
+<b class="nc"><i>360</i>&nbsp;            godListThree();</b>
+<i>361</i>&nbsp;        }
+<i>362</i>&nbsp;    }
+<i>363</i>&nbsp;
+<i>364</i>&nbsp;    /**Ask the two gods that will be in game
+<i>365</i>&nbsp;     */
+<i>366</i>&nbsp;    public void godListTwo(){
+<b class="nc"><i>367</i>&nbsp;        boolean match = true;</b>
+<b class="nc"><i>368</i>&nbsp;        for(God god : availableGod ){</b>
+<b class="nc"><i>369</i>&nbsp;            printWriter.println(availableGod.indexOf(god) + &quot; - &quot; + god + CliColor.RESET);</b>
+<b class="nc"><i>370</i>&nbsp;        }</b>
+<b class="nc"><i>371</i>&nbsp;        this.userData=&quot;&quot;;</b>
+<b class="nc"><i>372</i>&nbsp;        for(int i=0; i&lt;2; i++){</b>
+<b class="nc"><i>373</i>&nbsp;            printWriter.println(CliColor.CYAN  + &quot;Choose a god from the previous list:&quot; + CliColor.RESET);</b>
+<b class="nc"><i>374</i>&nbsp;            scan = scanner.nextLine();</b>
+<i>375</i>&nbsp;
+<b class="nc"><i>376</i>&nbsp;            if(!scan.matches(&quot;[0-9]+&quot;)) match = false;</b>
+<i>377</i>&nbsp;
+<b class="nc"><i>378</i>&nbsp;            userData += &quot;god=&quot; + scan + &quot;;&quot;;</b>
+<i>379</i>&nbsp;        }
+<b class="nc"><i>380</i>&nbsp;        if (!match) {</b>
+<i>381</i>&nbsp;
+<b class="nc"><i>382</i>&nbsp;            printError(&quot;God chosen must be a number&quot;);</b>
+<b class="nc"><i>383</i>&nbsp;            godListTwo();</b>
+<i>384</i>&nbsp;        }
+<i>385</i>&nbsp;    }
+<i>386</i>&nbsp;
+<i>387</i>&nbsp;    /**Ask the player which god have to be
+<i>388</i>&nbsp;     */
+<i>389</i>&nbsp;    public void god(){
+<b class="nc"><i>390</i>&nbsp;        this.userData=&quot;&quot;;</b>
+<b class="nc"><i>391</i>&nbsp;        printWriter.println(CliColor.CYAN +  &quot;Choose a god from the following list:&quot; + CliColor.RESET);</b>
+<b class="nc"><i>392</i>&nbsp;        for(God god : availableGod ){</b>
+<b class="nc"><i>393</i>&nbsp;            printWriter.print(CliColor.CYAN);</b>
+<b class="nc"><i>394</i>&nbsp;            printWriter.println(availableGod.indexOf(god) + &quot; - &quot; + god + CliColor.RESET);</b>
+<b class="nc"><i>395</i>&nbsp;        }</b>
+<b class="nc"><i>396</i>&nbsp;        scan = scanner.nextLine();</b>
+<i>397</i>&nbsp;
+<b class="nc"><i>398</i>&nbsp;        userData=&quot;god=&quot;+ scan + &quot;;&quot;;</b>
+<b class="nc"><i>399</i>&nbsp;        if(!scan.matches(&quot;[0-9]+&quot;)) {</b>
+<b class="nc"><i>400</i>&nbsp;            printError(&quot;God chosen must be a number&quot;);</b>
+<b class="nc"><i>401</i>&nbsp;            god();</b>
+<i>402</i>&nbsp;        }
+<i>403</i>&nbsp;    }
+<i>404</i>&nbsp;
+<i>405</i>&nbsp;
+<i>406</i>&nbsp;
+<i>407</i>&nbsp;
+<i>408</i>&nbsp;    /**Ask the color that will be set to the player
+<i>409</i>&nbsp;     */
+<i>410</i>&nbsp;    public void color(){
+<i>411</i>&nbsp;
+<b class="nc"><i>412</i>&nbsp;        printWriter.println(CliColor.CYAN + &quot;Choose a color from the following list:&quot; + CliColor.RESET);</b>
+<b class="nc"><i>413</i>&nbsp;        for(ModelColor color : availableColor ){</b>
+<b class="nc"><i>414</i>&nbsp;            String print = &quot;&quot;;</b>
+<b class="nc"><i>415</i>&nbsp;            switch (color){</b>
+<i>416</i>&nbsp;                case RED:
+<b class="nc"><i>417</i>&nbsp;                    print = &quot;&quot; + CliColor.RED;</b>
+<b class="nc"><i>418</i>&nbsp;                    break;</b>
+<i>419</i>&nbsp;                case GREEN:
+<b class="nc"><i>420</i>&nbsp;                    print = &quot;&quot; + CliColor.GREEN;</b>
+<b class="nc"><i>421</i>&nbsp;                    break;</b>
+<i>422</i>&nbsp;                case YELLOW:
+<b class="nc"><i>423</i>&nbsp;                    print = &quot;&quot; + CliColor.YELLOW;</b>
+<b class="nc"><i>424</i>&nbsp;                    break;</b>
+<i>425</i>&nbsp;                case BLUE:
+<b class="nc"><i>426</i>&nbsp;                    print = &quot;&quot; + CliColor.BLUE;</b>
+<b class="nc"><i>427</i>&nbsp;                    break;</b>
+<i>428</i>&nbsp;                case PURPLE:
+<b class="nc"><i>429</i>&nbsp;                    print = &quot;&quot; + CliColor.PURPLE;</b>
+<b class="nc"><i>430</i>&nbsp;                    break;</b>
+<i>431</i>&nbsp;                case CYAN:
+<b class="nc"><i>432</i>&nbsp;                    print = &quot;&quot; + CliColor.CYAN;</b>
+<i>433</i>&nbsp;                    break;
+<i>434</i>&nbsp;            }
+<i>435</i>&nbsp;
+<b class="nc"><i>436</i>&nbsp;            printWriter.println(print + availableColor.indexOf(color) + &quot; - &quot; + color + CliColor.RESET);</b>
+<i>437</i>&nbsp;
+<b class="nc"><i>438</i>&nbsp;        }</b>
+<b class="nc"><i>439</i>&nbsp;        scan = scanner.nextLine();</b>
+<b class="nc"><i>440</i>&nbsp;        this.userData= &quot;color=&quot; + scan + &quot;;&quot;;</b>
+<i>441</i>&nbsp;
+<b class="nc"><i>442</i>&nbsp;        if (!scan.matches(&quot;[0-9]+&quot;)) {</b>
+<i>443</i>&nbsp;
+<b class="nc"><i>444</i>&nbsp;            printError(&quot;Color chosen must be selected with a number&quot;);</b>
+<b class="nc"><i>445</i>&nbsp;            color();</b>
+<i>446</i>&nbsp;        }
+<i>447</i>&nbsp;    }
+<i>448</i>&nbsp;
+<i>449</i>&nbsp;
+<i>450</i>&nbsp;
+<i>451</i>&nbsp;    /**Ask the player where to set the starting position of one of his worker
+<i>452</i>&nbsp;     */
+<i>453</i>&nbsp;    public void setWorkerPosition(){
+<b class="nc"><i>454</i>&nbsp;        printWriter.println(CliColor.CYAN +  &quot;Where do you want to put your worker?&quot; + CliColor.RESET);</b>
+<b class="nc"><i>455</i>&nbsp;        scan = scanner.nextLine();</b>
+<i>456</i>&nbsp;
+<b class="nc"><i>457</i>&nbsp;        this.userData=&quot;workerPosition=&quot; + scan + &quot;;&quot;;</b>
+<i>458</i>&nbsp;
+<b class="nc"><i>459</i>&nbsp;        if(!(scan.matches(&quot;[0-9][,-.:]*[a-zA-Z]&quot;) || scan.matches(&quot;[a-zA-Z][,-.:]*[0-9]&quot;))){</b>
+<i>460</i>&nbsp;
+<b class="nc"><i>461</i>&nbsp;            printError(&quot;Position must be selected as Ln or nL, where L is a letter and n is a number&quot;);</b>
+<b class="nc"><i>462</i>&nbsp;            setWorkerPosition();</b>
+<i>463</i>&nbsp;        }
+<i>464</i>&nbsp;    }
+<i>465</i>&nbsp;
+<i>466</i>&nbsp;
+<i>467</i>&nbsp;    /**Ask the player to select one of his worker and if he would use his god&#39;s power
+<i>468</i>&nbsp;     */
+<i>469</i>&nbsp;    public void usePower(){
+<b class="nc"><i>470</i>&nbsp;        boolean match = true;</b>
+<b class="nc"><i>471</i>&nbsp;        printWriter.println(CliColor.CYAN + &quot;Which worker?&quot;);</b>
+<b class="nc"><i>472</i>&nbsp;        scan = scanner.nextLine();</b>
+<i>473</i>&nbsp;
+<b class="nc"><i>474</i>&nbsp;        if(!(scan.matches(&quot;[0-9][,-.:]*[a-zA-Z]&quot;) || scan.matches(&quot;[a-zA-Z][,-.:]*[0-9]&quot;)))</b>
+<b class="nc"><i>475</i>&nbsp;            match = false;</b>
+<i>476</i>&nbsp;
+<b class="nc"><i>477</i>&nbsp;        this.userData= &quot;worker=&quot;+ scan + &quot;;&quot;;</b>
+<i>478</i>&nbsp;
+<i>479</i>&nbsp;
+<b class="nc"><i>480</i>&nbsp;        printWriter.println(&quot;Do you want to use your power?&quot; + CliColor.RESET);</b>
+<b class="nc"><i>481</i>&nbsp;        scan = scanner.nextLine();</b>
+<i>482</i>&nbsp;
+<b class="nc"><i>483</i>&nbsp;        if(!scan.matches(&quot;[a-zA-Z]+&quot;)) match = false;</b>
+<i>484</i>&nbsp;
+<b class="nc"><i>485</i>&nbsp;        userData+= &quot;power=&quot; + scan + &quot;;&quot;;</b>
+<i>486</i>&nbsp;
+<b class="nc"><i>487</i>&nbsp;        if (!match) {</b>
+<b class="nc"><i>488</i>&nbsp;            printError(&quot;Position must be selected as Ln or nL, where L is a letter and n is a number\nUse Power must be &#39;yes&#39; or &#39;no&#39;&quot;);</b>
+<i>489</i>&nbsp;
+<b class="nc"><i>490</i>&nbsp;            usePower();</b>
+<i>491</i>&nbsp;        }
+<i>492</i>&nbsp;    }
+<i>493</i>&nbsp;
+<i>494</i>&nbsp;
+<i>495</i>&nbsp;    /**Ask the player to select a Cell where to move the worker
+<i>496</i>&nbsp;     * The worker is already selected at the beginning of the turn (usePower)and not here
+<i>497</i>&nbsp;     */
+<i>498</i>&nbsp;    public void moveWorker(){
+<b class="nc"><i>499</i>&nbsp;        printWriter.println(CliColor.CYAN  + &quot;Where do you want to move your worker?&quot; + CliColor.RESET);</b>
+<b class="nc"><i>500</i>&nbsp;        scan = scanner.nextLine();</b>
+<i>501</i>&nbsp;
+<b class="nc"><i>502</i>&nbsp;        this.userData=&quot;moveWorker=&quot; + scan + &quot;;&quot;;</b>
+<i>503</i>&nbsp;
+<b class="nc"><i>504</i>&nbsp;        if(!(scan.matches(&quot;[0-9][,-.:]*[a-zA-Z]&quot;) || scan.matches(&quot;[a-zA-Z][,-.:]*[0-9]&quot;)))</b>
+<i>505</i>&nbsp;        {
+<b class="nc"><i>506</i>&nbsp;            printError(&quot;Position must be selected as Ln or nL, where L is a letter and n is a number&quot;);</b>
+<b class="nc"><i>507</i>&nbsp;            moveWorker();</b>
+<i>508</i>&nbsp;        }
+<i>509</i>&nbsp;
+<i>510</i>&nbsp;    }
+<i>511</i>&nbsp;
+<i>512</i>&nbsp;    /**Ask the player to select the cell where to build
+<i>513</i>&nbsp;     */
+<i>514</i>&nbsp;    public void build(){
+<b class="nc"><i>515</i>&nbsp;        printWriter.println(CliColor.CYAN + &quot;Where do you want to build?&quot; + CliColor.RESET);</b>
+<b class="nc"><i>516</i>&nbsp;        scan = scanner.nextLine();</b>
+<b class="nc"><i>517</i>&nbsp;        userData= &quot;build=&quot; + scan + &quot;;&quot;;</b>
+<b class="nc"><i>518</i>&nbsp;        if(!(scan.matches(&quot;[0-9][,-.:]*[a-zA-Z]&quot;) || scan.matches(&quot;[a-zA-Z][,-.:]*[0-9]&quot;)))</b>
+<i>519</i>&nbsp;        {
+<b class="nc"><i>520</i>&nbsp;            printError(&quot;Position must be selected as Ln or nL, where L is a letter and n is a number&quot;);</b>
+<b class="nc"><i>521</i>&nbsp;            build();</b>
+<i>522</i>&nbsp;        }
+<i>523</i>&nbsp;    }
+<i>524</i>&nbsp;
+<i>525</i>&nbsp;    /**Print the Standard Loose Message*/
+<i>526</i>&nbsp;    public void loose(){
+<b class="nc"><i>527</i>&nbsp;        printWriter.println(CliColor.CYAN +  &quot;Sorry, you lose&quot; +CliColor.RESET);</b>
+<i>528</i>&nbsp;    }
+<i>529</i>&nbsp;
+<i>530</i>&nbsp;    /**Print the Standard Win Message*/
+<i>531</i>&nbsp;    public void win(){
+<b class="nc"><i>532</i>&nbsp;        printWriter.println(CliColor.CYAN +  &quot;OH MAN, YOU WIN!&quot; + CliColor.RESET);</b>
+<i>533</i>&nbsp;    }
+<i>534</i>&nbsp;
+<i>535</i>&nbsp;
+<i>536</i>&nbsp;    /**Print the Standard Quit Message*/
+<i>537</i>&nbsp;    public void quit(){
+<b class="nc"><i>538</i>&nbsp;        printWriter.println(CliColor.CYAN  + &quot;You&#39;re quitting, you have done&quot; + CliColor.RESET);</b>
+<i>539</i>&nbsp;    }
+<i>540</i>&nbsp;
+<i>541</i>&nbsp;
+<i>542</i>&nbsp;
+<i>543</i>&nbsp;
+<i>544</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 17:10</div>
+</div>
+</body>
+</html>

@@ -5,12 +5,17 @@ import it.polimi.ingsw.network.server.Server;
 
 import java.util.Scanner;
 
+/**
+ * Main Class
+ * @author Piersilvio Mancuso
+ */
 public class Main {
 
+    /**Game Class runner
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select between Client and Server:\n0 - Client\n1 - Server");
-
 
 
         String value = scanner.nextLine();
