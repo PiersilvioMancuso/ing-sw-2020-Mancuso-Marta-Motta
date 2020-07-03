@@ -12,8 +12,7 @@ Implementations:
 - Persistence
 
 Jar Execution:
-- Client: It's suggested to use a Terminal that supports UTF-8 and ANSI Escape Codes<br>
-          Run the following command into the terminal: java -jar Client_Cli.jar 
-         
+Run the following command into a Terminal (It's suggested to use a Terminal that supports ANSI Code Escapes and UTF-8):
+java -jar Santorini.jar
 
-- Server: Run the following command into the terminal: java -jar Server.jar 
+After that, to run the Client write 0 or Client, otherwise write 1 or Server to run the Server.

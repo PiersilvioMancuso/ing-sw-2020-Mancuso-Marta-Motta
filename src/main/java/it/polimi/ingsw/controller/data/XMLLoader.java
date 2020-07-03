@@ -43,7 +43,7 @@ public class XMLLoader {
 
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not Found");
         }
         return XMLStringList;
     }

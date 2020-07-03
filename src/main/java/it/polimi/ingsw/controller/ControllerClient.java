@@ -202,6 +202,7 @@ public class ControllerClient {
             if (response.getClassName().contains("RegistrationAck")  && !registered){
                 registered = true;
                 view.printError("Connected and Registered to the Lobby, please wait until the lobby is full");
+                view.setCommand(Command.MOVE);
             }
 
             //If the response is an Ack, ControllerClient will set his ControllerState, will set View Command and will run it

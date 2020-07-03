@@ -28,8 +28,14 @@
   </dependencies>
 
   <build>
+    <finalName>Santorini</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
+
+
+
+
+
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
@@ -51,6 +57,12 @@
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
+          <configuration>
+            <outputDirectory>deliverable/final/JAR</outputDirectory>
+            <archive>
+              <manifestFile>deliverable/final/JAR/META-INF/MANIFEST.MF</manifestFile>
+            </archive>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
@@ -69,6 +81,35 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
+
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.2.1</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+              <configuration>
+
+                <transformers>
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+
+                    <mainClass>it.polimi.ingsw.Main</mainClass>
+                  </transformer>
+                </transformers>
+                <shadedArtifactAttached>true</shadedArtifactAttached>
+
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+
+
       </plugins>
     </pluginManagement>
   </build>

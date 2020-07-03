@@ -45,7 +45,12 @@ public class ClientGatherer extends Thread{
 
                 server.addClient(client);
 
-            }catch (IOException e){
+            }catch (NullPointerException e){
+                System.out.println("It was impossible to create the socket.\nPlease check if the Network Port 1888 is already in use");
+                System.exit(-1);
+            }
+
+            catch (IOException e){
                 System.out.println("There was a problem during a client Connection");
             }
         }

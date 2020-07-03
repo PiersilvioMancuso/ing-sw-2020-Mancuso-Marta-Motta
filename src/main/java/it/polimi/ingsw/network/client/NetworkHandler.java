@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 /**
  * NetworkHandler Class
@@ -38,12 +39,17 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
         this.client = client;
         try {
             this.socket = new Socket(ipAddress,port);
+            this.socket.setSoTimeout(5*1000);
 
             outputStream = new ObjectOutputStream(socket.getOutputStream()) ;
 
             inputStream = new ObjectInputStream(socket.getInputStream()) ;
 
-        } catch (SocketException e){
+        }catch (SocketTimeoutException e){
+            client.getView().printError("Connection TimedOut, please check if you are connected");
+        }
+
+        catch (SocketException e){
             client.getView().printError("Connection Refused by the Server: check if the Server is On");
 
         } catch (IOException e) {
@@ -75,11 +81,14 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
      * @param action is the action that will be sent to Remote Controller
      */
     @Override
-    public void send(Action action){
+    public void send(Action action)  {
         client.clearMessageList();
+
+
         if (outputStream != null){
             this.username = action.getUsername();
             try {
+                this.socket.setSoTimeout(5*1000);
                 outputStream.writeObject(action);
                 outputStream.reset();
             }
@@ -110,8 +119,10 @@ public class NetworkHandler implements Sender<Action>, Receiver<Message> {
 
             //Receive all Messages from the Server and they will be forwarded to the client
             try {
+
                 Message message = (Message) inputStream.readObject();
                 if (message!= null){
+                    this.socket.setSoTimeout(180*1000);
                     if (message.getClassName().contains("End")){
                         client.executeMessages();
                     }

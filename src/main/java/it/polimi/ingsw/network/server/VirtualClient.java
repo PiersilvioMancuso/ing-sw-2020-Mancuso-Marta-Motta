@@ -283,9 +283,9 @@ public class VirtualClient implements Sender<Message>, Runnable{
             }
 
         } catch (SocketException e){
-            System.out.println("Client Disconnected");
+            return;
         } catch (IOException e) {
-            System.out.println("Client Disconnected");
+            return;
         }
     }
 
